@@ -47,4 +47,12 @@ public class Player {
     public double getRankingScore() {
         return rankingScore;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if(o instanceof Player) {
+            return ((Player) o).getName().equals(this.getName());
+        }
+        return false;
+    }
 }
