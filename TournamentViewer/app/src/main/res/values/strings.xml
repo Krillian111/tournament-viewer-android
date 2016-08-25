@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">TournamentViewer</string>
+    <!-- Preference file-->
+    <string name="preference_file">de.tum.krillian.tournamentviewer.shared_pref_file</string>
+    <!-- Start -->
+    <string name="edit_message">Enter a message</string>
+    <string name="button_monsterdyp">MonsterDYP</string>
+    <!-- Monster Dyp Setup Start-->
+    <string name="button_next">Next</string>
+    <string name="message_maxscore">Max Score</string>
+    <string name="message_defaultmaxscore">7</string>
+    <string name="message_numberofgames">Number of games</string>
+    <string name="message_defaultnumberofgames">1</string>
+    <!-- Monster Dyp Setup Step Two-->
+
+
+    <!-- Placeholder -->
+    <string name="placeholder_plus">+</string>
+    <string name="placeholder_minus">-</string>
+
+</resources>
