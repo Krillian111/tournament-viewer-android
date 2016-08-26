@@ -11,7 +11,7 @@ public class Player {
     private int tiedGames;
     private double rankingScore;
 
-    public Player(String name){
+    public Player(String name) {
         this.name = name;
         playedGames = 0;
         wonGames = 0;
