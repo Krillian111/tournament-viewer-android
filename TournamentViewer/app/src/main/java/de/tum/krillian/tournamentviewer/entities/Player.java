@@ -10,6 +10,15 @@ public class Player {
     private int tiedGames;
     private double rankingScore;
 
+    public Player(String name) {
+        this.name = name;
+        playedGames = 0;
+        wonGames = 0;
+        lostGames = 0;
+        tiedGames = 0;
+        rankingScore = 0.0;
+    }
+
     public Player(int id, String name){
         this.id = id;
         this.name = name;
