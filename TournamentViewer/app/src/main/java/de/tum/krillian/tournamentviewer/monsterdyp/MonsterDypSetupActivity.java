@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -38,8 +39,9 @@ public class MonsterDypSetupActivity extends AppCompatActivity {
 
     }
 
-    /** Called when the user clicks the Send button */
+    /** Called when the user clicks the "Next" button in the basic setup fragment */
     public void selectPlayers(View view) {
+
         saveGameSettings(view);
 
         if (findViewById(R.id.fragment_container) != null) {
@@ -55,16 +57,21 @@ public class MonsterDypSetupActivity extends AppCompatActivity {
         }
     }
 
+
     private void saveGameSettings(View view){
         // save max score and number of games
         View fragmentContainer = findViewById(R.id.fragment_container);
-        int maxScore = Integer.parseInt(((EditText) fragmentContainer.findViewById(R.id.editable_max_score)).getText().toString());
-        int numberOfGames = Integer.parseInt(((EditText) fragmentContainer.findViewById(R.id.editable_number_games)).getText().toString());
-        SharedPreferences preferences = getSharedPreferences(Constants.FILE_GAME_SETTINGS,0);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putInt(Constants.VAR_MAX_SCORE,maxScore);
-        editor.putInt(Constants.VAR_NUMBER_OF_GAMES,numberOfGames);
-        editor.commit();
+        if(fragmentContainer != null){
+            int maxScore = Integer.parseInt(((EditText) fragmentContainer.findViewById(R.id.editable_max_score)).getText().toString());
+            int numberOfGames = Integer.parseInt(((EditText) fragmentContainer.findViewById(R.id.editable_number_games)).getText().toString());
+            SharedPreferences preferences = getSharedPreferences(Constants.FILE_GENERAL_SETTINGS,0);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putInt(Constants.VAR_MAX_SCORE,maxScore);
+            editor.putInt(Constants.VAR_NUMBER_OF_GAMES,numberOfGames);
+            editor.commit();
+        } else {
+            Log.e("TESTTESTETSTTE","Game settings were not saved!");
+        }
     }
 
     /** Called when plus-Button next to "max Score" is pressed */
