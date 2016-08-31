@@ -1,7 +1,9 @@
-package de.tum.krillian.tournamentviewer.entities;
+package de.tum.kickercoding.tournamentviewer.entities;
 
-import de.tum.krillian.tournamentviewer.Constants;
+import de.tum.kickercoding.tournamentviewer.Constants;
 
+
+// TODO: add comments to methods/class
 public class Player {
 
     private String name;

@@ -1,7 +1,8 @@
-package de.tum.krillian.tournamentviewer.entities;
+package de.tum.kickercoding.tournamentviewer.entities;
 
 import java.util.List;
 
+// TODO: add comments to methods/class
 public class Game {
 
     private boolean finished;

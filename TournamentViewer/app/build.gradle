@@ -5,7 +5,7 @@ android {
     buildToolsVersion "24.0.1"
 
     defaultConfig {
-        applicationId "de.tum.krillian.tournamentviewer"
+        applicationId "de.tum.kickercoding.tournamentviewer"
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1

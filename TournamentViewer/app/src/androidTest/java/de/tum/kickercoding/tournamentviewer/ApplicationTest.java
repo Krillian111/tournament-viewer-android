@@ -1,4 +1,4 @@
-package de.tum.krillian.tournamentviewer;
+package de.tum.kickercoding.tournamentviewer;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

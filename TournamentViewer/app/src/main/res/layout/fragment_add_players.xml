@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="de.tum.krillian.tournamentviewer.monsterdyp.AddPlayersFragment">
+    tools:context="de.tum.kickercoding.tournamentviewer.monsterdyp.AddPlayersFragment">
     <ListView
         android:id="@+id/list_view_players"
         android:layout_width="wrap_content"

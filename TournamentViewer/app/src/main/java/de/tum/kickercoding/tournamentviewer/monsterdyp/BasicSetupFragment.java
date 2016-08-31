@@ -1,4 +1,4 @@
-package de.tum.krillian.tournamentviewer.monsterdyp;
+package de.tum.kickercoding.tournamentviewer.monsterdyp;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,9 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import de.tum.krillian.tournamentviewer.Constants;
-import de.tum.krillian.tournamentviewer.R;
+import de.tum.kickercoding.tournamentviewer.Constants;
+import de.tum.kickercoding.tournamentviewer.R;
 
+
+// TODO: add comments to methods/class
 public class BasicSetupFragment extends Fragment {
 
     @Override

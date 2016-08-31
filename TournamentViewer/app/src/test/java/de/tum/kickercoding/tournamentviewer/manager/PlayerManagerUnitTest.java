@@ -1,4 +1,4 @@
-package de.tum.krillian.tournamentviewer;
+package de.tum.kickercoding.tournamentviewer.manager;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -6,10 +6,10 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.tum.krillian.tournamentviewer.entities.Game;
-import de.tum.krillian.tournamentviewer.entities.Player;
-import de.tum.krillian.tournamentviewer.exceptions.PlayerManagerException;
-import de.tum.krillian.tournamentviewer.manager.PlayerManager;
+import de.tum.kickercoding.tournamentviewer.entities.Game;
+import de.tum.kickercoding.tournamentviewer.entities.Player;
+import de.tum.kickercoding.tournamentviewer.exceptions.PlayerManagerException;
+import de.tum.kickercoding.tournamentviewer.manager.PlayerManager;
 
 import static org.junit.Assert.*;
 

@@ -1,4 +1,4 @@
-package de.tum.krillian.tournamentviewer.exceptions;
+package de.tum.kickercoding.tournamentviewer.exceptions;
 
 /**
  * Created by Christian on 25.08.2016.

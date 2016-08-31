@@ -1,13 +1,15 @@
-package de.tum.krillian.tournamentviewer.manager;
+package de.tum.kickercoding.tournamentviewer.manager;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import de.tum.krillian.tournamentviewer.entities.Game;
-import de.tum.krillian.tournamentviewer.entities.Player;
-import de.tum.krillian.tournamentviewer.exceptions.PlayerManagerException;
+import de.tum.kickercoding.tournamentviewer.entities.Game;
+import de.tum.kickercoding.tournamentviewer.entities.Player;
+import de.tum.kickercoding.tournamentviewer.exceptions.PlayerMangerException;
 
-public class PlayerManager {
+
+// TODO: add comments to methods/class
+class PlayerManager {
 
     private static List<Player> players = new ArrayList<Player>();
 
