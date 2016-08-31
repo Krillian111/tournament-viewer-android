@@ -1,12 +1,13 @@
-package de.tum.krillian.tournamentviewer;
+package de.tum.kickercoding.tournamentviewer;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import de.tum.krillian.tournamentviewer.monsterdyp.MonsterDypSetupActivity;
+import de.tum.kickercoding.tournamentviewer.monsterdyp.MonsterDypSetupActivity;
 
+// TODO: add comments to methods/class
 public class StartActivity extends AppCompatActivity {
 
     @Override

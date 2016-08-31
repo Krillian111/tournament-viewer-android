@@ -1,4 +1,4 @@
-package de.tum.krillian.tournamentviewer.monsterdyp;
+package de.tum.kickercoding.tournamentviewer.monsterdyp;
 
 import android.content.SharedPreferences;
 import android.support.v4.app.FragmentTransaction;
@@ -8,9 +8,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
-import de.tum.krillian.tournamentviewer.Constants;
-import de.tum.krillian.tournamentviewer.R;
+import de.tum.kickercoding.tournamentviewer.Constants;
+import de.tum.kickercoding.tournamentviewer.R;
 
+
+// TODO: add comments to methods/class
 public class MonsterDypSetupActivity extends AppCompatActivity {
 
     @Override
@@ -59,6 +61,7 @@ public class MonsterDypSetupActivity extends AppCompatActivity {
 
 
     private void saveGameSettings(View view){
+
         // save max score and number of games
         View fragmentContainer = findViewById(R.id.fragment_container);
         if(fragmentContainer != null){

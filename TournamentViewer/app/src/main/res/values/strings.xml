@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">TournamentViewer</string>
     <!-- Preference file-->
-    <string name="preference_file">de.tum.krillian.tournamentviewer.shared_pref_file</string>
+    <string name="preference_file">de.tum.kickercoding.tournamentviewer.shared_pref_file</string>
     <!-- Start -->
     <string name="edit_message">Enter a message</string>
     <string name="button_monsterdyp">MonsterDYP</string>

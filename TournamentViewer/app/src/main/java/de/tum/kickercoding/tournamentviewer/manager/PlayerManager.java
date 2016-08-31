@@ -1,13 +1,15 @@
-package de.tum.krillian.tournamentviewer.manager;
+package de.tum.kickercoding.tournamentviewer.manager;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import de.tum.krillian.tournamentviewer.entities.Game;
-import de.tum.krillian.tournamentviewer.entities.Player;
-import de.tum.krillian.tournamentviewer.exceptions.PlayerListException;
+import de.tum.kickercoding.tournamentviewer.entities.Game;
+import de.tum.kickercoding.tournamentviewer.entities.Player;
+import de.tum.kickercoding.tournamentviewer.exceptions.PlayerListException;
 
-public class PlayerManager {
+
+// TODO: add comments to methods/class
+class PlayerManager {
 
     private static List<Player> players = new ArrayList<Player>();
 
@@ -38,7 +40,7 @@ public class PlayerManager {
     }
 
     public static void commitGameResult(Game game){
-        // TODO
+        // TODO: implement method
     }
 
     // Used for testing only

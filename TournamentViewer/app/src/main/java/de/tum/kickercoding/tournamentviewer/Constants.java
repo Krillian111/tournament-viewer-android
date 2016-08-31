@@ -1,4 +1,4 @@
-package de.tum.krillian.tournamentviewer;
+package de.tum.kickercoding.tournamentviewer;
 
 public class Constants {
 
@@ -6,10 +6,9 @@ public class Constants {
      *
      * GENERAL SETTINGS
      * - contains general settings
-     * - changes are permanently saved
      */
 
-    public static final String FILE_GENERAL_SETTINGS = "de.tum.krillian.tournamentviewer.general.settings";
+    public static final String FILE_GENERAL_SETTINGS = "de.tum.kickercoding.tournamentviewer.general.settings";
 
     public static final String VAR_NUMBER_OF_GAMES = "numberOfGames";
 
@@ -19,8 +18,6 @@ public class Constants {
 
     public static final Integer DEFAULT_MAX_SCORE = 7;
 
-    public static final String VAR_GLOBAL_PLAYER_NAME_SET = "globalPlayerIdSet";
-
     /**
      *
      * GLOBAL 0PLAYER LIST
@@ -29,7 +26,7 @@ public class Constants {
      *
      */
 
-    public static final String FILE_GLOBAL_PLAYERS_LIST = "de.tum.krillian.tournamentviewer.player.list";
+    public static final String FILE_GLOBAL_PLAYERS_LIST = "de.tum.kickercoding.tournamentviewer.player.list";
 
     public static final String DELIMITER = "|";
 
