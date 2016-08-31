@@ -8,7 +8,7 @@ import java.util.List;
 
 import de.tum.krillian.tournamentviewer.entities.Game;
 import de.tum.krillian.tournamentviewer.entities.Player;
-import de.tum.krillian.tournamentviewer.exceptions.PlayerListException;
+import de.tum.krillian.tournamentviewer.exceptions.PlayerManagerException;
 import de.tum.krillian.tournamentviewer.manager.PlayerManager;
 
 import static org.junit.Assert.*;
@@ -33,7 +33,7 @@ public class PlayerManagerUnitTest {
         PlayerManager.addPlayer("TestPlayer");
         try {
             PlayerManager.addPlayer("TestPlayer");
-        } catch (PlayerListException e) {
+        } catch (PlayerManagerException e) {
             return;
         }
         fail("Duplicated player not recognized");
@@ -43,7 +43,7 @@ public class PlayerManagerUnitTest {
     public void addPlayerWithPipe() throws Exception {
         try {
             PlayerManager.addPlayer("TestP|ayer");
-        } catch (IllegalArgumentException e) {
+        } catch (PlayerManagerException e) {
             return;
         }
         fail("| (pipe symbol) not allowed in player name");
@@ -69,7 +69,7 @@ public class PlayerManagerUnitTest {
         PlayerManager.addPlayer("TestPlayer");
         try {
             PlayerManager.removePlayer("NonExistingPlayer");
-        } catch (PlayerListException e) {
+        } catch (PlayerManagerException e) {
             return;
         }
         fail("Removing non-existing player did not fail");
