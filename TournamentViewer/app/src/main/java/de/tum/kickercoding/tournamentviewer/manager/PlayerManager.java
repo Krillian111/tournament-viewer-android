@@ -77,12 +77,25 @@ class PlayerManager {
         return players.size();
     }
 
+
+
     /**
      * Commit results of a game to the player list
      * @param game
      */
     void commitGameResult(Game game){
         // TODO: implement
+    }
+
+    List<Player> getPlayers(){
+        return players;
+    }
+
+    /**
+     * commits the current player list with all its changes to the preference file
+     */
+    void commitPlayerList (){
+
     }
 
     // Used for testing only
