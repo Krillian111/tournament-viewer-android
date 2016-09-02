@@ -19,10 +19,7 @@ class PlayerManager {
     //private Context context = null;
     private List<Player> players = new ArrayList<Player>();
 
-    private PlayerManager(){
-        preferenceFileManager = PreferenceFileManager.getInstance();
-        players = preferenceFileManager.getPlayerList();
-    }
+    private PlayerManager() {}
 
     /**
      * Get the instance of the singleton.
@@ -33,6 +30,11 @@ class PlayerManager {
             instance = new PlayerManager();
         }
         return instance;
+    }
+
+    void initialize() throws PreferenceFileException {
+        preferenceFileManager = PreferenceFileManager.getInstance();
+        players = preferenceFileManager.getPlayerList();
     }
 
     /**
