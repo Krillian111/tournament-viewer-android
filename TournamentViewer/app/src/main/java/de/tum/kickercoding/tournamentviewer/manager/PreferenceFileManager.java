@@ -1,83 +1,104 @@
 package de.tum.kickercoding.tournamentviewer.manager;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import de.tum.kickercoding.tournamentviewer.Constants;
 import de.tum.kickercoding.tournamentviewer.entities.Player;
 import de.tum.kickercoding.tournamentviewer.exceptions.PreferenceFileException;
 
 
-// TODO: add comments to methods/class
+/**
+ * Handles all communication with SharedPreferences
+ * Has multiple methods for adding, removing, updating a player
+ */
 class PreferenceFileManager {
 
     private static PreferenceFileManager INSTANCE = null;
 
-    static PreferenceFileManager getInstance(){
+    // context necessary for retrieving sharedPreferences
+    private Context context;
+
+    static PreferenceFileManager getInstance() {
         if (INSTANCE != null) {
             return INSTANCE;
         }
         return new PreferenceFileManager();
     }
 
-    private PreferenceFileManager(){
-        // TODO: implement initialization
+    private PreferenceFileManager() {
     }
 
-    void initialize(){
-
+    /**
+     * called by {@link AppManager} to initialize the context
+     * @param context
+     */
+    void initialize(Context context) {
+        this.context = context;
     }
 
-//    public static Set<String> loadPlayerNamesFromGeneralSettings(Activity activity){
-//        SharedPreferences generalSettingsPref = activity.getSharedPreferences(Constants.FILE_GENERAL_SETTINGS, 0);
-//        return generalSettingsPref.getStringSet(Constants.VAR_GLOBAL_PLAYER_NAME_SET, new HashSet<String>());
-//    }
-
-//    public static List<Player> getPlayersByNames(Set<String> playerNames, Activity activity) throws IllegalArgumentException{
-//        SharedPreferences playersFile = activity.getSharedPreferences(Constants.FILE_GLOBAL_PLAYERS_LIST, 0);
-//
-//        List<Player> playerList = new ArrayList<>();
-//
-//        for (String playerName : playerNames) {
-//            String playerAsString = playersFile.getString(playerName, null);
-//            if (playerAsString == null) {
-//                throw new IllegalArgumentException("Player with name " + playerAsString + " does not exist in preference file");
-//            }
-//            Player player = Player.fromString(playerAsString);
-//            playerList.add(player);
-//        }
-//
-//        return playerList;
-//    }
-
-    static Player addNewPlayer(String playerName, Activity activity){
-        Player newPlayer = new Player(playerName);
-        System.err.println(newPlayer);
-        // add player to player list
-        SharedPreferences playersListPref = activity.getSharedPreferences(Constants.FILE_GLOBAL_PLAYERS_LIST, 0);
-        SharedPreferences.Editor editorPlayersFile = playersListPref.edit();
-        editorPlayersFile.putString(newPlayer.getName(), newPlayer.toString());
-        editorPlayersFile.apply();
-        // TODO: update method (Bow)
-        return newPlayer;
+    private boolean isInitialized() {
+        return (context != null);
     }
 
-    void removePlayer(String name) throws PreferenceFileException{
-        // TODO: implement
+    /**
+     * add a player to the preference lsit
+     * @param player
+     * @throws PreferenceFileException
+     */
+    void addNewPlayer(Player player) throws PreferenceFileException {
+        if(isInitialized()) {
+            try {
+                SharedPreferences playersListPref = context.getSharedPreferences(Constants.FILE_GLOBAL_PLAYERS_LIST, 0);
+                playersListPref.edit().putString(player.getName(), player.toString()).apply();
+            } catch (NullPointerException e){
+                throw new PreferenceFileException("PreferenceEditor not available");
+            }
+        } else {
+            throw new PreferenceFileException("PreferenceFileManager not initialized");
+        }
     }
 
-    void updatePlayer(Player updatePlayer) throws PreferenceFileException{
-        // TODO: implement
+    /**
+     * remove a player from the preference list
+     * @param name
+     * @throws PreferenceFileException
+     */
+    void removePlayer(String name) throws PreferenceFileException {
+        if (isInitialized()){
+            try {
+                SharedPreferences playersListPref = context.getSharedPreferences(Constants.FILE_GLOBAL_PLAYERS_LIST, 0);
+                playersListPref.edit().remove(name).apply();
+            } catch (NullPointerException e) {
+                throw new PreferenceFileException("PreferenceEditor not available");
+            }
+        } else {
+            throw new PreferenceFileException("PreferenceFileManager not initialized");
+        }
     }
 
-    static List<Player> getPlayerList(Context context) throws PreferenceFileException{
-        // TODO: implement
-        return new ArrayList<>();
+
+    /**
+     * update the key 'updatestring.getName()' in preference list with the string representation of updatePlayer
+     * @param updatePlayer
+     * @throws PreferenceFileException
+     */
+    void updatePlayer(Player updatePlayer) throws PreferenceFileException {
+        SharedPreferences playersListPref = context.getSharedPreferences(Constants.FILE_GLOBAL_PLAYERS_LIST, 0);
+
+        playersListPref.edit().putString(updatePlayer.getName(),updatePlayer.toString()).apply();
+    }
+
+    List<Player> getPlayerList() throws PreferenceFileException {
+        ArrayList<Player> playerList = new ArrayList<>();
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Constants.FILE_GLOBAL_PLAYERS_LIST, 0);
+        for (Object playerAsObject: sharedPreferences.getAll().values()){
+            Player player = Player.fromString((String) playerAsObject);
+            playerList.add(player);
+        }
+        return playerList;
     }
 }
