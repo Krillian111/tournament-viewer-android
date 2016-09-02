@@ -1,21 +1,15 @@
 package de.tum.kickercoding.tournamentviewer.manager;
 
-import static org.mockito.Mockito.*;
-
-import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
 import de.tum.kickercoding.tournamentviewer.entities.Game;
 import de.tum.kickercoding.tournamentviewer.entities.Player;
 import de.tum.kickercoding.tournamentviewer.exceptions.PlayerManagerException;
-import de.tum.kickercoding.tournamentviewer.exceptions.PreferenceFileException;
 
 
 import static org.junit.Assert.*;
