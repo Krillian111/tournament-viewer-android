@@ -93,6 +93,7 @@ class PreferenceFileManager {
     }
 
     List<Player> getPlayerList() throws PreferenceFileException {
+        System.out.println(PreferenceFileManager.getInstance().hashCode());
         ArrayList<Player> playerList = new ArrayList<>();
         SharedPreferences sharedPreferences = context.getSharedPreferences(Constants.FILE_GLOBAL_PLAYERS_LIST, 0);
         for (Object playerAsObject: sharedPreferences.getAll().values()){

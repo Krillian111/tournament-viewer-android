@@ -1,38 +1,55 @@
 package de.tum.kickercoding.tournamentviewer.manager;
 
+import static org.mockito.Mockito.*;
+
+import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.lang.reflect.Field;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
 import de.tum.kickercoding.tournamentviewer.entities.Game;
 import de.tum.kickercoding.tournamentviewer.entities.Player;
 import de.tum.kickercoding.tournamentviewer.exceptions.PlayerManagerException;
-import de.tum.kickercoding.tournamentviewer.manager.PlayerManager;
+import de.tum.kickercoding.tournamentviewer.exceptions.PreferenceFileException;
+
 
 import static org.junit.Assert.*;
 
 public class PlayerManagerUnitTest {
 
+    private PlayerManager playerManager;
+
     @Before
     public void initialize() {
-        PlayerManager.clearPlayerList();
+        playerManager = PlayerManager.getInstance();
+        try {
+            // reset the player list
+            Field privatePlayerList = PlayerManager.class.getDeclaredField("players");
+            privatePlayerList.setAccessible(true);
+            privatePlayerList.set(playerManager, new ArrayList<Player>());
+        } catch (Exception e) {
+            fail(e.toString());
+        }
     }
 
     @Test
     public void addPlayer() throws Exception {
         for(int i = 0; i < 10; i++) {
-            PlayerManager.addPlayer("TestPlayer" + i);
-            assertEquals(i + 1, PlayerManager.getNumberOfPlayers());
+            playerManager.addPlayer("TestPlayer" + i);
+            assertEquals(i + 1, playerManager.getNumberOfPlayers());
         }
     }
 
     @Test
     public void addDuplicatedPlayer() throws Exception {
-        PlayerManager.addPlayer("TestPlayer");
+        playerManager.addPlayer("TestPlayer");
         try {
-            PlayerManager.addPlayer("TestPlayer");
+            playerManager.addPlayer("TestPlayer");
         } catch (PlayerManagerException e) {
             return;
         }
@@ -42,7 +59,7 @@ public class PlayerManagerUnitTest {
     @Test
     public void addPlayerWithPipe() throws Exception {
         try {
-            PlayerManager.addPlayer("TestP|ayer");
+            playerManager.addPlayer("TestP|ayer");
         } catch (PlayerManagerException e) {
             return;
         }
@@ -52,23 +69,23 @@ public class PlayerManagerUnitTest {
     @Test
     public void removePlayer() throws Exception {
         for(int i = 0; i < 10; i++) {
-            PlayerManager.addPlayer("TestPlayer" + i);
-            PlayerManager.addPlayer("TestPlayer" + i + i);
-            PlayerManager.addPlayer("TestPlayer" + i + i + i);
+            playerManager.addPlayer("TestPlayer" + i);
+            playerManager.addPlayer("TestPlayer" + i + i);
+            playerManager.addPlayer("TestPlayer" + i + i + i);
 
-            PlayerManager.removePlayer("TestPlayer" + i + i);
-            assertEquals(i + 2, PlayerManager.getNumberOfPlayers());
+            playerManager.removePlayer("TestPlayer" + i + i);
+            assertEquals(i + 2, playerManager.getNumberOfPlayers());
 
-            PlayerManager.removePlayer("TestPlayer" + i + i + i);
-            assertEquals(i + 1, PlayerManager.getNumberOfPlayers());
+            playerManager.removePlayer("TestPlayer" + i + i + i);
+            assertEquals(i + 1, playerManager.getNumberOfPlayers());
         }
     }
 
     @Test
     public void removeNonExistingPlayer() throws Exception {
-        PlayerManager.addPlayer("TestPlayer");
+        playerManager.addPlayer("TestPlayer");
         try {
-            PlayerManager.removePlayer("NonExistingPlayer");
+            playerManager.removePlayer("NonExistingPlayer");
         } catch (PlayerManagerException e) {
             return;
         }
@@ -82,7 +99,7 @@ public class PlayerManagerUnitTest {
         participants.add(new Player("Player1"));
         participants.add(new Player("Player2"));
         try {
-            PlayerManager.commitGameResult(new Game(participants));
+            playerManager.commitGameResult(new Game(participants));
         } catch (IllegalArgumentException e) {
             return;
         }
@@ -95,7 +112,7 @@ public class PlayerManagerUnitTest {
         participants.add(new Player("Player3"));
         participants.add(new Player("Player4"));
         try {
-            PlayerManager.commitGameResult(new Game(participants));
+            playerManager.commitGameResult(new Game(participants));
         } catch (IllegalArgumentException e) {
             return;
         }
@@ -121,7 +138,7 @@ public class PlayerManagerUnitTest {
         game.setScoreTeam1(5);
         game.setScoreTeam1(5);
         game.setFinished(true);
-        PlayerManager.commitGameResult(game);
+        playerManager.commitGameResult(game);
         assertEquals(1, player1.getPlayedGames());
         assertEquals(1, player1.getTiedGames());
         assertEquals(0, player1.getWonGames());
@@ -141,7 +158,7 @@ public class PlayerManagerUnitTest {
         game.setScoreTeam1(6);
         game.setScoreTeam1(5);
         game.setFinished(true);
-        PlayerManager.commitGameResult(game);
+        playerManager.commitGameResult(game);
         assertEquals(1, player1.getPlayedGames());
         assertEquals(0, player1.getTiedGames());
         assertEquals(1, player1.getWonGames());
@@ -161,7 +178,7 @@ public class PlayerManagerUnitTest {
         game.setScoreTeam1(5);
         game.setScoreTeam1(6);
         game.setFinished(true);
-        PlayerManager.commitGameResult(game);
+        playerManager.commitGameResult(game);
         assertEquals(1, player1.getPlayedGames());
         assertEquals(0, player1.getTiedGames());
         assertEquals(0, player1.getWonGames());
@@ -185,7 +202,7 @@ public class PlayerManagerUnitTest {
         game.setScoreTeam1(5);
         game.setScoreTeam1(5);
         game.setFinished(true);
-        PlayerManager.commitGameResult(game);
+        playerManager.commitGameResult(game);
         assertEquals(1, player1.getPlayedGames());
         assertEquals(1, player1.getTiedGames());
         assertEquals(0, player1.getWonGames());
@@ -217,7 +234,7 @@ public class PlayerManagerUnitTest {
         game.setScoreTeam1(6);
         game.setScoreTeam1(5);
         game.setFinished(true);
-        PlayerManager.commitGameResult(game);
+        playerManager.commitGameResult(game);
         assertEquals(1, player1.getPlayedGames());
         assertEquals(0, player1.getTiedGames());
         assertEquals(1, player1.getWonGames());
@@ -249,7 +266,7 @@ public class PlayerManagerUnitTest {
         game.setScoreTeam1(5);
         game.setScoreTeam1(6);
         game.setFinished(true);
-        PlayerManager.commitGameResult(game);
+        playerManager.commitGameResult(game);
         assertEquals(1, player1.getPlayedGames());
         assertEquals(0, player1.getTiedGames());
         assertEquals(0, player1.getWonGames());
