@@ -10,7 +10,10 @@ import de.tum.kickercoding.tournamentviewer.exceptions.AppManagerException;
 import de.tum.kickercoding.tournamentviewer.exceptions.PlayerManagerException;
 import de.tum.kickercoding.tournamentviewer.exceptions.PreferenceFileException;
 
-// TODO: add comments to methods/class
+/**
+ * AppManager solely provides methods callable by Activities.
+ * All interactions with the backend happen using this class.
+ */
 public class AppManager {
 
     private static AppManager INSTANCE = null;
@@ -30,7 +33,7 @@ public class AppManager {
     /**
      * Initializes all Managers in the correct order to resolve the dependencies.
      * Called once when app is started
-     * @param context
+     * @param context: context to retrieve sharedPreferences
      * @throws AppManagerException
      */
     public void initialize(Context context) throws AppManagerException{
@@ -44,8 +47,9 @@ public class AppManager {
     }
 
     /**
-     * add new Player; changes are only written to DB
-     * @param name
+     * add new Player;
+     * to permanently save this action call {@link #commitChanges()}
+     * @param name: name of the player
      * @throws AppManagerException
      */
     public void addNewPlayer(String name) throws AppManagerException {
@@ -56,6 +60,13 @@ public class AppManager {
         }
     }
 
+
+    /**
+     * delete player with specified name;
+     * to permanently save this action call {@link #commitChanges()}
+     * @param name
+     * @throws AppManagerException
+     */
     public void removePlayer(String name) throws AppManagerException {
         try{
             playerManager.removePlayer(name);
@@ -64,11 +75,26 @@ public class AppManager {
         }
     }
 
+
+    /**
+     * retrieve the list of all players available
+     * @return copied list of all players (no reference to the internal list of {@link PlayerManager}
+     */
     public List<Player> getAllPlayers(){
-        // TODO; make a copy to avoid passing the reference to the list
-        return new ArrayList<Player>();
+        List<Player> players = playerManager.getPlayers();
+        // clone the list and all player objects to avoid changing the original list
+        List<Player> playersCopied = new ArrayList<>();
+        for (Player p: players) {
+            Player copiedPlayer = Player.fromString(p.toString());
+            playersCopied.add(copiedPlayer);
+        }
+        return playersCopied;
     }
 
+    /**
+     * commit all changes to the list of players to the SharedPreferences
+     * @throws AppManagerException
+     */
     public void commitChanges() throws AppManagerException {
         playerManager.commitPlayerList();
     }
