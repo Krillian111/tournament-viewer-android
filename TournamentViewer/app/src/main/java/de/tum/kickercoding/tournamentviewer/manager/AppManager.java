@@ -39,7 +39,7 @@ public class AppManager {
     public void initialize(Context context) throws AppManagerException{
         PreferenceFileManager.getInstance().initialize(context);
         try {
-            PlayerManager playerManager = PlayerManager.getInstance();
+            playerManager = PlayerManager.getInstance();
             playerManager.initialize();
         } catch (PreferenceFileException e) {
             throw new AppManagerException("Initialization failed");
