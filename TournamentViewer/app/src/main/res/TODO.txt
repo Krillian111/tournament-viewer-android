@@ -1,0 +1,8 @@
+TODOs:
+- TournamentManager
+
+- entity tournament (if necessary)
+
+- interface MatchmakingUtil (specifically MonsterDYP)
+
+- MonsterDYPMatchmakingUtil implements MatchmakingUtil
