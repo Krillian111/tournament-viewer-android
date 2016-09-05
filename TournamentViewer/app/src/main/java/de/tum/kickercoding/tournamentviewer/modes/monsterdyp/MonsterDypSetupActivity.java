@@ -1,4 +1,4 @@
-package de.tum.kickercoding.tournamentviewer.monsterdyp;
+package de.tum.kickercoding.tournamentviewer.modes.monsterdyp;
 
 import android.content.SharedPreferences;
 import android.support.v4.app.FragmentTransaction;

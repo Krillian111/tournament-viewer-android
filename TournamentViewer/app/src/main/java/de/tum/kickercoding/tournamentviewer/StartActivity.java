@@ -7,7 +7,7 @@ import android.view.View;
 
 import de.tum.kickercoding.tournamentviewer.exceptions.AppManagerException;
 import de.tum.kickercoding.tournamentviewer.manager.AppManager;
-import de.tum.kickercoding.tournamentviewer.monsterdyp.MonsterDypSetupActivity;
+import de.tum.kickercoding.tournamentviewer.modes.monsterdyp.MonsterDypSetupActivity;
 
 // TODO: add comments to methods/class
 public class StartActivity extends AppCompatActivity {

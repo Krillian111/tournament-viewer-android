@@ -1,18 +1,13 @@
-package de.tum.kickercoding.tournamentviewer.monsterdyp;
+package de.tum.kickercoding.tournamentviewer.modes.monsterdyp;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.List;
-import java.util.Set;
-
 import de.tum.kickercoding.tournamentviewer.R;
-import de.tum.kickercoding.tournamentviewer.entities.Player;
 //import de.tum.kickercoding.tournamentviewer.manager.PreferenceFileManager;
 
 // TODO: add comments to methods/class

@@ -1,7 +1,7 @@
-package de.tum.kickercoding.tournamentviewer.monsterdyp.util;
+package de.tum.kickercoding.tournamentviewer.modes;
 
 // TODO: add comments to methods/class
-public class MatchmakingUtil {
+public interface Matchmaking {
 
     // TODO: implement class (maybe write interface for class to implement)
 }
