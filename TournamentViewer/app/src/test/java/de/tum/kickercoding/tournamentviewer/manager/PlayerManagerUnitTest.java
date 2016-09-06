@@ -106,9 +106,7 @@ public class PlayerManagerUnitTest {
     @Test
     public void commitUnfinishedGame() {
         // one on one game
-        List<Player> participants = new ArrayList<Player>();
-        participants.add(new Player("Player1"));
-        participants.add(new Player("Player2"));
+        Player[] participants = new Player[]{new Player("Player1"),new Player("Player2")};
         try {
             playerManager.commitGameResult(new Game(participants));
         } catch (PlayerManagerException e) {
@@ -117,11 +115,7 @@ public class PlayerManagerUnitTest {
         fail("Commit of unfinished one on one game did not fail");
 
         // two on two game
-        participants.clear();
-        participants.add(new Player("Player1"));
-        participants.add(new Player("Player2"));
-        participants.add(new Player("Player3"));
-        participants.add(new Player("Player4"));
+        participants = new Player[]{new Player("Player1"),new Player("Player2"),new Player("Player3"),new Player("Player4")};
         try {
             playerManager.commitGameResult(new Game(participants));
         } catch (PlayerManagerException e) {
@@ -141,7 +135,7 @@ public class PlayerManagerUnitTest {
             fail(e.toString());
         }
 
-        List<Player> participants;
+        Player[] participants;
         Player player1;
         Player player2;
         Player player3;
@@ -149,11 +143,8 @@ public class PlayerManagerUnitTest {
         Game game;
 
         // one on one game - tied
-        participants = new ArrayList<Player>();
-        player1 = new Player("Player1");
-        player2 = new Player("Player2");
-        participants.add(player1);
-        participants.add(player2);
+        participants = new Player[]{new Player("Player1"),new Player("Player2")};
+
         game = new Game(participants);
         game.setScoreTeam1(5);
         game.setScoreTeam2(5);
@@ -173,11 +164,7 @@ public class PlayerManagerUnitTest {
         }
 
         // one on one game - winner: team 1
-        participants = new ArrayList<Player>();
-        player1 = new Player("Player1");
-        player2 = new Player("Player2");
-        participants.add(player1);
-        participants.add(player2);
+        participants = new Player[]{new Player("Player1"),new Player("Player2")};
         game = new Game(participants);
         game.setScoreTeam1(6);
         game.setScoreTeam2(5);
@@ -197,11 +184,7 @@ public class PlayerManagerUnitTest {
         }
 
         // one on one game - winner: team 2
-        participants = new ArrayList<Player>();
-        player1 = new Player("Player1");
-        player2 = new Player("Player2");
-        participants.add(player1);
-        participants.add(player2);
+        participants = new Player[]{new Player("Player1"),new Player("Player2")};
         game = new Game(participants);
         game.setScoreTeam1(5);
         game.setScoreTeam2(6);
@@ -221,15 +204,7 @@ public class PlayerManagerUnitTest {
         }
 
         // one on one game - tied
-        participants = new ArrayList<Player>();
-        player1 = new Player("Player1");
-        player2 = new Player("Player2");
-        player3 = new Player("Player3");
-        player4 = new Player("Player4");
-        participants.add(player1);
-        participants.add(player2);
-        participants.add(player3);
-        participants.add(player4);
+        participants = new Player[]{new Player("Player1"),new Player("Player2"),new Player("Player3"),new Player("Player4")};
         game = new Game(participants);
         game.setScoreTeam1(5);
         game.setScoreTeam2(5);
@@ -257,15 +232,7 @@ public class PlayerManagerUnitTest {
         }
 
         // one on one game - winner: team 1
-        participants = new ArrayList<Player>();
-        player1 = new Player("Player1");
-        player2 = new Player("Player2");
-        player3 = new Player("Player3");
-        player4 = new Player("Player4");
-        participants.add(player1);
-        participants.add(player2);
-        participants.add(player3);
-        participants.add(player4);
+        participants = new Player[]{new Player("Player1"),new Player("Player2"),new Player("Player3"),new Player("Player4")};
         game = new Game(participants);
         game.setScoreTeam1(6);
         game.setScoreTeam2(5);
@@ -293,15 +260,7 @@ public class PlayerManagerUnitTest {
         }
 
         // one on one game - winner: team 2
-        participants = new ArrayList<Player>();
-        player1 = new Player("Player1");
-        player2 = new Player("Player2");
-        player3 = new Player("Player3");
-        player4 = new Player("Player4");
-        participants.add(player1);
-        participants.add(player2);
-        participants.add(player3);
-        participants.add(player4);
+        participants = new Player[]{new Player("Player1"),new Player("Player2"),new Player("Player3"),new Player("Player4")};
         game = new Game(participants);
         game.setScoreTeam1(5);
         game.setScoreTeam2(6);

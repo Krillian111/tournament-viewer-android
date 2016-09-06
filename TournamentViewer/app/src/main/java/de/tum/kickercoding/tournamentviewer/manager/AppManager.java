@@ -72,7 +72,6 @@ public class AppManager {
         }
     }
 
-
     /**
      * retrieve the list of all players available
      * @return copied list of all players (no reference to the internal list of {@link PlayerManager}
