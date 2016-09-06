@@ -16,15 +16,12 @@ import de.tum.kickercoding.tournamentviewer.exceptions.PreferenceFileException;
  */
 public class AppManager {
 
-    private static AppManager INSTANCE = null;
+    private static AppManager instance = new AppManager();
 
     private PlayerManager playerManager;
 
     public static AppManager getInstance() {
-        if (INSTANCE != null) {
-            return INSTANCE;
-        }
-        return new AppManager();
+        return instance;
     }
 
     private AppManager() {

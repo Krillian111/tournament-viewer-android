@@ -1,10 +1,16 @@
 package de.tum.kickercoding.tournamentviewer.entities;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
+
 import de.tum.kickercoding.tournamentviewer.Constants;
 
 
 // TODO: add comments to methods/class
 public class Player {
+
+    private static final String DECIMAL_PATTERN = "#0.00###";
 
     private String name;
     private int playedGames;
@@ -70,9 +76,8 @@ public class Player {
      * rounds to 4 digits after comma before calling setter
      * @param rankingScore
      */
-    public void setRankingScore(double rankingScore){
-        double roundedScore = Math.round(rankingScore*10000)/10000d;
-        this.rankingScore = roundedScore;
+    public void setRankingScore(double rankingScore) {
+        this.rankingScore = roundDouble(rankingScore);
     }
 
     @Override
@@ -83,15 +88,21 @@ public class Player {
         return false;
     }
 
+    /**
+     * toString() representation of player: 'name|playedGames|wonGames|lostGames|tiedGames|rankingScore'
+     */
     @Override
     public String toString() {
-        return String.format("%s|%d|%d|%d|%d|%f", name, playedGames, wonGames, lostGames, tiedGames, rankingScore);
+        return String.format("%s~%d~%d~%d~%d~%s", name, playedGames, wonGames, lostGames, tiedGames, parseDouble(rankingScore));
     }
 
     public static Player fromString(String player){
         String[] playerFields = player.split(Constants.DELIMITER);
         if(playerFields.length != 6){
-            throw new IllegalArgumentException("String representing player object must contain exactly 5 pipes \"|\"");
+            for(int i=0;i<playerFields.length;i++){
+                System.out.println(playerFields[i]);
+            }
+            throw new IllegalArgumentException("String representing player object must contain exactly 5 tildes \"~\"");
         }
         Player playerFromString =  new Player(playerFields[0]);
         playerFromString.setPlayedGames(Integer.parseInt(playerFields[1]));
@@ -101,4 +112,14 @@ public class Player {
         playerFromString.setRankingScore(Double.parseDouble(playerFields[5]));
         return playerFromString;
     }
+
+    private double roundDouble(double toRound) {
+        return Double.parseDouble(parseDouble(toRound));
+    }
+
+    private String parseDouble(double toParse) {
+        DecimalFormat df = new DecimalFormat(DECIMAL_PATTERN, new DecimalFormatSymbols(Locale.US));
+        return df.format(toParse);
+    }
+
 }

@@ -15,18 +15,16 @@ import de.tum.kickercoding.tournamentviewer.exceptions.PreferenceFileException;
  * Handles all communication with SharedPreferences
  * Has multiple methods for adding, removing, updating a player
  */
+// TODO: write logging for succesful commits
 class PreferenceFileManager {
 
-    private static PreferenceFileManager INSTANCE = null;
+    private static PreferenceFileManager instance = new PreferenceFileManager();
 
     // context necessary for retrieving sharedPreferences
     private Context context;
 
     static PreferenceFileManager getInstance() {
-        if (INSTANCE != null) {
-            return INSTANCE;
-        }
-        return new PreferenceFileManager();
+            return instance;
     }
 
     private PreferenceFileManager() {
@@ -93,12 +91,20 @@ class PreferenceFileManager {
     }
 
     List<Player> getPlayerList() throws PreferenceFileException {
-        ArrayList<Player> playerList = new ArrayList<>();
-        SharedPreferences sharedPreferences = context.getSharedPreferences(Constants.FILE_GLOBAL_PLAYERS_LIST, 0);
-        for (Object playerAsObject: sharedPreferences.getAll().values()){
-            Player player = Player.fromString((String) playerAsObject);
-            playerList.add(player);
+        if (isInitialized()){
+            try {
+                ArrayList<Player> playerList = new ArrayList<>();
+                SharedPreferences sharedPreferences = context.getSharedPreferences(Constants.FILE_GLOBAL_PLAYERS_LIST, 0);
+                for (Object playerAsObject: sharedPreferences.getAll().values()){
+                    Player player = Player.fromString((String) playerAsObject);
+                    playerList.add(player);
+                }
+                return playerList;
+            } catch (NullPointerException e) {
+                throw new PreferenceFileException("PreferenceEditor not available");
+            }
+        } else {
+            throw new PreferenceFileException("PreferenceFileManager not initialized");
         }
-        return playerList;
     }
 }

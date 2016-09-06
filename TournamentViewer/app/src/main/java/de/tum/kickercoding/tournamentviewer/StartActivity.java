@@ -1,8 +1,8 @@
 package de.tum.kickercoding.tournamentviewer;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import de.tum.kickercoding.tournamentviewer.exceptions.AppManagerException;
@@ -14,19 +14,23 @@ public class StartActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        try {
-            AppManager.getInstance().initialize(getBaseContext());
-        } catch (AppManagerException e) {
-            e.printStackTrace();
-            // TODO: implement error handling
-        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+        initializeApp();
     }
 
     /** Called when the user clicks the MonsterDYP button */
     public void monsterDypSetup(View view) {
         Intent intent = new Intent(this, MonsterDypSetupActivity.class);
         startActivity(intent);
+    }
+
+    private void initializeApp() {
+        try {
+            AppManager.getInstance().initialize(getApplicationContext());
+        } catch (AppManagerException e) {
+            e.printStackTrace();
+            // TODO: implement error handling
+        }
     }
 }

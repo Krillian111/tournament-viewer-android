@@ -24,6 +24,7 @@ public class BasicSetupFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
+        // TODO: refactor using AppManager
         // read saved values from settings
         SharedPreferences settings = getActivity().getSharedPreferences(Constants.FILE_GENERAL_SETTINGS,0);
         Integer currentMaxScore = settings.getInt(Constants.VAR_MAX_SCORE, Constants.DEFAULT_MAX_SCORE);

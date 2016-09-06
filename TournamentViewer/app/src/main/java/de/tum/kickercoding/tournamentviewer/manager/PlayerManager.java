@@ -1,7 +1,5 @@
 package de.tum.kickercoding.tournamentviewer.manager;
 
-import android.content.Context;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +12,7 @@ import de.tum.kickercoding.tournamentviewer.exceptions.PreferenceFileException;
 // TODO: add comments to methods/class
 class PlayerManager {
 
-    private static PlayerManager instance = null;
+    private static PlayerManager instance = new PlayerManager();
     private PreferenceFileManager preferenceFileManager = null;
     //private Context context = null;
     private List<Player> players = new ArrayList<Player>();
@@ -26,9 +24,6 @@ class PlayerManager {
      * @return The instance of the singleton.
      */
     static PlayerManager getInstance() {
-        if (instance == null) {
-            instance = new PlayerManager();
-        }
         return instance;
     }
 
