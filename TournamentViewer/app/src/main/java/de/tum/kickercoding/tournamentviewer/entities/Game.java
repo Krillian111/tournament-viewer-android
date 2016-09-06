@@ -1,5 +1,6 @@
 package de.tum.kickercoding.tournamentviewer.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 // TODO: add comments to methods/class
@@ -9,7 +10,7 @@ public class Game {
     private boolean oneOnOne;
     private int scoreTeam1;
     private int scoreTeam2;
-    private List<Player> participants;
+    private List<Player> participants; // TODO: "make sure" that only the PlayerManager can make changes to the player objects
 
     public Game(List<Player> participants) {
         this.participants = participants;
@@ -33,13 +34,56 @@ public class Game {
         }
     }
 
+    public List<Player> getTeam1() {
+        if (isOneOnOne()) {
+            return participants.subList(0, 1);
+        } else {
+            return participants.subList(0, 2);
+        }
+    }
+
+    public List<String> getTeam1PlayerNames() {
+        List<String> playerNames = new ArrayList<>();
+        Player player1;
+        Player player2;
+        if (isOneOnOne()) {
+            player1 = participants.get(0);
+            playerNames.add(player1.getName());
+        } else {
+            player1 = participants.get(0);
+            player2 = participants.get(1);
+            playerNames.add(player1.getName());
+            playerNames.add(player2.getName());
+        }
+        return playerNames;
+    }
+
     public int getScoreTeam1() {
         return scoreTeam1;
     }
 
-    // TODO: validate score in GameManager (0 <= score <= max_score)
-    public void setScoreTeam1(int scoreTeam1) {
-        this.scoreTeam1 = scoreTeam1;
+    public List<Player> getTeam2() {
+        if (isOneOnOne()) {
+            return participants.subList(1, 2);
+        } else {
+            return participants.subList(2, 4);
+        }
+    }
+
+    public List<String> getTeam2PlayerNames() {
+        List<String> playerNames = new ArrayList<>();
+        Player player1;
+        Player player2;
+        if (isOneOnOne()) {
+            player1 = participants.get(1);
+            playerNames.add(player1.getName());
+        } else {
+            player1 = participants.get(2);
+            player2 = participants.get(3);
+            playerNames.add(player1.getName());
+            playerNames.add(player2.getName());
+        }
+        return playerNames;
     }
 
     // TODO: validate score in GameManager (0 <= score <= max_score)
@@ -47,19 +91,24 @@ public class Game {
         return scoreTeam2;
     }
 
-    public void setScoreTeam2(int scoreTeam2) {
-        this.scoreTeam2 = scoreTeam2;
-    }
-
     public boolean isFinished() {
         return finished;
     }
 
-    public void setFinished(boolean finished) {
-        this.finished = finished;
-    }
-
     public boolean isOneOnOne() {
         return oneOnOne;
+    }
+
+    // TODO: validate score in GameManager (0 <= score <= max_score)
+    public void setScoreTeam1(int scoreTeam1) {
+        this.scoreTeam1 = scoreTeam1;
+    }
+
+    public void setScoreTeam2(int scoreTeam2) {
+        this.scoreTeam2 = scoreTeam2;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
     }
 }

@@ -7,12 +7,13 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.tum.kickercoding.tournamentviewer.Constants;
 import de.tum.kickercoding.tournamentviewer.entities.Game;
 import de.tum.kickercoding.tournamentviewer.entities.Player;
 import de.tum.kickercoding.tournamentviewer.exceptions.PlayerManagerException;
 
-
 import static org.junit.Assert.*;
+
 
 public class PlayerManagerUnitTest {
 
@@ -32,16 +33,24 @@ public class PlayerManagerUnitTest {
     }
 
     @Test
-    public void addPlayer() throws Exception {
+    public void addPlayer() {
         for(int i = 0; i < 10; i++) {
-            playerManager.addPlayer("TestPlayer" + i);
+            try {
+                playerManager.addPlayer("TestPlayer" + i);
+            } catch (PlayerManagerException e) {
+                fail(e.toString());
+            }
             assertEquals(i + 1, playerManager.getNumberOfPlayers());
         }
     }
 
     @Test
-    public void addDuplicatedPlayer() throws Exception {
-        playerManager.addPlayer("TestPlayer");
+    public void addDuplicatedPlayer() {
+        try {
+            playerManager.addPlayer("TestPlayer");
+        } catch (PlayerManagerException e) {
+            fail(e.toString());
+        }
         try {
             playerManager.addPlayer("TestPlayer");
         } catch (PlayerManagerException e) {
@@ -51,33 +60,41 @@ public class PlayerManagerUnitTest {
     }
 
     @Test
-    public void addPlayerWithPipe() throws Exception {
+    public void addPlayerWithDelimiter(){
         try {
-            playerManager.addPlayer("TestP|ayer");
+            playerManager.addPlayer("TestPlayer" + Constants.DELIMITER);
         } catch (PlayerManagerException e) {
             return;
         }
-        fail("| (pipe symbol) not allowed in player name");
+        fail(String.format("Symbol %s not allowed in player name", Constants.DELIMITER));
     }
 
     @Test
-    public void removePlayer() throws Exception {
+    public void removePlayer() {
         for(int i = 0; i < 10; i++) {
-            playerManager.addPlayer("TestPlayer" + i);
-            playerManager.addPlayer("TestPlayer" + i + i);
-            playerManager.addPlayer("TestPlayer" + i + i + i);
+            try {
+                playerManager.addPlayer("TestPlayer" + i);
+                playerManager.addPlayer("TestPlayer" + i + i);
+                playerManager.addPlayer("TestPlayer" + i + i + i);
 
-            playerManager.removePlayer("TestPlayer" + i + i);
-            assertEquals(i + 2, playerManager.getNumberOfPlayers());
+                playerManager.removePlayer("TestPlayer" + i + i);
+                assertEquals(i + 2, playerManager.getNumberOfPlayers());
 
-            playerManager.removePlayer("TestPlayer" + i + i + i);
-            assertEquals(i + 1, playerManager.getNumberOfPlayers());
+                playerManager.removePlayer("TestPlayer" + i + i + i);
+                assertEquals(i + 1, playerManager.getNumberOfPlayers());
+            } catch (PlayerManagerException e) {
+                fail(e.toString());
+            }
         }
     }
 
     @Test
-    public void removeNonExistingPlayer() throws Exception {
-        playerManager.addPlayer("TestPlayer");
+    public void removeNonExistingPlayer(){
+        try {
+            playerManager.addPlayer("TestPlayer");
+        } catch (PlayerManagerException e) {
+            fail(e.toString());
+        }
         try {
             playerManager.removePlayer("NonExistingPlayer");
         } catch (PlayerManagerException e) {
@@ -87,14 +104,14 @@ public class PlayerManagerUnitTest {
     }
 
     @Test
-    public void commitUnfinishedGame() throws Exception {
+    public void commitUnfinishedGame() {
         // one on one game
         List<Player> participants = new ArrayList<Player>();
         participants.add(new Player("Player1"));
         participants.add(new Player("Player2"));
         try {
             playerManager.commitGameResult(new Game(participants));
-        } catch (IllegalArgumentException e) {
+        } catch (PlayerManagerException e) {
             return;
         }
         fail("Commit of unfinished one on one game did not fail");
@@ -107,14 +124,23 @@ public class PlayerManagerUnitTest {
         participants.add(new Player("Player4"));
         try {
             playerManager.commitGameResult(new Game(participants));
-        } catch (IllegalArgumentException e) {
+        } catch (PlayerManagerException e) {
             return;
         }
         fail("Commit of unfinished two on two game did not fail");
     }
 
     @Test
-    public void commitFinishedGame() throws Exception {
+    public void commitFinishedGame() {
+        try {
+            playerManager.addPlayer("Player1");
+            playerManager.addPlayer("Player2");
+            playerManager.addPlayer("Player3");
+            playerManager.addPlayer("Player4");
+        } catch (PlayerManagerException e) {
+            fail(e.toString());
+        }
+
         List<Player> participants;
         Player player1;
         Player player2;
@@ -130,17 +156,21 @@ public class PlayerManagerUnitTest {
         participants.add(player2);
         game = new Game(participants);
         game.setScoreTeam1(5);
-        game.setScoreTeam1(5);
+        game.setScoreTeam2(5);
         game.setFinished(true);
-        playerManager.commitGameResult(game);
-        assertEquals(1, player1.getPlayedGames());
-        assertEquals(1, player1.getTiedGames());
-        assertEquals(0, player1.getWonGames());
-        assertEquals(0, player1.getLostGames());
-        assertEquals(1, player2.getPlayedGames());
-        assertEquals(1, player2.getTiedGames());
-        assertEquals(0, player2.getWonGames());
-        assertEquals(0, player2.getLostGames());
+        try {
+            playerManager.commitGameResult(game);
+            assertEquals(1, playerManager.getPlayerByName("Player1").getPlayedGames());
+            assertEquals(1, playerManager.getPlayerByName("Player1").getTiedGames());
+            assertEquals(0, playerManager.getPlayerByName("Player1").getWonGames());
+            assertEquals(0, playerManager.getPlayerByName("Player1").getLostGames());
+            assertEquals(1, playerManager.getPlayerByName("Player2").getPlayedGames());
+            assertEquals(1, playerManager.getPlayerByName("Player2").getTiedGames());
+            assertEquals(0, playerManager.getPlayerByName("Player2").getWonGames());
+            assertEquals(0, playerManager.getPlayerByName("Player2").getLostGames());
+        } catch (PlayerManagerException e) {
+            fail(e.toString());
+        }
 
         // one on one game - winner: team 1
         participants = new ArrayList<Player>();
@@ -150,17 +180,21 @@ public class PlayerManagerUnitTest {
         participants.add(player2);
         game = new Game(participants);
         game.setScoreTeam1(6);
-        game.setScoreTeam1(5);
+        game.setScoreTeam2(5);
         game.setFinished(true);
-        playerManager.commitGameResult(game);
-        assertEquals(1, player1.getPlayedGames());
-        assertEquals(0, player1.getTiedGames());
-        assertEquals(1, player1.getWonGames());
-        assertEquals(0, player1.getLostGames());
-        assertEquals(1, player1.getPlayedGames());
-        assertEquals(0, player1.getTiedGames());
-        assertEquals(0, player1.getWonGames());
-        assertEquals(1, player1.getLostGames());
+        try {
+            playerManager.commitGameResult(game);
+            assertEquals(2, playerManager.getPlayerByName("Player1").getPlayedGames());
+            assertEquals(1, playerManager.getPlayerByName("Player1").getTiedGames());
+            assertEquals(1, playerManager.getPlayerByName("Player1").getWonGames());
+            assertEquals(0, playerManager.getPlayerByName("Player1").getLostGames());
+            assertEquals(2, playerManager.getPlayerByName("Player2").getPlayedGames());
+            assertEquals(1, playerManager.getPlayerByName("Player2").getTiedGames());
+            assertEquals(0, playerManager.getPlayerByName("Player2").getWonGames());
+            assertEquals(1, playerManager.getPlayerByName("Player2").getLostGames());
+        } catch (PlayerManagerException e) {
+            fail(e.toString());
+        }
 
         // one on one game - winner: team 2
         participants = new ArrayList<Player>();
@@ -170,17 +204,21 @@ public class PlayerManagerUnitTest {
         participants.add(player2);
         game = new Game(participants);
         game.setScoreTeam1(5);
-        game.setScoreTeam1(6);
+        game.setScoreTeam2(6);
         game.setFinished(true);
-        playerManager.commitGameResult(game);
-        assertEquals(1, player1.getPlayedGames());
-        assertEquals(0, player1.getTiedGames());
-        assertEquals(0, player1.getWonGames());
-        assertEquals(1, player1.getLostGames());
-        assertEquals(1, player1.getPlayedGames());
-        assertEquals(0, player1.getTiedGames());
-        assertEquals(1, player1.getWonGames());
-        assertEquals(0, player1.getLostGames());
+        try {
+            playerManager.commitGameResult(game);
+            assertEquals(3, playerManager.getPlayerByName("Player1").getPlayedGames());
+            assertEquals(1, playerManager.getPlayerByName("Player1").getTiedGames());
+            assertEquals(1, playerManager.getPlayerByName("Player1").getWonGames());
+            assertEquals(1, playerManager.getPlayerByName("Player1").getLostGames());
+            assertEquals(3, playerManager.getPlayerByName("Player2").getPlayedGames());
+            assertEquals(1, playerManager.getPlayerByName("Player2").getTiedGames());
+            assertEquals(1, playerManager.getPlayerByName("Player2").getWonGames());
+            assertEquals(1, playerManager.getPlayerByName("Player2").getLostGames());
+        } catch (PlayerManagerException e) {
+            fail(e.toString());
+        }
 
         // one on one game - tied
         participants = new ArrayList<Player>();
@@ -194,25 +232,29 @@ public class PlayerManagerUnitTest {
         participants.add(player4);
         game = new Game(participants);
         game.setScoreTeam1(5);
-        game.setScoreTeam1(5);
+        game.setScoreTeam2(5);
         game.setFinished(true);
-        playerManager.commitGameResult(game);
-        assertEquals(1, player1.getPlayedGames());
-        assertEquals(1, player1.getTiedGames());
-        assertEquals(0, player1.getWonGames());
-        assertEquals(0, player1.getLostGames());
-        assertEquals(1, player2.getPlayedGames());
-        assertEquals(1, player2.getTiedGames());
-        assertEquals(0, player2.getWonGames());
-        assertEquals(0, player2.getLostGames());
-        assertEquals(1, player3.getPlayedGames());
-        assertEquals(1, player3.getTiedGames());
-        assertEquals(0, player3.getWonGames());
-        assertEquals(0, player3.getLostGames());
-        assertEquals(1, player4.getPlayedGames());
-        assertEquals(1, player4.getTiedGames());
-        assertEquals(0, player4.getWonGames());
-        assertEquals(0, player4.getLostGames());
+        try {
+            playerManager.commitGameResult(game);
+            assertEquals(4, playerManager.getPlayerByName("Player1").getPlayedGames());
+            assertEquals(2, playerManager.getPlayerByName("Player1").getTiedGames());
+            assertEquals(1, playerManager.getPlayerByName("Player1").getWonGames());
+            assertEquals(1, playerManager.getPlayerByName("Player1").getLostGames());
+            assertEquals(4, playerManager.getPlayerByName("Player2").getPlayedGames());
+            assertEquals(2, playerManager.getPlayerByName("Player2").getTiedGames());
+            assertEquals(1, playerManager.getPlayerByName("Player2").getWonGames());
+            assertEquals(1, playerManager.getPlayerByName("Player2").getLostGames());
+            assertEquals(1, playerManager.getPlayerByName("Player3").getPlayedGames());
+            assertEquals(1, playerManager.getPlayerByName("Player3").getTiedGames());
+            assertEquals(0, playerManager.getPlayerByName("Player3").getWonGames());
+            assertEquals(0, playerManager.getPlayerByName("Player3").getLostGames());
+            assertEquals(1, playerManager.getPlayerByName("Player4").getPlayedGames());
+            assertEquals(1, playerManager.getPlayerByName("Player4").getTiedGames());
+            assertEquals(0, playerManager.getPlayerByName("Player4").getWonGames());
+            assertEquals(0, playerManager.getPlayerByName("Player4").getLostGames());
+        } catch (PlayerManagerException e) {
+            fail(e.toString());
+        }
 
         // one on one game - winner: team 1
         participants = new ArrayList<Player>();
@@ -226,25 +268,29 @@ public class PlayerManagerUnitTest {
         participants.add(player4);
         game = new Game(participants);
         game.setScoreTeam1(6);
-        game.setScoreTeam1(5);
+        game.setScoreTeam2(5);
         game.setFinished(true);
-        playerManager.commitGameResult(game);
-        assertEquals(1, player1.getPlayedGames());
-        assertEquals(0, player1.getTiedGames());
-        assertEquals(1, player1.getWonGames());
-        assertEquals(0, player1.getLostGames());
-        assertEquals(1, player2.getPlayedGames());
-        assertEquals(0, player2.getTiedGames());
-        assertEquals(1, player2.getWonGames());
-        assertEquals(0, player2.getLostGames());
-        assertEquals(1, player3.getPlayedGames());
-        assertEquals(0, player3.getTiedGames());
-        assertEquals(0, player3.getWonGames());
-        assertEquals(1, player3.getLostGames());
-        assertEquals(1, player4.getPlayedGames());
-        assertEquals(0, player4.getTiedGames());
-        assertEquals(0, player4.getWonGames());
-        assertEquals(1, player4.getLostGames());
+        try {
+            playerManager.commitGameResult(game);
+            assertEquals(5, playerManager.getPlayerByName("Player1").getPlayedGames());
+            assertEquals(2, playerManager.getPlayerByName("Player1").getTiedGames());
+            assertEquals(2, playerManager.getPlayerByName("Player1").getWonGames());
+            assertEquals(1, playerManager.getPlayerByName("Player1").getLostGames());
+            assertEquals(5, playerManager.getPlayerByName("Player2").getPlayedGames());
+            assertEquals(2, playerManager.getPlayerByName("Player2").getTiedGames());
+            assertEquals(2, playerManager.getPlayerByName("Player2").getWonGames());
+            assertEquals(1, playerManager.getPlayerByName("Player2").getLostGames());
+            assertEquals(2, playerManager.getPlayerByName("Player3").getPlayedGames());
+            assertEquals(1, playerManager.getPlayerByName("Player3").getTiedGames());
+            assertEquals(0, playerManager.getPlayerByName("Player3").getWonGames());
+            assertEquals(1, playerManager.getPlayerByName("Player3").getLostGames());
+            assertEquals(2, playerManager.getPlayerByName("Player4").getPlayedGames());
+            assertEquals(1, playerManager.getPlayerByName("Player4").getTiedGames());
+            assertEquals(0, playerManager.getPlayerByName("Player4").getWonGames());
+            assertEquals(1, playerManager.getPlayerByName("Player4").getLostGames());
+        } catch (PlayerManagerException e) {
+            fail(e.toString());
+        }
 
         // one on one game - winner: team 2
         participants = new ArrayList<Player>();
@@ -258,24 +304,28 @@ public class PlayerManagerUnitTest {
         participants.add(player4);
         game = new Game(participants);
         game.setScoreTeam1(5);
-        game.setScoreTeam1(6);
+        game.setScoreTeam2(6);
         game.setFinished(true);
-        playerManager.commitGameResult(game);
-        assertEquals(1, player1.getPlayedGames());
-        assertEquals(0, player1.getTiedGames());
-        assertEquals(0, player1.getWonGames());
-        assertEquals(1, player1.getLostGames());
-        assertEquals(1, player2.getPlayedGames());
-        assertEquals(0, player2.getTiedGames());
-        assertEquals(0, player2.getWonGames());
-        assertEquals(1, player2.getLostGames());
-        assertEquals(1, player3.getPlayedGames());
-        assertEquals(0, player3.getTiedGames());
-        assertEquals(1, player3.getWonGames());
-        assertEquals(0, player3.getLostGames());
-        assertEquals(1, player4.getPlayedGames());
-        assertEquals(0, player4.getTiedGames());
-        assertEquals(1, player4.getWonGames());
-        assertEquals(0, player4.getLostGames());
+        try {
+            playerManager.commitGameResult(game);
+            assertEquals(6, playerManager.getPlayerByName("Player1").getPlayedGames());
+            assertEquals(2, playerManager.getPlayerByName("Player1").getTiedGames());
+            assertEquals(2, playerManager.getPlayerByName("Player1").getWonGames());
+            assertEquals(2, playerManager.getPlayerByName("Player1").getLostGames());
+            assertEquals(6, playerManager.getPlayerByName("Player2").getPlayedGames());
+            assertEquals(2, playerManager.getPlayerByName("Player2").getTiedGames());
+            assertEquals(2, playerManager.getPlayerByName("Player2").getWonGames());
+            assertEquals(2, playerManager.getPlayerByName("Player2").getLostGames());
+            assertEquals(3, playerManager.getPlayerByName("Player3").getPlayedGames());
+            assertEquals(1, playerManager.getPlayerByName("Player3").getTiedGames());
+            assertEquals(1, playerManager.getPlayerByName("Player3").getWonGames());
+            assertEquals(1, playerManager.getPlayerByName("Player3").getLostGames());
+            assertEquals(3, playerManager.getPlayerByName("Player4").getPlayedGames());
+            assertEquals(1, playerManager.getPlayerByName("Player4").getTiedGames());
+            assertEquals(1, playerManager.getPlayerByName("Player4").getWonGames());
+            assertEquals(1, playerManager.getPlayerByName("Player4").getLostGames());
+        } catch (PlayerManagerException e) {
+            fail(e.toString());
+        }
     }
 }
