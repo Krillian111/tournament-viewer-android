@@ -170,12 +170,20 @@ class PlayerManager {
      * @return The {@link Player} with the given name.
      * @throws PlayerManagerException If there is no {@link Player} with the given name.
      */
-    public Player getPlayerByName(String name) throws PlayerManagerException {
+    Player getPlayerByName(String name) throws PlayerManagerException {
         for (Player player : players) {
             if (player.getName() == name) {
                 return player;
             }
         }
         throw new PlayerManagerException("No player found for the requested name");
+    }
+
+    Player getPlayerByPosition(int position) throws PlayerManagerException {
+        try {
+            return players.get(position);
+        } catch (IndexOutOfBoundsException e) {
+            throw new PlayerManagerException(String.format("No player at position %d", position));
+        }
     }
 }
