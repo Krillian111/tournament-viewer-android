@@ -1,7 +1,6 @@
 package de.tum.kickercoding.tournamentviewer.modes.monsterdyp;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -11,7 +10,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import de.tum.kickercoding.tournamentviewer.Constants;
 import de.tum.kickercoding.tournamentviewer.R;
 import de.tum.kickercoding.tournamentviewer.exceptions.AppManagerException;
 import de.tum.kickercoding.tournamentviewer.manager.AppManager;
@@ -35,12 +33,16 @@ public class MonsterDypSetupActivity extends AppCompatActivity {
 
     /** Called when the user clicks the "Next" button in the basic setup fragment */
     public void nextStage(View view) {
-        View fragmentContainer = findViewById(R.id.fragment_container);
+        View fragmentContainer = findViewById(R.id.monster_dyp_setup_fragment_container);
         switch(currentState){
             case STAGE_BASIC_SETUP:
-                saveGameSettings(fragmentContainer);
+                try {
+                    saveGameSettings(fragmentContainer);
+                } catch (AppManagerException e) {
+                    AppManager.getInstance().displayError(this, "Failed to save game settings: " + e.getMessage());
+                    break;
+                }
                 switchToAddPlayersFragment(fragmentContainer);
-				currentState = STAGE_ADD_PLAYERS;
                 break;
             case STAGE_ADD_PLAYERS:
                 try {
@@ -67,7 +69,7 @@ public class MonsterDypSetupActivity extends AppCompatActivity {
         }
 		// Check that the activity is using the layout version with
 		// the fragment_container FrameLayout
-		View fragmentContainer = findViewById(R.id.fragment_container);
+		View fragmentContainer = findViewById(R.id.monster_dyp_setup_fragment_container);
 		if (fragmentContainer != null) {
 			// However, if we're being restored from a previous state,
 			// then we don't need to do anything and should return or else
@@ -77,7 +79,7 @@ public class MonsterDypSetupActivity extends AppCompatActivity {
 			}
 			// Add the fragment to the 'fragment_container' FrameLayout
 			FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-			transaction.replace(R.id.fragment_container, fragmentForCurrentStage);
+			transaction.replace(R.id.monster_dyp_setup_fragment_container, fragmentForCurrentStage);
 			transaction.addToBackStack(currentState).commit();
 		} else {
 			Log.e(MonsterDypSetupActivity.class.toString(), "couldn't find fragment container");
@@ -85,16 +87,12 @@ public class MonsterDypSetupActivity extends AppCompatActivity {
     }
 
     // save max score and number of games
-    private void saveGameSettings(View fragmentContainer){
+    private void saveGameSettings(View fragmentContainer) throws AppManagerException {
         if(fragmentContainer != null){
             int maxScore = Integer.parseInt(((EditText) fragmentContainer.findViewById(R.id.editable_max_score)).getText().toString());
             int numberOfGames = Integer.parseInt(((EditText) fragmentContainer.findViewById(R.id.editable_number_games)).getText().toString());
-            // TODO: refactor with calls to AppManager (write commitMaxScore/commitNrOfGames)
-            SharedPreferences preferences = getSharedPreferences(Constants.FILE_GENERAL_SETTINGS,0);
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putInt(Constants.VAR_MAX_SCORE,maxScore);
-            editor.putInt(Constants.VAR_NUMBER_OF_GAMES,numberOfGames);
-            editor.commit();
+            AppManager.getInstance().saveMaxScore(maxScore);
+            AppManager.getInstance().saveNumberOfGames(numberOfGames);
         } else {
             Log.e(MonsterDypSetupActivity.class.toString(),"fragment container was empty; game settings were not saved!");
         }
@@ -107,7 +105,7 @@ public class MonsterDypSetupActivity extends AppCompatActivity {
 
             // Add the fragment to the 'fragment_container' FrameLayout
             FragmentTransaction transaction= getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragment_container, addPlayersFragment);
+            transaction.replace(R.id.monster_dyp_setup_fragment_container, addPlayersFragment);
             transaction.addToBackStack(STAGE_ADD_PLAYERS);
             transaction.commit();
         } else {

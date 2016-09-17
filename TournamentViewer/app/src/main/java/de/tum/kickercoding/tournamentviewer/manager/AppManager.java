@@ -196,11 +196,21 @@ public class AppManager {
 		}
 	}
 
-	/**
-	 * Add player to tournament or (if already added) remove player
-	 * @param player
-	 */
-	public void toggleParticipation(Player player) {
-		TournamentManager.getInstance().toggleParticipation(player);
+    /**
+     * adds player to tournament or removes player if already signed up
+     * @param player
+     * @return true if player signed up as result of pressing button, false otherwise
+     */
+	public boolean toggleParticipation(Player player) {
+		return TournamentManager.getInstance().toggleParticipation(player);
 	}
+
+    /**
+     * checks if player is already signed up
+     * @param player
+     * @return true if player is signed up, false else
+     */
+    public boolean isSignedUp(String player) {
+        return TournamentManager.getInstance().isSignedUp(player);
+    }
 }

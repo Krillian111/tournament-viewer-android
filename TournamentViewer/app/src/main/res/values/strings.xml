@@ -24,4 +24,7 @@
     <string name="placeholder_minus">-</string>
     <string name="title_activity_monster_dyp_tournament">MonsterDypTournamentActivity</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

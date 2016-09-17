@@ -1,12 +1,14 @@
 package de.tum.kickercoding.tournamentviewer.modes.monsterdyp;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import de.tum.kickercoding.tournamentviewer.R;
@@ -64,18 +66,36 @@ public class PlayerListAdapter extends BaseAdapter implements ListAdapter {
             }
         });
 
-        Button addToTournamentButton = (Button) view.findViewById(R.id.player_list_item_toggle_participation_button);
-		addToTournamentButton.setOnClickListener(new View.OnClickListener(){
+        Button toggleParticipationButton = (Button) view.findViewById(R.id.player_list_item_toggle_participation_button);
+		toggleParticipationButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 try {
-                    AppManager.getInstance().toggleParticipation(AppManager.getInstance().getPlayer(position));
+                    boolean signedUp = AppManager.getInstance().toggleParticipation(AppManager.getInstance().getPlayer(position));
+                    adjustBackgroundColor(signedUp, view);
                 } catch (AppManagerException e) {
                     AppManager.getInstance().displayError(context, e.getMessage());
                 }
                 notifyDataSetChanged();
             }
         });
+
+        adjustBackgroundColor(AppManager.getInstance().isSignedUp(playerName), toggleParticipationButton);
         return view;
+    }
+
+    /**
+     * adjusts the background color of list item to reflect tournament participation
+     * @param childViewOfItem: must be a child view element of the actual item (e.g. toggle button)
+     */
+    private void adjustBackgroundColor(boolean signedUp, View childViewOfItem) {
+        RelativeLayout relativeLayout = (RelativeLayout) childViewOfItem.getParent();
+        int newBackgroundColor;
+        if(signedUp) {
+            newBackgroundColor = ContextCompat.getColor(context, R.color.player_signed_up);
+        } else {
+            newBackgroundColor = ContextCompat.getColor(context, R.color.player_not_signed_up);
+        }
+        relativeLayout.setBackgroundColor(newBackgroundColor);
     }
 }

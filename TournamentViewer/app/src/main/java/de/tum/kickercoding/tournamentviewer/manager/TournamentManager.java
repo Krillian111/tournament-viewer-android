@@ -52,11 +52,17 @@ class TournamentManager {
         return null;
     }
 
-    void toggleParticipation(Player player) {
+    boolean toggleParticipation(Player player) {
         if (currentTournament.getPlayers().contains(player)){
             removePlayer(player);
+            return false;
         } else {
             addPlayer(player);
+            return true;
         }
+    }
+
+    boolean isSignedUp(String playerName) {
+        return currentTournament.getPlayers().contains(new Player(playerName));
     }
 }
