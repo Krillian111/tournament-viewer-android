@@ -1,6 +1,5 @@
 package de.tum.kickercoding.tournamentviewer.modes.monsterdyp;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,8 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import de.tum.kickercoding.tournamentviewer.Constants;
 import de.tum.kickercoding.tournamentviewer.R;
+import de.tum.kickercoding.tournamentviewer.exceptions.AppManagerException;
+import de.tum.kickercoding.tournamentviewer.manager.AppManager;
 
 
 // TODO: add comments to methods/class
@@ -24,12 +24,16 @@ public class BasicSetupFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
-        // TODO: refactor using AppManager
-        // read saved values from settings
-        SharedPreferences settings = getActivity().getSharedPreferences(Constants.FILE_GENERAL_SETTINGS,0);
-        Integer currentMaxScore = settings.getInt(Constants.VAR_MAX_SCORE, Constants.DEFAULT_MAX_SCORE);
-        ((EditText) view.findViewById(R.id.editable_max_score)).setText(currentMaxScore.toString());
-        Integer numberOfGames = settings.getInt(Constants.VAR_NUMBER_OF_GAMES, Constants.DEFAULT_NUMBER_OF_GAMES);
-        ((EditText) view.findViewById(R.id.editable_number_games)).setText(numberOfGames.toString());
+        MonsterDypSetupActivity activity = (MonsterDypSetupActivity) getActivity();
+        activity.setCurrentState(MonsterDypSetupActivity.STAGE_BASIC_SETUP);
+        try {
+            String maxScore = "" + AppManager.getInstance().loadMaxScore();
+            String numberOfGames = "" + AppManager.getInstance().loadNumberOfGames();
+            ((EditText) view.findViewById(R.id.editable_max_score)).setText(maxScore);
+            ((EditText) view.findViewById(R.id.editable_number_games)).setText(numberOfGames);
+        } catch (AppManagerException e) {
+            AppManager.getInstance().displayError(getActivity(), e.getMessage());
+        }
+
     }
 }

@@ -5,17 +5,23 @@
     <!-- Start -->
     <string name="edit_message">Enter a message</string>
     <string name="button_monsterdyp">MonsterDYP</string>
-    <!-- Monster Dyp Setup Start-->
+    <!-- Monster Dyp Setup Basic Setup-->
     <string name="button_next">Next</string>
     <string name="message_maxscore">Max Score</string>
     <string name="message_defaultmaxscore">7</string>
     <string name="message_numberofgames">Number of games</string>
     <string name="message_defaultnumberofgames">1</string>
-    <!-- Monster Dyp Setup Step Two-->
+    <!-- Monster Dyp Player Setup-->
+    <string name="message_newPlayerDefault">New Player</string>
 
+    <!-- Monster Dyp Tournament-->
+    <string name="button_addplayer">ADD</string>
+    <string name="button_delete">DEL</string>
+    <string name="button_toggle_participation">CHECK</string>
 
     <!-- Placeholder -->
     <string name="placeholder_plus">+</string>
     <string name="placeholder_minus">-</string>
+    <string name="title_activity_monster_dyp_tournament">MonsterDypTournamentActivity</string>
 
 </resources>

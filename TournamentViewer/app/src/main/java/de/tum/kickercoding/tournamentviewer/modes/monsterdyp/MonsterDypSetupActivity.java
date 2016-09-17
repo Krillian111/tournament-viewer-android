@@ -1,70 +1,87 @@
 package de.tum.kickercoding.tournamentviewer.modes.monsterdyp;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-
-import java.util.List;
+import android.widget.ListView;
 
 import de.tum.kickercoding.tournamentviewer.Constants;
 import de.tum.kickercoding.tournamentviewer.R;
-import de.tum.kickercoding.tournamentviewer.entities.Player;
+import de.tum.kickercoding.tournamentviewer.exceptions.AppManagerException;
+import de.tum.kickercoding.tournamentviewer.manager.AppManager;
 
 
 // TODO: add comments to methods/class
 public class MonsterDypSetupActivity extends AppCompatActivity {
 
-    private final int STAGE_BASIC_SETUP = 1;
+    public static final String STAGE_BASIC_SETUP = "BASIC_SETUP";
 
-    private final int STAGE_ADD_PLAYERS = 2;
+    public static final String STAGE_ADD_PLAYERS = "ADD_PLAYERS";
 
-    private int currentState = 1;
+	private String currentState = STAGE_BASIC_SETUP;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monster_dyp_setup);
-
-        // Check that the activity is using the layout version with
-        // the fragment_container FrameLayout
-        View fragmentContainer = findViewById(R.id.fragment_container);
-        if (fragmentContainer != null) {
-
-            // However, if we're being restored from a previous state,
-            // then we don't need to do anything and should return or else
-            // we could end up with overlapping fragments.
-            if (savedInstanceState != null) {
-                return;
-            }
-
-            // Create a new Fragment to be placed in the activity layout
-            BasicSetupFragment basicSetupFragment = new BasicSetupFragment();
-
-            // Add the fragment to the 'fragment_container' FrameLayout
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, basicSetupFragment).commit();
-        } else {
-            Log.e(MonsterDypSetupActivity.class.toString(), "couldn't find fragment container");
-        }
+		setFragmentViewToCurrentStage(savedInstanceState);
     }
 
     /** Called when the user clicks the "Next" button in the basic setup fragment */
     public void nextStage(View view) {
+        View fragmentContainer = findViewById(R.id.fragment_container);
         switch(currentState){
             case STAGE_BASIC_SETUP:
-                View fragmentContainer = findViewById(R.id.fragment_container);
                 saveGameSettings(fragmentContainer);
                 switchToAddPlayersFragment(fragmentContainer);
+				currentState = STAGE_ADD_PLAYERS;
                 break;
             case STAGE_ADD_PLAYERS:
-                saveSelectedPlayers();
+                try {
+                    saveSelectedPlayers();
+                } catch (AppManagerException e) {
+                    AppManager.getInstance().displayError(this, "Failed to start tournament: " + e.getMessage());
+                    break;
+                }
                 switchToTournamentActivity();
                 break;
         }
+    }
+
+    private void setFragmentViewToCurrentStage(Bundle savedInstanceState){
+		Fragment fragmentForCurrentStage = null;
+		switch(currentState) {
+            case STAGE_BASIC_SETUP:
+				// Create a new Fragment to be placed in the activity layout
+				fragmentForCurrentStage= new BasicSetupFragment();
+				break;
+            case STAGE_ADD_PLAYERS:
+				fragmentForCurrentStage = new AddPlayersFragment();
+                break;
+        }
+		// Check that the activity is using the layout version with
+		// the fragment_container FrameLayout
+		View fragmentContainer = findViewById(R.id.fragment_container);
+		if (fragmentContainer != null) {
+			// However, if we're being restored from a previous state,
+			// then we don't need to do anything and should return or else
+			// we could end up with overlapping fragments.
+			if (savedInstanceState != null) {
+				return;
+			}
+			// Add the fragment to the 'fragment_container' FrameLayout
+			FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+			transaction.replace(R.id.fragment_container, fragmentForCurrentStage);
+			transaction.addToBackStack(currentState).commit();
+		} else {
+			Log.e(MonsterDypSetupActivity.class.toString(), "couldn't find fragment container");
+		}
     }
 
     // save max score and number of games
@@ -91,20 +108,27 @@ public class MonsterDypSetupActivity extends AppCompatActivity {
             // Add the fragment to the 'fragment_container' FrameLayout
             FragmentTransaction transaction= getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragment_container, addPlayersFragment);
-            transaction.addToBackStack(null);
+            transaction.addToBackStack(STAGE_ADD_PLAYERS);
             transaction.commit();
         } else {
             Log.e(MonsterDypSetupActivity.class.toString(),"fragment container was empty; couldn't change state");
         }
     }
 
-    private void saveSelectedPlayers() {
-        // TODO: implement
+    private void saveSelectedPlayers() throws AppManagerException {
+        AppManager.getInstance().commitChanges();
     }
 
     private void switchToTournamentActivity() {
-        // TODO: implement
+        Intent intent = new Intent(this, MonsterDypTournamentActivity.class);
+        startActivity(intent);
     }
+
+    /*
+    * *************************************
+    *  ON CLICK METHODS BasicSetupFragment
+    * **************************************
+    */
 
     /** Called when plus-Button next to "max Score" is pressed */
     public void incrementMaxScore(View view){
@@ -142,32 +166,27 @@ public class MonsterDypSetupActivity extends AppCompatActivity {
         editableMaxScore.setText(currentScore.toString());
     }
 
-    // test output method
-    public void testAddingPlayer(View view){
-//        try {
-//
-//            AppManager appManager = AppManager.getInstance();
-//            List<Player> playerList = appManager.getAllPlayers();
-//            printPlayers(playerList);
-//
-//            System.out.println(playerList.size());
-//
-//            appManager.addNewPlayer("testplayer");
-//            appManager.commitChanges();
-//
-//            playerList = appManager.getAllPlayers();
-//            printPlayers(playerList);
-//
-//            System.out.println(playerList.size());
-//
-//        } catch (AppManagerException e) {
-//            Log.e(AddPlayersFragment.class.toString(),e.toString());
-//        }
+    /*
+    * *************************************
+    *  ON CLICK METHODS AddPlayersFragment
+    * **************************************
+    */
+
+    public void addPlayerToList(View view) {
+        View rootView = view.getRootView();
+        EditText editableNewPlayer = (EditText) rootView.findViewById(R.id.editable_new_player);
+        String newPlayer = editableNewPlayer.getText().toString();
+        ListView listView = (ListView) rootView.findViewById(R.id.listViewPlayers);
+        try {
+            AppManager.getInstance().addNewPlayer(newPlayer);
+        } catch (AppManagerException e) {
+            AppManager.getInstance().displayError(this, e.getMessage());
+        }
+        PlayerListAdapter playerListAdapter = (PlayerListAdapter) listView.getAdapter();
+        playerListAdapter.notifyDataSetChanged();
     }
 
-    private void printPlayers(List<Player> playerList){
-        for (Player p: playerList) {
-            Log.e("TESTOUTPUT:", p.toString());
-        }
-    }
+	public void setCurrentState(String currentState) {
+		this.currentState = currentState;
+	}
 }

@@ -9,28 +9,32 @@ import de.tum.kickercoding.tournamentviewer.exceptions.AppManagerException;
 import de.tum.kickercoding.tournamentviewer.manager.AppManager;
 import de.tum.kickercoding.tournamentviewer.modes.monsterdyp.MonsterDypSetupActivity;
 
-// TODO: add comments to methods/class
+/**
+ * Activity is called when app is opened, responsible for initializing basic infrastructure
+ * Presents the user with a screen of basic options
+ */
+// TODO: add possibility to load pending tournament (click on monsterdyp calls initialization of TournamentManager which resets the Tournament
 public class StartActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-        initializeApp();
+        try {
+			initializeApp();
+		} catch (AppManagerException e) {
+			AppManager.getInstance().displayError(this, "Critical Error during startup, please restart");
+		}
     }
 
     /** Called when the user clicks the MonsterDYP button */
     public void monsterDypSetup(View view) {
+        AppManager.getInstance().initializeTournamentManager();
         Intent intent = new Intent(this, MonsterDypSetupActivity.class);
         startActivity(intent);
     }
 
-    private void initializeApp() {
-        try {
-            AppManager.getInstance().initialize(getApplicationContext());
-        } catch (AppManagerException e) {
-            e.printStackTrace();
-            // TODO: implement error handling
-        }
+    private void initializeApp() throws AppManagerException {
+		AppManager.getInstance().initialize(getApplicationContext());
     }
 }

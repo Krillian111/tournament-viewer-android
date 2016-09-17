@@ -15,7 +15,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".modes.monsterdyp.MonsterDypSetupActivity" />
+        <activity
+            android:name=".modes.monsterdyp.MonsterDypSetupActivity" />
+        <activity
+            android:name=".modes.monsterdyp.MonsterDypTournamentActivity" />
+            <!--android:label="@string/title_activity_monster_dyp_tournament"
+            android:theme="@style/AppTheme.NoActionBar"-->
     </application>
 
 </manifest>
