@@ -5,14 +5,15 @@ import org.junit.Test;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.List;
 
 import de.tum.kickercoding.tournamentviewer.Constants;
 import de.tum.kickercoding.tournamentviewer.entities.Game;
 import de.tum.kickercoding.tournamentviewer.entities.Player;
 import de.tum.kickercoding.tournamentviewer.exceptions.PlayerManagerException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.fail;
 
 
 public class PlayerManagerUnitTest {
@@ -95,12 +96,8 @@ public class PlayerManagerUnitTest {
         } catch (PlayerManagerException e) {
             fail(e.toString());
         }
-        try {
-            playerManager.removePlayer("NonExistingPlayer");
-        } catch (PlayerManagerException e) {
-            return;
-        }
-        fail("Removing non-existing player did not fail");
+        assertFalse("Non existing player cannot return a succesful removal", playerManager.removePlayer("NonExistingPlayer"));
+
     }
 
     @Test

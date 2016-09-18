@@ -80,6 +80,8 @@ public class Player {
         this.rankingScore = roundDouble(rankingScore);
     }
 
+    // Players with identical name need to return true; if change needed all utility methods based
+    // on name need to be changed as well!
     @Override
     public boolean equals(Object o) {
         if(o instanceof Player) {
