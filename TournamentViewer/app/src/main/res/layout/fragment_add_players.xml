@@ -23,7 +23,7 @@
             android:layout_alignParentRight="true"/>
     </RelativeLayout>
     <ListView
-        android:id="@+id/listViewPlayers"
+        android:id="@+id/list_view_add_players"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@color/text_standard"

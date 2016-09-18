@@ -2,6 +2,7 @@ package de.tum.kickercoding.tournamentviewer.modes.monsterdyp;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +32,13 @@ public class PlayerListAdapter extends BaseAdapter implements ListAdapter {
 
     @Override
     public Object getItem(int pos) {
-        return AppManager.getInstance().getAllPlayers().get(pos);
+        try {
+            return AppManager.getInstance().getPlayer(pos);
+        } catch (AppManagerException e) {
+            Log.e(PlayerListAdapter.class.toString(), "fatal error: getItem() failed", e);
+            // fake player to allow user to write down results
+            return new Player("FATAL ERROR");
+        }
     }
 
     @Override
@@ -70,12 +77,8 @@ public class PlayerListAdapter extends BaseAdapter implements ListAdapter {
 		toggleParticipationButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                try {
-                    boolean signedUp = AppManager.getInstance().toggleParticipation(AppManager.getInstance().getPlayer(position));
-                    adjustBackgroundColor(signedUp, view);
-                } catch (AppManagerException e) {
-                    AppManager.getInstance().displayError(context, e.getMessage());
-                }
+                boolean signedUp = AppManager.getInstance().toggleParticipation((Player) getItem(position));
+                adjustBackgroundColor(signedUp, view);
                 notifyDataSetChanged();
             }
         });

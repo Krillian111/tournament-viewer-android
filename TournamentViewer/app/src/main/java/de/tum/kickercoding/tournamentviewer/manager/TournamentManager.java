@@ -8,6 +8,7 @@ import de.tum.kickercoding.tournamentviewer.entities.Tournament;
 import de.tum.kickercoding.tournamentviewer.exceptions.PreferenceFileException;
 import de.tum.kickercoding.tournamentviewer.exceptions.TournamentManagerException;
 
+// TODO: write unit tests
 class TournamentManager {
 
     static TournamentManager instance = new TournamentManager();
@@ -29,8 +30,17 @@ class TournamentManager {
         currentTournament.addPlayer(player);
     }
 
-    void removePlayer(Player player){
-        currentTournament.removePlayer(player);
+    boolean removePlayer(Player player){
+        return currentTournament.removePlayer(player);
+    }
+
+    boolean removePlayer(String name){
+        // use fake player to force removal; players with identical name are equal
+        return removePlayer(new Player(name));
+    }
+
+    List<Player> getPlayers() {
+        return currentTournament.getPlayers();
     }
 
     void addGame(Game game){

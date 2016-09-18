@@ -1,7 +1,6 @@
 package de.tum.kickercoding.tournamentviewer.modes.monsterdyp;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +14,14 @@ import de.tum.kickercoding.tournamentviewer.exceptions.AppManagerException;
 import de.tum.kickercoding.tournamentviewer.manager.AppManager;
 
 // TODO: add comments to methods/class
+// TODO: refactor as activity
 public class AddPlayersFragment extends Fragment {
 
-    private ListView playerListView;
+    public AddPlayersFragment(){}
+
+    public static AddPlayersFragment getInstance() {
+        return new AddPlayersFragment();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -26,13 +30,14 @@ public class AddPlayersFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_add_players, container, false);
     }
 
+    // TODO: consider moving functionality to onActivityCreated due to Views not being available?
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // force stage to reflect current stage (important for back button behaviour)
         ((MonsterDypSetupActivity) getActivity()).setCurrentState(MonsterDypSetupActivity.STAGE_ADD_PLAYERS);
 
-        playerListView = (ListView) getActivity().findViewById(R.id.listViewPlayers);
+        ListView playerListView = (ListView) getActivity().findViewById(R.id.list_view_add_players);
 
         playerListView.setAdapter(new PlayerListAdapter(getActivity()));
 

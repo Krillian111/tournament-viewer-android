@@ -61,10 +61,10 @@ public class MonsterDypSetupActivity extends AppCompatActivity {
 		switch(currentState) {
             case STAGE_BASIC_SETUP:
 				// Create a new Fragment to be placed in the activity layout
-				fragmentForCurrentStage= new BasicSetupFragment();
+				fragmentForCurrentStage= BasicSetupFragment.getInstance();
 				break;
             case STAGE_ADD_PLAYERS:
-				fragmentForCurrentStage = new AddPlayersFragment();
+				fragmentForCurrentStage = AddPlayersFragment.getInstance();
                 break;
         }
 		// Check that the activity is using the layout version with
@@ -174,7 +174,7 @@ public class MonsterDypSetupActivity extends AppCompatActivity {
         View rootView = view.getRootView();
         EditText editableNewPlayer = (EditText) rootView.findViewById(R.id.editable_new_player);
         String newPlayer = editableNewPlayer.getText().toString();
-        ListView listView = (ListView) rootView.findViewById(R.id.listViewPlayers);
+        ListView listView = (ListView) rootView.findViewById(R.id.list_view_add_players);
         try {
             AppManager.getInstance().addNewPlayer(newPlayer);
         } catch (AppManagerException e) {

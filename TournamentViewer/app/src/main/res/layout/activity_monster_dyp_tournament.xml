@@ -5,14 +5,13 @@
     android:layout_height="match_parent" >
     <fragment
         android:id="@+id/monster_dyp_setup_player_stats"
-        android:name="de.tum.kickercoding.tournamentviewer.modes.monsterdyp.PlayerStatsFragment"
+        android:name="de.tum.kickercoding.tournamentviewer.modes.monsterdyp.TournamentStatsFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <fragment
         android:id="@+id/monster_dyp_setup_game_list"
         android:name="de.tum.kickercoding.tournamentviewer.modes.monsterdyp.GameListFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/monster_dyp_setup_player_stats"/>
 </RelativeLayout>

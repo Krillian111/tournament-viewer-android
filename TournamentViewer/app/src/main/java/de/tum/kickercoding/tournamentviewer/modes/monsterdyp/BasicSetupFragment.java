@@ -13,7 +13,14 @@ import de.tum.kickercoding.tournamentviewer.manager.AppManager;
 
 
 // TODO: add comments to methods/class
+// TODO: refactor as activity
 public class BasicSetupFragment extends Fragment {
+
+    public BasicSetupFragment(){}
+
+    public static BasicSetupFragment getInstance() {
+        return new BasicSetupFragment();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -22,6 +29,7 @@ public class BasicSetupFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_basic_setup, container, false);
     }
 
+    // TODO: consider moving functionality to onActivityCreated due to Views not being available?
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
         MonsterDypSetupActivity activity = (MonsterDypSetupActivity) getActivity();
@@ -34,6 +42,5 @@ public class BasicSetupFragment extends Fragment {
         } catch (AppManagerException e) {
             AppManager.getInstance().displayError(getActivity(), e.getMessage());
         }
-
     }
 }

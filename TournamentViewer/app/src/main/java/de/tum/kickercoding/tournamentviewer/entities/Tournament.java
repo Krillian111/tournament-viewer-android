@@ -3,6 +3,7 @@ package de.tum.kickercoding.tournamentviewer.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO: write unit tests
 public class Tournament {
 
 	private List<Player> players = new ArrayList<>();
@@ -28,8 +29,8 @@ public class Tournament {
 		players.add(player);
 	}
 
-	public void removePlayer(Player player) {
-		players.remove(player);
+	public boolean removePlayer(Player player) {
+		return players.remove(player);
 	}
 
 	public List<Player> getPlayers() {

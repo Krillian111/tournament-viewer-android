@@ -80,11 +80,9 @@ public class AppManager {
      * @throws AppManagerException
      */
     public void removePlayer(String name) throws AppManagerException {
-        try{
-            playerManager.removePlayer(name);
-        } catch(PlayerManagerException e){
-            throw new AppManagerException("Player was not deleted, wrapped Exception:" + e.toString());
-        }
+        playerManager.removePlayer(name);
+        // removes player from tournament as well (to prevent inconsistency)
+        tournamentManager.removePlayer(name);
     }
 
     /**
@@ -212,5 +210,9 @@ public class AppManager {
      */
     public boolean isSignedUp(String player) {
         return TournamentManager.getInstance().isSignedUp(player);
+    }
+
+    public List<Player> getPlayersForTournament(){
+        return tournamentManager.getPlayers();
     }
 }
