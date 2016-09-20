@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:orientation="vertical">
     <fragment
-        android:id="@+id/monster_dyp_setup_player_stats"
-        android:name="de.tum.kickercoding.tournamentviewer.modes.monsterdyp.TournamentStatsFragment"
+        android:id="@+id/monster_dyp_setup_tournament_stats"
+        android:name="de.tum.kickercoding.tournamentviewer.tournament.TournamentStatsFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        android:layout_weight="1"/>
     <fragment
-        android:id="@+id/monster_dyp_setup_game_list"
-        android:name="de.tum.kickercoding.tournamentviewer.modes.monsterdyp.GameListFragment"
+        android:id="@+id/monster_dyp_setup_tournament_games"
+        android:name="de.tum.kickercoding.tournamentviewer.tournament.TournamentGamesFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/monster_dyp_setup_player_stats"/>
-</RelativeLayout>
+        android:layout_height="match_parent"
+        android:layout_weight="1"/>
+</LinearLayout>

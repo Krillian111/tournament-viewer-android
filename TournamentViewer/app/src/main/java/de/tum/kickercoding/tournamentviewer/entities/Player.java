@@ -91,11 +91,11 @@ public class Player {
     }
 
     /**
-     * toString() representation of player: 'name|playedGames|wonGames|lostGames|tiedGames|rankingScore'
+     * toString() representation of player: 'name~playedGames~wonGames~lostGames~tiedGames~rankingScore'
      */
     @Override
     public String toString() {
-        return String.format("%s~%d~%d~%d~%d~%s", name, playedGames, wonGames, lostGames, tiedGames, parseDouble(rankingScore));
+        return String.format("%s_%d_%d_%d_%d_%s", name, playedGames, wonGames, lostGames, tiedGames, parseDouble(rankingScore));
     }
 
     public static Player fromString(String player){

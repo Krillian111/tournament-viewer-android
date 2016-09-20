@@ -7,7 +7,7 @@ import android.view.View;
 
 import de.tum.kickercoding.tournamentviewer.exceptions.AppManagerException;
 import de.tum.kickercoding.tournamentviewer.manager.AppManager;
-import de.tum.kickercoding.tournamentviewer.modes.monsterdyp.MonsterDypSetupActivity;
+import de.tum.kickercoding.tournamentviewer.setup.monsterdyp.MonsterDypBasicSetupActivity;
 
 /**
  * Activity is called when app is opened, responsible for initializing basic infrastructure
@@ -21,16 +21,19 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
         try {
+			// TODO: consider saving state if problems arise
 			initializeApp();
 		} catch (AppManagerException e) {
 			AppManager.getInstance().displayError(this, "Critical Error during startup, please restart");
 		}
     }
 
-    /** Called when the user clicks the MonsterDYP button */
+    /**
+	 * Called when the user clicks the MonsterDYP button
+	 */
     public void monsterDypSetup(View view) {
         AppManager.getInstance().initializeTournamentManager();
-        Intent intent = new Intent(this, MonsterDypSetupActivity.class);
+        Intent intent = new Intent(this, MonsterDypBasicSetupActivity.class);
         startActivity(intent);
     }
 

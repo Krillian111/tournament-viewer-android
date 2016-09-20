@@ -1,4 +1,4 @@
-package de.tum.kickercoding.tournamentviewer.modes.monsterdyp;
+package de.tum.kickercoding.tournamentviewer.tournament.monsterdyp;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,7 +12,4 @@ public class MonsterDypTournamentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monster_dyp_tournament);
     }
-
-
-
 }

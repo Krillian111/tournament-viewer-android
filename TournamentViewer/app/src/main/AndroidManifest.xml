@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="de.tum.kickercoding.tournamentviewer">
+          package="de.tum.kickercoding.tournamentviewer">
 
     <application
         android:allowBackup="true"
@@ -10,17 +10,15 @@
         android:theme="@style/AppTheme">
         <activity android:name=".StartActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity
-            android:name=".modes.monsterdyp.MonsterDypSetupActivity" />
-        <activity
-            android:name=".modes.monsterdyp.MonsterDypTournamentActivity" />
-            <!--android:label="@string/title_activity_monster_dyp_tournament"
-            android:theme="@style/AppTheme.NoActionBar"-->
+        <activity android:name=".setup.monsterdyp.MonsterDypBasicSetupActivity"/>
+        <activity android:name=".setup.monsterdyp.MonsterDypPlayerSetupActivity"/>
+
+        <activity android:name=".tournament.monsterdyp.MonsterDypTournamentActivity"/>
     </application>
 
 </manifest>

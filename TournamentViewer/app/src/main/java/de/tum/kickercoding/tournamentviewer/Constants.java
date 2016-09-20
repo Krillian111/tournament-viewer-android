@@ -28,6 +28,6 @@ public class Constants {
 
     public static final String FILE_GLOBAL_PLAYERS_LIST = "de.tum.kickercoding.tournamentviewer.player.list";
 
-    public static final String DELIMITER = "~";
+    public static final String DELIMITER = "_";
 
 }

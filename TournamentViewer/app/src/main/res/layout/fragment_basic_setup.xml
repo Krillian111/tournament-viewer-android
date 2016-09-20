@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".modes.monsterdyp.BasicSetupFragment" >
+    tools:context=".setup.BasicSetupFragment" >
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,6 +18,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
             <Button
+                android:id="@+id/button_setup_decrement_score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/placeholder_minus"
@@ -28,10 +29,10 @@
                 android:textSize="10pt"
                 android:text="@string/message_defaultmaxscore" />
             <Button
+                android:id="@+id/button_setup_increment_score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/placeholder_plus"
-                android:onClick="incrementMaxScore" />
+                android:text="@string/placeholder_plus" />
         </LinearLayout>
         <TextView
             android:layout_width="wrap_content"
@@ -43,20 +44,20 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
             <Button
+                android:id="@+id/button_setup_decrement_games"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/placeholder_minus"
-                android:onClick="decrementNumberOfGames" />
+                android:text="@string/placeholder_minus" />
             <EditText android:id ="@+id/editable_number_games"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="10pt"
                 android:text="@string/message_defaultnumberofgames" />
             <Button
+                android:id="@+id/button_setup_increment_games"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/placeholder_plus"
-                android:onClick="incrementNumberOfGames" />
+                android:text="@string/placeholder_plus"/>
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

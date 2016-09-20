@@ -1,4 +1,4 @@
-package de.tum.kickercoding.tournamentviewer.modes.monsterdyp;
+package de.tum.kickercoding.tournamentviewer.setup;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
@@ -63,7 +63,7 @@ public class PlayerListAdapter extends BaseAdapter implements ListAdapter {
         Button deleteButton = (Button) view.findViewById(R.id.player_list_item_delete_button);
         deleteButton.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View view) {
+            public void onClick(View buttonView) {
                 try {
                     AppManager.getInstance().removePlayer(playerName);
                 } catch (AppManagerException e) {
@@ -76,9 +76,9 @@ public class PlayerListAdapter extends BaseAdapter implements ListAdapter {
         Button toggleParticipationButton = (Button) view.findViewById(R.id.player_list_item_toggle_participation_button);
 		toggleParticipationButton.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View view) {
+            public void onClick(View buttonView) {
                 boolean signedUp = AppManager.getInstance().toggleParticipation((Player) getItem(position));
-                adjustBackgroundColor(signedUp, view);
+                adjustBackgroundColor(signedUp, buttonView);
                 notifyDataSetChanged();
             }
         });

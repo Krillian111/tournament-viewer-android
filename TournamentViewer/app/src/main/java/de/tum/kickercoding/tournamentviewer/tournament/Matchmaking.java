@@ -1,4 +1,4 @@
-package de.tum.kickercoding.tournamentviewer.modes;
+package de.tum.kickercoding.tournamentviewer.tournament;
 
 import java.util.List;
 

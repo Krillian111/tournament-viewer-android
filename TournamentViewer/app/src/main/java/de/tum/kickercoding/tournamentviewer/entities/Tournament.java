@@ -21,6 +21,15 @@ public class Tournament {
 		games.add(game);
 	}
 
+	public boolean removeLastGame() {
+		if(games.size() != 0){
+			games.remove(games.size()-1);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	public List<Game> getGames() {
 		return games;
 	}

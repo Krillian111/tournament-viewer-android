@@ -35,7 +35,7 @@ class TournamentManager {
     }
 
     boolean removePlayer(String name){
-        // use fake player to force removal; players with identical name are equal
+        // use fake player to force removal; players with identical name are considered equal
         return removePlayer(new Player(name));
     }
 
@@ -46,6 +46,15 @@ class TournamentManager {
     void addGame(Game game){
         currentTournament.addGame(game);
     }
+
+    boolean removeLastGame(){
+        return currentTournament.removeLastGame();
+    }
+
+    List<Game> getGames() {
+        return currentTournament.getGames();
+    }
+
 
     void startNewTournament() throws TournamentManagerException {
         try {

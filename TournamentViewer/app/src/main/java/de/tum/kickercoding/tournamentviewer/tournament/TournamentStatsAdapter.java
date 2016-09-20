@@ -1,4 +1,4 @@
-package de.tum.kickercoding.tournamentviewer.modes.monsterdyp;
+package de.tum.kickercoding.tournamentviewer.tournament;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -43,7 +43,6 @@ public class TournamentStatsAdapter extends BaseAdapter implements ListAdapter {
             view = inflater.inflate(R.layout.item_tournament_stats, null);
         }
 
-        //Handle TextView and display player name
         TextView listItemText = (TextView) view.findViewById(R.id.tournament_stats_item_text_view);
         listItemText.setText(getItem(position).toString());
 
