@@ -28,6 +28,15 @@ public class Player {
         rankingScore = 0.0;
     }
 
+	private Player(String name, int playedGames, int wonGames, int lostGames, int tiedGames, double rankingScore){
+		this.name = name;
+		this.playedGames = playedGames;
+		this.wonGames = wonGames;
+		this.lostGames = lostGames;
+		this.tiedGames = tiedGames;
+		this.rankingScore = rankingScore;
+	}
+
     public String getName() {
         return name;
     }
@@ -106,12 +115,12 @@ public class Player {
             }
             throw new IllegalArgumentException("String representing player object must contain exactly 5 tildes \"~\"");
         }
-        Player playerFromString =  new Player(playerFields[0]);
-        playerFromString.setPlayedGames(Integer.parseInt(playerFields[1]));
-        playerFromString.setWonGames(Integer.parseInt(playerFields[2]));
-        playerFromString.setLostGames(Integer.parseInt(playerFields[3]));
-        playerFromString.setTiedGames(Integer.parseInt(playerFields[4]));
-        playerFromString.setRankingScore(Double.parseDouble(playerFields[5]));
+		Player playerFromString = new Player(playerFields[0],
+				Integer.parseInt(playerFields[1]),
+				Integer.parseInt(playerFields[2]),
+				Integer.parseInt(playerFields[3]),
+				Integer.parseInt(playerFields[4]),
+				Double.parseDouble(playerFields[5]));
         return playerFromString;
     }
 
@@ -124,4 +133,7 @@ public class Player {
         return df.format(toParse);
     }
 
+    public Player copy(){
+		return new Player(name,playedGames,wonGames,lostGames,tiedGames,rankingScore);
+	}
 }

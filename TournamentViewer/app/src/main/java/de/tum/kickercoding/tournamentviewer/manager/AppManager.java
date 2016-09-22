@@ -100,7 +100,7 @@ public class AppManager {
 		// clone the list and all player objects to avoid changing the original list
 		List<Player> playersCopied = new ArrayList<>();
 		for (Player p : players) {
-			Player copiedPlayer = Player.fromString(p.toString());
+			Player copiedPlayer = p.copy();
 			playersCopied.add(copiedPlayer);
 		}
 		return playersCopied;
