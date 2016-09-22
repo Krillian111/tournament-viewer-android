@@ -1,4 +1,4 @@
-package de.tum.kickercoding.tournamentviewer;
+package de.tum.kickercoding.tournamentviewer.util;
 
 public class Constants {
 

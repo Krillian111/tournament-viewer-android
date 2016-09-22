@@ -5,7 +5,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import de.tum.kickercoding.tournamentviewer.entities.Game;
@@ -14,6 +13,7 @@ import de.tum.kickercoding.tournamentviewer.exceptions.AppManagerException;
 import de.tum.kickercoding.tournamentviewer.exceptions.PlayerManagerException;
 import de.tum.kickercoding.tournamentviewer.exceptions.PreferenceFileException;
 import de.tum.kickercoding.tournamentviewer.exceptions.TournamentManagerException;
+import de.tum.kickercoding.tournamentviewer.util.TournamentMode;
 
 /**
  * AppManager solely provides methods callable by Activities.
@@ -57,9 +57,9 @@ public class AppManager {
 	/**
 	 * initialize TournamentManager, necessary to start a new Tournament
 	 */
-	public void initializeTournamentManager() {
+	public void initializeTournamentManager(TournamentMode mode) {
 		tournamentManager = TournamentManager.getInstance();
-		tournamentManager.initialize();
+		tournamentManager.initialize(mode);
 	}
 
 	/**
@@ -238,14 +238,16 @@ public class AppManager {
 		return tournamentManager.getGames();
 	}
 
-	// TODO: create game from input, currently only dummy implementation for testing
-	public void addGame() {
-		Game game = new Game(Arrays.asList(tournamentManager.getPlayers().get(0),tournamentManager.getPlayers().get(1)));
-		game.setScoreTeam1(5);
-		game.setScoreTeam2(7);
-		game.setFinished(true);
-		tournamentManager.addGame(game);
+	public void generateGame() {
+		tournamentManager.generateGame();
+	}
 
+	public void generateRound(){
+		tournamentManager.generateRound();
+	}
+
+	public void removeLastGame(){
+		tournamentManager.removeLastGame();
 	}
 
 	private void logDebug(String message) {

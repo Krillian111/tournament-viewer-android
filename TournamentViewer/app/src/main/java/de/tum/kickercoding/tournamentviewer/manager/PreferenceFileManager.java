@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.tum.kickercoding.tournamentviewer.Constants;
+import de.tum.kickercoding.tournamentviewer.util.Constants;
 import de.tum.kickercoding.tournamentviewer.entities.Player;
 import de.tum.kickercoding.tournamentviewer.exceptions.PreferenceFileException;
 

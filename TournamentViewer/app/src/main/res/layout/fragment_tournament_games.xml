@@ -4,18 +4,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".tournament.TournamentGamesFragment">
-    <Button
-        android:id="@+id/button_add_game_to_tournament"
+    <LinearLayout
+        android:id="@+id/tournament_games_button_wrapper"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add Game"/>
+        android:orientation="horizontal"
+        >
+        <Button
+            android:id="@+id/button_add_game_to_tournament"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_add_game"/>
+        <Button
+            android:id="@+id/button_add_round_to_tournament"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_add_round"/>
+        <Button
+            android:id="@+id/button_delete_last_game_from_tournament"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_remove_last_game"/>
+    </LinearLayout>
+
+
     <ListView
         android:id="@+id/list_view_tournament_games"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@color/text_standard"
         android:dividerHeight="0.1dp"
-        android:layout_below="@+id/button_add_game_to_tournament">
+        android:layout_below="@+id/tournament_games_button_wrapper">
     </ListView>
 
 </RelativeLayout>

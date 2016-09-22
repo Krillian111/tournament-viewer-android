@@ -4,7 +4,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
-import de.tum.kickercoding.tournamentviewer.Constants;
+import de.tum.kickercoding.tournamentviewer.util.Constants;
 
 
 // TODO: add comments to methods/class
@@ -28,7 +28,17 @@ public class Player {
         rankingScore = 0.0;
     }
 
-	private Player(String name, int playedGames, int wonGames, int lostGames, int tiedGames, double rankingScore){
+	/**
+	 * utitliy constructor, used for unittest and copying objects (to prevent references to lists
+	 * of singletons)
+	 * @param name
+	 * @param playedGames
+	 * @param wonGames
+	 * @param lostGames
+	 * @param tiedGames
+	 * @param rankingScore
+	 */
+	public Player(String name, int playedGames, int wonGames, int lostGames, int tiedGames, double rankingScore){
 		this.name = name;
 		this.playedGames = playedGames;
 		this.wonGames = wonGames;

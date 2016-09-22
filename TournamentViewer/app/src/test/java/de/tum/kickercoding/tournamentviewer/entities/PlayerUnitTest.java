@@ -2,10 +2,11 @@ package de.tum.kickercoding.tournamentviewer.entities;
 
 import org.junit.Test;
 
-import de.tum.kickercoding.tournamentviewer.Constants;
+import de.tum.kickercoding.tournamentviewer.util.Constants;
 
 import static org.junit.Assert.assertEquals;
 
+//TODO: refactor using the multiargument constructor of player
 public class PlayerUnitTest {
 
     // delimiter reference for String.format (first argument)

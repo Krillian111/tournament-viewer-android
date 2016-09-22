@@ -8,6 +8,7 @@ import android.view.View;
 import de.tum.kickercoding.tournamentviewer.exceptions.AppManagerException;
 import de.tum.kickercoding.tournamentviewer.manager.AppManager;
 import de.tum.kickercoding.tournamentviewer.setup.monsterdyp.MonsterDypBasicSetupActivity;
+import de.tum.kickercoding.tournamentviewer.util.TournamentMode;
 
 /**
  * Activity is called when app is opened, responsible for initializing basic infrastructure
@@ -32,7 +33,7 @@ public class StartActivity extends AppCompatActivity {
 	 * Called when the user clicks the MonsterDYP button
 	 */
     public void monsterDypSetup(View view) {
-        AppManager.getInstance().initializeTournamentManager();
+        AppManager.getInstance().initializeTournamentManager(TournamentMode.MONSTERDYP);
         Intent intent = new Intent(this, MonsterDypBasicSetupActivity.class);
         startActivity(intent);
     }

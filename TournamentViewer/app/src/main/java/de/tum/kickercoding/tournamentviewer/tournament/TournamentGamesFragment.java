@@ -27,6 +27,7 @@ public class TournamentGamesFragment extends Fragment {
 		return inflater.inflate(R.layout.fragment_tournament_games, container, false);
 	}
 
+	//TODO: CREATE OVERLAY: http://stackoverflow.com/questions/12400920/open-a-custom-dialog-when-custom-listview-item-edittext-is-clicked
 	@Override
 	public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
@@ -38,7 +39,29 @@ public class TournamentGamesFragment extends Fragment {
 		addGameButton.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View buttonView) {
-				AppManager.getInstance().addGame();
+				AppManager.getInstance().generateGame();
+				ListView tournamentGamesListView = (ListView) view.findViewById(R.id.list_view_tournament_games);
+				((TournamentGamesAdapter) tournamentGamesListView.getAdapter()).notifyDataSetChanged();
+			}
+		});
+
+		Button addRoundButton = (Button) view.findViewById(R.id.button_add_round_to_tournament);
+
+		addRoundButton.setOnClickListener(new View.OnClickListener(){
+			@Override
+			public void onClick(View buttonView) {
+				AppManager.getInstance().generateRound();
+				ListView tournamentGamesListView = (ListView) view.findViewById(R.id.list_view_tournament_games);
+				((TournamentGamesAdapter) tournamentGamesListView.getAdapter()).notifyDataSetChanged();
+			}
+		});
+
+		Button deleteLastGameButton = (Button) view.findViewById(R.id.button_delete_last_game_from_tournament);
+
+		deleteLastGameButton.setOnClickListener(new View.OnClickListener(){
+			@Override
+			public void onClick(View buttonView) {
+				AppManager.getInstance().removeLastGame();
 				ListView tournamentGamesListView = (ListView) view.findViewById(R.id.list_view_tournament_games);
 				((TournamentGamesAdapter) tournamentGamesListView.getAdapter()).notifyDataSetChanged();
 			}
