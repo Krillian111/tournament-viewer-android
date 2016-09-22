@@ -108,9 +108,9 @@ public class Game {
 	@Override
 	public String toString() {
 		if(isOneOnOne()){
-			return String.format("1_%s_%s_%d_%d_%b",getTeam1PlayerNames()[0],getTeam2PlayerNames()[0],getScoreTeam1(),getScoreTeam2(),isFinished());
+			return String.format("1_%s_%s_%d_%d_%b",getTeam1PlayerNames().get(0),getTeam2PlayerNames().get(0),getScoreTeam1(),getScoreTeam2(),isFinished());
 		} else {
-			return String.format("2_%s_%s_%s_%s_%d_%d_%b",getTeam1PlayerNames()[0],getTeam1PlayerNames()[1],getTeam2PlayerNames()[0],getTeam2PlayerNames()[1],getScoreTeam1(),getScoreTeam2(),isFinished());
+			return String.format("2_%s_%s_%s_%s_%d_%d_%b",getTeam1PlayerNames().get(0),getTeam1PlayerNames().get(1),getTeam2PlayerNames().get(0),getTeam2PlayerNames().get(1),getScoreTeam1(),getScoreTeam2(),isFinished());
 		}
 	}
 }

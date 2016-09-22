@@ -5,6 +5,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import de.tum.kickercoding.tournamentviewer.entities.Game;
@@ -239,7 +240,7 @@ public class AppManager {
 
 	// TODO: create game from input, currently only dummy implementation for testing
 	public void addGame() {
-		Game game = new Game(new Player[]{tournamentManager.getPlayers().get(0),tournamentManager.getPlayers().get(1)});
+		Game game = new Game(Arrays.asList(tournamentManager.getPlayers().get(0),tournamentManager.getPlayers().get(1)));
 		game.setScoreTeam1(5);
 		game.setScoreTeam2(7);
 		game.setFinished(true);
