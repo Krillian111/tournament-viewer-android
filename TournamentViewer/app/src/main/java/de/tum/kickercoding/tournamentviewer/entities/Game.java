@@ -10,15 +10,15 @@ public class Game {
     private boolean oneOnOne;
     private int scoreTeam1;
     private int scoreTeam2;
-    // 1on1: 0 vs 1; 2on2: 0/1 vs 2/3
-    private Player[] participants; // TODO: "make sure" that only the PlayerManager can make changes to the player objects
+    // 1on1: 1st vs 2nd participant, 2on2: 1st/2nd vs 3rd/4th participant
+    private List<Player> participants; // TODO: "make sure" that only the PlayerManager can make changes to the player objects
 
-    public Game(Player[] participants) {
+    public Game(List<Player> participants) {
         this.participants = participants;
         this.scoreTeam1 = 0;
         this.scoreTeam2 = 0;
         this.finished = false;
-        int numberOfParticipants = participants.length;
+        int numberOfParticipants = participants.size();
 
         if(numberOfParticipants == 2) {
             // game type: one on one
@@ -35,21 +35,21 @@ public class Game {
         }
     }
 
-    public Player[] getTeam1() {
+    public List<Player> getTeam1() {
         if (isOneOnOne()) {
-            return new Player[]{participants[0]};
+            return participants.subList(0, 1);
         } else {
-            return new Player[]{participants[0],participants[1]};
+            return participants.subList(0, 2);
         }
     }
 
-    public String[] getTeam1PlayerNames() {
-        String[] playerNames;
+    public List<String> getTeam1PlayerNames() {
+        List<String> playerNames = new ArrayList<>();
         if (isOneOnOne()) {
-            playerNames = new String[]{getTeam1()[0].getName()};
+            playerNames.add(participants.get(0).getName());
         } else {
-            Player[] team1 = getTeam1();
-            playerNames = new String[]{team1[0].getName(),team1[1].getName()};
+            playerNames.add(participants.get(0).getName());
+            playerNames.add(participants.get(1).getName());
         }
         return playerNames;
     }
@@ -58,21 +58,21 @@ public class Game {
         return scoreTeam1;
     }
 
-    public Player[] getTeam2() {
+    public List<Player> getTeam2() {
         if (isOneOnOne()) {
-            return new Player[]{participants[1]};
+            return participants.subList(1, 2);
         } else {
-            return new Player[]{participants[2],participants[3]};
+            return participants.subList(2, 4);
         }
     }
 
-    public String[] getTeam2PlayerNames() {
-        String[] playerNames;
+    public List<String> getTeam2PlayerNames() {
+        List<String> playerNames = new ArrayList<>();
         if (isOneOnOne()) {
-            playerNames = new String[]{getTeam2()[0].getName()};
+            playerNames.add(participants.get(1).getName());
         } else {
-            Player[] team2 = getTeam2();
-            playerNames = new String[]{team2[0].getName(),team2[1].getName()};
+            playerNames.add(participants.get(2).getName());
+            playerNames.add(participants.get(3).getName());
         }
         return playerNames;
     }

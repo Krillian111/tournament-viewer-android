@@ -89,9 +89,9 @@ class PlayerManager {
 
         // TODO: calculate ranking score (change) for all players
         int scoreTeam1 = game.getScoreTeam1();
-        String[] team1 = game.getTeam1PlayerNames();
+        List<String> team1 = game.getTeam1PlayerNames();
         int scoreTeam2 = game.getScoreTeam2();
-        String[] team2 = game.getTeam2PlayerNames();
+        List<String> team2 = game.getTeam2PlayerNames();
         if (scoreTeam1 == scoreTeam2) {
             // add a tied and a played game to both teams (played = implicitly)
             addTiedGame(team1);
@@ -114,7 +114,7 @@ class PlayerManager {
      * Add a played and a tied game to players.
      * @param playersToUpdate The players that should be updated.
      */
-    private void addTiedGame(String[] playersToUpdate) throws PlayerManagerException {
+    private void addTiedGame(List<String> playersToUpdate) throws PlayerManagerException {
         Player playerToUpdate;
         for (String playerName : playersToUpdate) {
             playerToUpdate = getPlayerByName(playerName);
@@ -127,7 +127,7 @@ class PlayerManager {
      * Add a played and a won game to players.
      * @param playersToUpdate The players that should be updated.
      */
-    private void addWonGame(String[] playersToUpdate) throws PlayerManagerException {
+    private void addWonGame(List<String> playersToUpdate) throws PlayerManagerException {
         Player playerToUpdate;
         for (String playerName : playersToUpdate) {
             playerToUpdate = getPlayerByName(playerName);
@@ -140,7 +140,7 @@ class PlayerManager {
      * Add a played and a lost game to players.
      * @param playersToUpdate The players that should be updated.
      */
-    private void addLostGame(String[] playersToUpdate) throws PlayerManagerException {
+    private void addLostGame(List<String> playersToUpdate) throws PlayerManagerException {
         Player playerToUpdate;
         for (String playerName : playersToUpdate) {
             playerToUpdate = getPlayerByName(playerName);

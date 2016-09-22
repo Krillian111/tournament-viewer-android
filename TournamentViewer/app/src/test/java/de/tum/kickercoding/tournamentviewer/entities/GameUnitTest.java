@@ -3,34 +3,38 @@ package de.tum.kickercoding.tournamentviewer.entities;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertArrayEquals;
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 
 public class GameUnitTest {
 
-    Player[] players2on2;
-
-    Player[] players1on1;
+    List<Player> players2on2;
+    List<Player> players1on1;
 
     @Before
     public void preparePlayerList(){
-        players2on2 = new Player[]{new Player("p1"),new Player("p2"),new Player("p3"),new Player("p4")};
-        players1on1 = new Player[]{new Player("p1"),new Player("p2")};
+        players2on2 = Arrays.asList(new Player("p1"), new Player("p2"), new Player("p3"), new Player("p4"));
+        players1on1 = Arrays.asList(new Player("p1"), new Player("p2"));
     }
 
     @Test
     public void test2on2Getters(){
         Game game = new Game(players2on2);
+        assertEquals(false, game.isOneOnOne());
 
-        Player[] team1 = game.getTeam1();
-        assertEquals(2, team1.length);
-        String[] team1Names = game.getTeam1PlayerNames();
-        assertArrayEquals(new String[]{"p1","p2"},team1Names);
+        List<Player> team1 = game.getTeam1();
+        assertEquals(2, team1.size());
+        List<String> team1Names = game.getTeam1PlayerNames();
+        assertEquals("p1", team1Names.get(0));
+        assertEquals("p2", team1Names.get(1));
 
-        Player[] team2 = game.getTeam2();
-        assertEquals(2, team2.length);
-        String[] team2Names = game.getTeam2PlayerNames();
-        assertArrayEquals(new String[]{"p3","p4"},team2Names);
+        List<Player> team2 = game.getTeam2();
+        assertEquals(2, team2.size());
+        List<String> team2Names = game.getTeam2PlayerNames();
+        assertEquals("p3", team2Names.get(0));
+        assertEquals("p4", team2Names.get(1));
 
         game.setScoreTeam1(2);
         game.setScoreTeam2(4);
@@ -41,20 +45,21 @@ public class GameUnitTest {
     @Test
     public void test1on1Getters(){
         Game game = new Game(players1on1);
+        assertEquals(true, game.isOneOnOne());
 
-        Player[] team1 = game.getTeam1();
-        assertEquals(2, team1.length);
-        String[] team1Names = game.getTeam1PlayerNames();
-        assertArrayEquals(new String[]{"p1","p2"},team1Names);
+        List<Player> team1 = game.getTeam1();
+        assertEquals(1, team1.size());
+        List<String> team1Names = game.getTeam1PlayerNames();
+        assertEquals("p1", team1Names.get(0));
 
-        Player[] team2 = game.getTeam2();
-        assertEquals(2, team2.length);
-        String[] team2Names = game.getTeam2PlayerNames();
-        assertArrayEquals(new String[]{"p3","p4"},team2Names);
+        List<Player> team2 = game.getTeam2();
+        assertEquals(1, team2.size());
+        List<String> team2Names = game.getTeam2PlayerNames();
+        assertEquals("p2", team2Names.get(0));
 
-        game.setScoreTeam1(2);
-        game.setScoreTeam2(4);
-        assertEquals(2,game.getScoreTeam1());
-        assertEquals(4,game.getScoreTeam2());
+        game.setScoreTeam1(4);
+        game.setScoreTeam2(2);
+        assertEquals(4,game.getScoreTeam1());
+        assertEquals(2,game.getScoreTeam2());
     }
 }
