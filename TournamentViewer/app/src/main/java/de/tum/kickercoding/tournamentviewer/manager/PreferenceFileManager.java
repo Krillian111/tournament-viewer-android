@@ -20,6 +20,8 @@ class PreferenceFileManager {
 
     private static PreferenceFileManager instance = new PreferenceFileManager();
 
+    private final String NOT_INIT = "PreferenceFileManager not initialized";
+
     // context necessary for retrieving sharedPreferences
     private Context context;
 
@@ -49,14 +51,10 @@ class PreferenceFileManager {
      */
     void addNewPlayer(Player player) throws PreferenceFileException {
         if(isInitialized()) {
-            try {
-                SharedPreferences playersListPref = context.getSharedPreferences(Constants.FILE_GLOBAL_PLAYERS_LIST, 0);
-                playersListPref.edit().putString(player.getName(), player.toString()).apply();
-            } catch (NullPointerException e){
-                throw new PreferenceFileException("PreferenceEditor not available");
-            }
+            SharedPreferences playersListPref = context.getSharedPreferences(Constants.FILE_GLOBAL_PLAYERS_LIST, 0);
+            playersListPref.edit().putString(player.getName(), player.toString()).apply();
         } else {
-            throw new PreferenceFileException("PreferenceFileManager not initialized");
+            throw new PreferenceFileException(NOT_INIT);
         }
     }
 
@@ -67,14 +65,10 @@ class PreferenceFileManager {
      */
     void removePlayer(String name) throws PreferenceFileException {
         if (isInitialized()){
-            try {
-                SharedPreferences playersListPref = context.getSharedPreferences(Constants.FILE_GLOBAL_PLAYERS_LIST, 0);
-                playersListPref.edit().remove(name).apply();
-            } catch (NullPointerException e) {
-                throw new PreferenceFileException("PreferenceEditor not available");
-            }
+            SharedPreferences playersListPref = context.getSharedPreferences(Constants.FILE_GLOBAL_PLAYERS_LIST, 0);
+            playersListPref.edit().remove(name).apply();
         } else {
-            throw new PreferenceFileException("PreferenceFileManager not initialized");
+            throw new PreferenceFileException(NOT_INIT);
         }
     }
 
@@ -85,26 +79,62 @@ class PreferenceFileManager {
      * @throws PreferenceFileException
      */
     void updatePlayer(Player updatePlayer) throws PreferenceFileException {
-        SharedPreferences playersListPref = context.getSharedPreferences(Constants.FILE_GLOBAL_PLAYERS_LIST, 0);
-
-        playersListPref.edit().putString(updatePlayer.getName(),updatePlayer.toString()).apply();
+        if(isInitialized()) {
+            SharedPreferences playersListPref = context.getSharedPreferences(Constants.FILE_GLOBAL_PLAYERS_LIST, 0);
+            playersListPref.edit().putString(updatePlayer.getName(), updatePlayer.toString()).apply();
+        } else {
+            throw new PreferenceFileException(NOT_INIT);
+        }
     }
 
     List<Player> getPlayerList() throws PreferenceFileException {
         if (isInitialized()){
-            try {
-                ArrayList<Player> playerList = new ArrayList<>();
-                SharedPreferences sharedPreferences = context.getSharedPreferences(Constants.FILE_GLOBAL_PLAYERS_LIST, 0);
-                for (Object playerAsObject: sharedPreferences.getAll().values()){
-                    Player player = Player.fromString((String) playerAsObject);
-                    playerList.add(player);
-                }
-                return playerList;
-            } catch (NullPointerException e) {
-                throw new PreferenceFileException("PreferenceEditor not available");
+            ArrayList<Player> playerList = new ArrayList<>();
+            SharedPreferences sharedPreferences = context.getSharedPreferences(Constants.FILE_GLOBAL_PLAYERS_LIST, 0);
+            for (Object playerAsObject: sharedPreferences.getAll().values()){
+                Player player = Player.fromString((String) playerAsObject);
+                playerList.add(player);
             }
+            return playerList;
         } else {
-            throw new PreferenceFileException("PreferenceFileManager not initialized");
+            throw new PreferenceFileException(NOT_INIT);
         }
     }
+
+    public int loadMaxScore() throws PreferenceFileException{
+        if(isInitialized()){
+            SharedPreferences sharedPreferences = context.getSharedPreferences(Constants.FILE_GENERAL_SETTINGS, 0);
+            return sharedPreferences.getInt(Constants.VAR_MAX_SCORE, Constants.DEFAULT_MAX_SCORE);
+        } else {
+            throw new PreferenceFileException(NOT_INIT);
+        }
+    }
+
+    public void saveMaxScore(int maxScore) throws PreferenceFileException {
+        if (isInitialized()) {
+            SharedPreferences sharedPreferences = context.getSharedPreferences(Constants.FILE_GENERAL_SETTINGS, 0);
+            sharedPreferences.edit().putInt(Constants.VAR_MAX_SCORE, Constants.DEFAULT_MAX_SCORE).apply();
+        } else {
+            throw new PreferenceFileException(NOT_INIT);
+        }
+    }
+
+    public int loadNumberOfGames() throws PreferenceFileException {
+        if (isInitialized()) {
+            SharedPreferences sharedPreferences = context.getSharedPreferences(Constants.FILE_GENERAL_SETTINGS, 0);
+            return sharedPreferences.getInt(Constants.VAR_NUMBER_OF_GAMES, Constants.DEFAULT_NUMBER_OF_GAMES);
+        } else {
+            throw new PreferenceFileException(NOT_INIT);
+        }
+    }
+
+    public void saveNumberOfGames(int maxScore) throws PreferenceFileException {
+        if (isInitialized()) {
+            SharedPreferences sharedPreferences = context.getSharedPreferences(Constants.FILE_GENERAL_SETTINGS, 0);
+            sharedPreferences.edit().putInt(Constants.VAR_NUMBER_OF_GAMES, Constants.DEFAULT_NUMBER_OF_GAMES).apply();
+        } else {
+            throw new PreferenceFileException(NOT_INIT);
+        }
+    }
+
 }

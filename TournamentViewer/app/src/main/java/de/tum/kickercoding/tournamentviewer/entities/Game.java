@@ -77,29 +77,40 @@ public class Game {
         return playerNames;
     }
 
-    // TODO: validate score in GameManager (0 <= score <= max_score)
-    public int getScoreTeam2() {
-        return scoreTeam2;
-    }
+	// TODO: validate score in GameManager (0 <= score <= max_score)
+	public int getScoreTeam2() {
+		return scoreTeam2;
+	}
 
-    public boolean isFinished() {
-        return finished;
-    }
+	public boolean isFinished() {
+		return finished;
+	}
 
-    public boolean isOneOnOne() {
-        return oneOnOne;
-    }
+	public boolean isOneOnOne() {
+		return oneOnOne;
+	}
 
-    // TODO: validate score in GameManager (0 <= score <= max_score)
-    public void setScoreTeam1(int scoreTeam1) {
-        this.scoreTeam1 = scoreTeam1;
-    }
+	// TODO: validate score in GameManager (0 <= score <= max_score)
+	public void setScoreTeam1(int scoreTeam1) {
+		this.scoreTeam1 = scoreTeam1;
+	}
 
-    public void setScoreTeam2(int scoreTeam2) {
-        this.scoreTeam2 = scoreTeam2;
-    }
+	public void setScoreTeam2(int scoreTeam2) {
+		this.scoreTeam2 = scoreTeam2;
+	}
 
-    public void setFinished(boolean finished) {
-        this.finished = finished;
-    }
+	public void setFinished(boolean finished) {
+		this.finished = finished;
+	}
+
+
+	// TODO: implement toString
+	@Override
+	public String toString() {
+		if(isOneOnOne()){
+			return String.format("1_%s_%s_%d_%d_%b",getTeam1PlayerNames()[0],getTeam2PlayerNames()[0],getScoreTeam1(),getScoreTeam2(),isFinished());
+		} else {
+			return String.format("2_%s_%s_%s_%s_%d_%d_%b",getTeam1PlayerNames()[0],getTeam1PlayerNames()[1],getTeam2PlayerNames()[0],getTeam2PlayerNames()[1],getScoreTeam1(),getScoreTeam2(),isFinished());
+		}
+	}
 }

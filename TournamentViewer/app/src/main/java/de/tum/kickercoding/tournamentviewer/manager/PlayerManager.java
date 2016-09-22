@@ -58,14 +58,14 @@ class PlayerManager {
      * @param name The name of the {@link Player} to remove.
      * @throws PlayerManagerException
      */
-    void removePlayer(String name) throws PlayerManagerException {
+    boolean removePlayer(String name) {
         for(Player p : players) {
             if(p.getName().equals(name)) {
                 players.remove(p);
-                return;
+                return true;
             }
         }
-        throw new PlayerManagerException("Failed to remove player");
+        return false;
     }
 
     /**
@@ -170,12 +170,20 @@ class PlayerManager {
      * @return The {@link Player} with the given name.
      * @throws PlayerManagerException If there is no {@link Player} with the given name.
      */
-    public Player getPlayerByName(String name) throws PlayerManagerException {
+    Player getPlayerByName(String name) throws PlayerManagerException {
         for (Player player : players) {
             if (player.getName() == name) {
                 return player;
             }
         }
         throw new PlayerManagerException("No player found for the requested name");
+    }
+
+    Player getPlayerByPosition(int position) throws PlayerManagerException {
+        try {
+            return players.get(position);
+        } catch (IndexOutOfBoundsException e) {
+            throw new PlayerManagerException(String.format("No player at position %d", position));
+        }
     }
 }
