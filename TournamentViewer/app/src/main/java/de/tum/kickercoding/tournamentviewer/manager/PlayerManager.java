@@ -89,7 +89,7 @@ class PlayerManager {
 	 * @param game The {@link Game} that should be committed.
 	 */
 	void commitGameResult(Game game) throws PlayerManagerException {
-		if (game.isResultCommited()) {
+		if (game.isResultCommitted()) {
 			throw new PlayerManagerException("Error: game was already committed");
 		}
 		if (!game.isFinished()) {
@@ -117,7 +117,7 @@ class PlayerManager {
 			addLostGame(team1);
 			// TODO: update ranking score of all players
 		}
-		game.setResultCommited(true);
+		game.setResultCommitted(true);
 	}
 
 	/**

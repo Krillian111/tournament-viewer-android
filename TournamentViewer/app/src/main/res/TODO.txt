@@ -8,3 +8,10 @@ TODOs:
 - MonsterDYPMatchmakingUtil implements MatchmakingUtil
 
 - unit tests (entities)
+
+- implement safety against silent process killing by android:
+-- AppManager is not initialized by default
+-- getInstance checks for initialized, else initializes all Managers -> no active initialization by StartActivity necessary
+-- implement Parcelable for Tournament (implies Game and Player)
+-- save Tournament in correct method (onDestroy?)
+-- all other activities should be checked to work without saving a state
