@@ -6,9 +6,9 @@ import android.content.SharedPreferences;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.tum.kickercoding.tournamentviewer.util.Constants;
 import de.tum.kickercoding.tournamentviewer.entities.Player;
 import de.tum.kickercoding.tournamentviewer.exceptions.PreferenceFileException;
+import de.tum.kickercoding.tournamentviewer.util.Constants;
 
 
 /**
@@ -112,8 +112,8 @@ class PreferenceFileManager {
 
     public void saveMaxScore(int maxScore) throws PreferenceFileException {
         if (isInitialized()) {
-            SharedPreferences sharedPreferences = context.getSharedPreferences(Constants.FILE_GENERAL_SETTINGS, 0);
-            sharedPreferences.edit().putInt(Constants.VAR_MAX_SCORE, Constants.DEFAULT_MAX_SCORE).apply();
+			SharedPreferences sharedPreferences = context.getSharedPreferences(Constants.FILE_GENERAL_SETTINGS, 0);
+            sharedPreferences.edit().putInt(Constants.VAR_MAX_SCORE, maxScore).apply();
         } else {
             throw new PreferenceFileException(NOT_INIT);
         }
@@ -128,10 +128,10 @@ class PreferenceFileManager {
         }
     }
 
-    public void saveNumberOfGames(int maxScore) throws PreferenceFileException {
+    public void saveNumberOfGames(int numberOfGames) throws PreferenceFileException {
         if (isInitialized()) {
             SharedPreferences sharedPreferences = context.getSharedPreferences(Constants.FILE_GENERAL_SETTINGS, 0);
-            sharedPreferences.edit().putInt(Constants.VAR_NUMBER_OF_GAMES, Constants.DEFAULT_NUMBER_OF_GAMES).apply();
+            sharedPreferences.edit().putInt(Constants.VAR_NUMBER_OF_GAMES, numberOfGames).apply();
         } else {
             throw new PreferenceFileException(NOT_INIT);
         }

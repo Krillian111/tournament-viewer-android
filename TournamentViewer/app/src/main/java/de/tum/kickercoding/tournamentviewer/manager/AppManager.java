@@ -13,6 +13,7 @@ import de.tum.kickercoding.tournamentviewer.exceptions.AppManagerException;
 import de.tum.kickercoding.tournamentviewer.exceptions.PlayerManagerException;
 import de.tum.kickercoding.tournamentviewer.exceptions.PreferenceFileException;
 import de.tum.kickercoding.tournamentviewer.exceptions.TournamentManagerException;
+import de.tum.kickercoding.tournamentviewer.util.Constants;
 import de.tum.kickercoding.tournamentviewer.util.TournamentMode;
 
 /**
@@ -131,13 +132,24 @@ public class AppManager {
 		playerManager.commitPlayerList();
 	}
 
+	public void commitGameResults() throws AppManagerException {
+		try {
+			for(Game game: tournamentManager.getGamesToCommit()){
+				playerManager.commitGameResult(game);
+			}
+		} catch (PlayerManagerException e) {
+			throw new AppManagerException(e.getMessage());
+		}
+	}
+
+
 	/**
 	 * load max score from settings
 	 *
 	 * @return the currently set max score
 	 * @throws AppManagerException
 	 */
-	public int loadMaxScore() throws AppManagerException {
+	public int getMaxScore() throws AppManagerException {
 		try {
 			return preferenceFileManager.loadMaxScore();
 		} catch (PreferenceFileException e) {
@@ -151,7 +163,7 @@ public class AppManager {
 	 * @param maxScore
 	 * @throws AppManagerException
 	 */
-	public void saveMaxScore(int maxScore) throws AppManagerException {
+	public void setMaxScore(int maxScore) throws AppManagerException {
 		try {
 			preferenceFileManager.saveMaxScore(maxScore);
 		} catch (PreferenceFileException e) {
@@ -165,7 +177,7 @@ public class AppManager {
 	 * @return the currently set number of game
 	 * @throws AppManagerException
 	 */
-	public int loadNumberOfGames() throws AppManagerException {
+	public int getNumberOfGames() throws AppManagerException {
 		try {
 			return preferenceFileManager.loadNumberOfGames();
 		} catch (PreferenceFileException e) {
@@ -179,22 +191,12 @@ public class AppManager {
 	 * @param maxScore
 	 * @throws AppManagerException
 	 */
-	public void saveNumberOfGames(int maxScore) throws AppManagerException {
+	public void setNumberOfGames(int maxScore) throws AppManagerException {
 		try {
-			preferenceFileManager.saveMaxScore(maxScore);
+			preferenceFileManager.saveNumberOfGames(maxScore);
 		} catch (PreferenceFileException e) {
 			throw new AppManagerException(e.getMessage());
 		}
-	}
-
-	/**
-	 * generic method to display an error message as a Toast
-	 *
-	 * @param context
-	 * @param message
-	 */
-	public void displayError(Context context, String message) {
-		Toast.makeText(context, message, Toast.LENGTH_LONG).show();
 	}
 
 	/**
@@ -221,7 +223,7 @@ public class AppManager {
 	}
 
 	/**
-	 * checks if player is already signed up
+	 * checks if player is already signed up (i.e. in the list of players for the current tournament)
 	 *
 	 * @param player
 	 * @return true if player is signed up, false else
@@ -242,12 +244,43 @@ public class AppManager {
 		tournamentManager.generateGame();
 	}
 
+	/**
+	 * generate as many games as possible such that each player participates in at most one game
+	 */
 	public void generateRound(){
 		tournamentManager.generateRound();
 	}
 
 	public void removeLastGame(){
 		tournamentManager.removeLastGame();
+	}
+
+	public void finalizeGame(int position, int scoreTeam1, int scoreTeam2) throws AppManagerException{
+		try {
+			tournamentManager.finalizeGame(position,scoreTeam1,scoreTeam2);
+		} catch (TournamentManagerException e) {
+			throw new AppManagerException(e.getMessage());
+		}
+	}
+
+	/**
+	 * generic method to display an error message as a Toast
+	 *
+	 * @param context
+	 * @param message
+	 */
+	public void displayError(Context context, String message) {
+		Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+	}
+
+	/**
+	 * method to display an error message as a Toast which tells the user to save the results because the app
+	 * encountered an error which is most likely going to crash the app if ignored
+	 *
+	 * @param context
+	 */
+	public void displayFatalError(Context context) {
+		Toast.makeText(context, Constants.ERROR_DETECTED_SAVE_YOUR_RESULTS, Toast.LENGTH_LONG).show();
 	}
 
 	private void logDebug(String message) {

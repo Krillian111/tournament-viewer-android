@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 
 import de.tum.kickercoding.tournamentviewer.R;
@@ -28,7 +29,16 @@ public class TournamentStatsFragment extends Fragment {
 	@Override
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		ListView tournamentStats = (ListView) view.findViewById(R.id.list_view_tournament_stats);
-		tournamentStats.setAdapter(new TournamentStatsAdapter(getActivity()));
+		final ListView tournamentStats = (ListView) view.findViewById(R.id.list_view_tournament_stats);
+		final TournamentStatsAdapter adapter = new TournamentStatsAdapter(getActivity());
+		tournamentStats.setAdapter(adapter);
+
+		Button refreshButton = (Button) view.findViewById(R.id.button_refresh_tournamen_stats);
+		refreshButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View buttonView) {
+				adapter.notifyDataSetChanged();
+			}
+		});
 	}
 }

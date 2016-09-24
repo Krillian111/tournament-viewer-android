@@ -23,7 +23,13 @@
     <string name="button_add_game">+Game</string>
     <string name="button_add_round">+Round</string>
     <string name="button_remove_last_game">-Game</string>
-
+    <string name="team_1">Team 1</string>
+    <string name="team_2">Team 2</string>
+    <string name="title_edit_game">Set the scores:</string>
+    <string name="button_edit_game_confirm">Confirm</string>
+    <string name="button_edit_game_cancel">Cancel</string>
+    <string name="button_commit_results">Commit</string>
+    <string name="button_refresh">Refresh</string>
 
     <!-- Placeholder -->
     <string name="button_plus">+</string>

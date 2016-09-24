@@ -101,6 +101,7 @@ public class Player {
 
     // Players with identical name need to return true; if change needed all utility methods based
     // on name need to be changed as well!
+	//TODO: IMPLEMENT METHOD COMPARETO FOR CONSISTENCY
     @Override
     public boolean equals(Object o) {
         if(o instanceof Player) {

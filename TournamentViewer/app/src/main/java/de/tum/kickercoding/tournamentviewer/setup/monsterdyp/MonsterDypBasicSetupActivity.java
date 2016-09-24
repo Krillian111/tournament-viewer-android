@@ -43,7 +43,7 @@ public class MonsterDypBasicSetupActivity extends AppCompatActivity {
 	private void saveGameSettings(View view) throws AppManagerException {
 		int maxScore = Integer.parseInt(((EditText) view.findViewById(R.id.editable_max_score)).getText().toString());
 		int numberOfGames = Integer.parseInt(((EditText) view.findViewById(R.id.editable_number_games)).getText().toString());
-		AppManager.getInstance().saveMaxScore(maxScore);
-		AppManager.getInstance().saveNumberOfGames(numberOfGames);
+		AppManager.getInstance().setMaxScore(maxScore);
+		AppManager.getInstance().setNumberOfGames(numberOfGames);
 	}
 }

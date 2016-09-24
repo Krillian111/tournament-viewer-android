@@ -22,8 +22,8 @@ public class Tournament {
 	}
 
 	public boolean removeLastGame() {
-		if(games.size() != 0){
-			games.remove(games.size()-1);
+		if (games.size() != 0) {
+			games.remove(games.size() - 1);
 			return true;
 		} else {
 			return false;
@@ -32,6 +32,10 @@ public class Tournament {
 
 	public List<Game> getGames() {
 		return games;
+	}
+
+	public Game getGame(int position) {
+		return games.get(position);
 	}
 
 	public void addPlayer(Player player) {
@@ -50,7 +54,15 @@ public class Tournament {
 		this.maxScore = maxScore;
 	}
 
+	public int getMaxScore() {
+		return maxScore;
+	}
+
 	public void setNumberOfGames(int numberOfGames) {
 		this.numberOfGames = numberOfGames;
+	}
+
+	public int getNumberOfGames() {
+		return numberOfGames;
 	}
 }

@@ -6,18 +6,22 @@ import java.util.List;
 // TODO: add comments to methods/class
 public class Game {
 
-    private boolean finished;
-    private boolean oneOnOne;
+	// TODO: "make sure" that only the PlayerManager can make changes to the player objects
+	// 1on1: 1st vs 2nd participant, 2on2: 1st/2nd vs 3rd/4th participant
+	private List<Player> participants;
     private int scoreTeam1;
     private int scoreTeam2;
-    // 1on1: 1st vs 2nd participant, 2on2: 1st/2nd vs 3rd/4th participant
-    private List<Player> participants; // TODO: "make sure" that only the PlayerManager can make changes to the player objects
+	private boolean finished;
+	private boolean oneOnOne;
+    private boolean resultCommited;
 
-    public Game(List<Player> participants) {
+
+	public Game(List<Player> participants) {
         this.participants = participants;
         this.scoreTeam1 = 0;
         this.scoreTeam2 = 0;
         this.finished = false;
+		this.resultCommited = false;
         int numberOfParticipants = participants.size();
 
         if(numberOfParticipants == 2) {
@@ -112,5 +116,13 @@ public class Game {
 		} else {
 			return String.format("2_%s_%s_%s_%s_%d_%d_%b",getTeam1PlayerNames().get(0),getTeam1PlayerNames().get(1),getTeam2PlayerNames().get(0),getTeam2PlayerNames().get(1),getScoreTeam1(),getScoreTeam2(),isFinished());
 		}
+	}
+
+	public boolean isResultCommited() {
+		return resultCommited;
+	}
+
+	public void setResultCommited(boolean resultCommited) {
+		this.resultCommited = resultCommited;
 	}
 }

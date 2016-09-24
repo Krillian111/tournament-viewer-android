@@ -39,15 +39,15 @@ public class BasicSetupFragment extends Fragment {
 		attachButtonListener(view);
 	}
 
-	private void setInitialSetupValues(View view){
+	private void setInitialSetupValues(View view) {
 		try {
-			String maxScore = "" + AppManager.getInstance().loadMaxScore();
-			String numberOfGames = "" + AppManager.getInstance().loadNumberOfGames();
+			String maxScore = "" + AppManager.getInstance().getMaxScore();
+			String numberOfGames = "" + AppManager.getInstance().getNumberOfGames();
 			((EditText) view.findViewById(R.id.editable_max_score)).setText(maxScore);
 			((EditText) view.findViewById(R.id.editable_number_games)).setText(numberOfGames);
 		} catch (AppManagerException e) {
 			AppManager.getInstance().displayError(getActivity(), "could not load settings, default values used");
-			Log.d(BasicSetupFragment.class.toString(), "onViewCreated: " + e.getMessage());
+			Log.e(BasicSetupFragment.class.toString(), "setInitialSetupValues: " + e.getMessage());
 			((EditText) view.findViewById(R.id.editable_max_score)).setText(Constants.DEFAULT_MAX_SCORE.toString());
 			((EditText) view.findViewById(R.id.editable_number_games)).setText(Constants.DEFAULT_NUMBER_OF_GAMES.toString());
 		}
@@ -55,28 +55,28 @@ public class BasicSetupFragment extends Fragment {
 
 	private void attachButtonListener(View view) {
 		Button decrementScoreButton = (Button) view.findViewById(R.id.button_setup_decrement_score);
-		decrementScoreButton.setOnClickListener(new View.OnClickListener(){
+		decrementScoreButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View buttonView) {
 				decrementMaxScore(buttonView);
 			}
 		});
 		Button incrementScoreButton = (Button) view.findViewById(R.id.button_setup_increment_score);
-		incrementScoreButton.setOnClickListener(new View.OnClickListener(){
+		incrementScoreButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View buttonView) {
 				incrementMaxScore(buttonView);
 			}
 		});
 		Button decrementGamesButton = (Button) view.findViewById(R.id.button_setup_decrement_games);
-		decrementGamesButton.setOnClickListener(new View.OnClickListener(){
+		decrementGamesButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View buttonView) {
 				decrementNumberOfGames(buttonView);
 			}
 		});
 		Button incrementGamesButton = (Button) view.findViewById(R.id.button_setup_increment_games);
-		incrementGamesButton.setOnClickListener(new View.OnClickListener(){
+		incrementGamesButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View buttonView) {
 				incrementNumberOfGames(buttonView);

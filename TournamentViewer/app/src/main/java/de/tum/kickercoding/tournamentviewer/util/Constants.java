@@ -30,4 +30,6 @@ public class Constants {
 
     public static final String DELIMITER = "_";
 
+    public static final String ERROR_DETECTED_SAVE_YOUR_RESULTS = "Error detected, do not proceed, save your results!";
+
 }

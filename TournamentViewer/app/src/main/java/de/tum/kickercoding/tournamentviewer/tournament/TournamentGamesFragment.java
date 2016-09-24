@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import de.tum.kickercoding.tournamentviewer.R;
+import de.tum.kickercoding.tournamentviewer.exceptions.AppManagerException;
 import de.tum.kickercoding.tournamentviewer.manager.AppManager;
 
 public class TournamentGamesFragment extends Fragment {
@@ -35,8 +36,7 @@ public class TournamentGamesFragment extends Fragment {
 		tournamentGames.setAdapter(new TournamentGamesAdapter(getActivity()));
 
 		Button addGameButton = (Button) view.findViewById(R.id.button_add_game_to_tournament);
-
-		addGameButton.setOnClickListener(new View.OnClickListener(){
+		addGameButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View buttonView) {
 				AppManager.getInstance().generateGame();
@@ -46,8 +46,7 @@ public class TournamentGamesFragment extends Fragment {
 		});
 
 		Button addRoundButton = (Button) view.findViewById(R.id.button_add_round_to_tournament);
-
-		addRoundButton.setOnClickListener(new View.OnClickListener(){
+		addRoundButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View buttonView) {
 				AppManager.getInstance().generateRound();
@@ -57,8 +56,7 @@ public class TournamentGamesFragment extends Fragment {
 		});
 
 		Button deleteLastGameButton = (Button) view.findViewById(R.id.button_delete_last_game_from_tournament);
-
-		deleteLastGameButton.setOnClickListener(new View.OnClickListener(){
+		deleteLastGameButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View buttonView) {
 				AppManager.getInstance().removeLastGame();
@@ -66,5 +64,21 @@ public class TournamentGamesFragment extends Fragment {
 				((TournamentGamesAdapter) tournamentGamesListView.getAdapter()).notifyDataSetChanged();
 			}
 		});
+
+		Button commitResultsButton = (Button) view.findViewById(R.id.button_commit_results);
+		commitResultsButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View buttonView) {
+				try {
+					AppManager.getInstance().commitGameResults();
+					// TODO: implement tournamentStatsAdapter notifydatasetchanged()
+				} catch (AppManagerException e) {
+					AppManager.getInstance().displayError(getContext(), e.toString());
+				}
+				ListView tournamentGamesListView = (ListView) view.findViewById(R.id.list_view_tournament_games);
+				((TournamentGamesAdapter) tournamentGamesListView.getAdapter()).notifyDataSetChanged();
+			}
+		});
+
 	}
 }

@@ -2,6 +2,7 @@ package de.tum.kickercoding.tournamentviewer.manager;
 
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.tum.kickercoding.tournamentviewer.entities.Game;
@@ -54,10 +55,6 @@ class TournamentManager {
 		}
 	}
 
-	List<Game> startNewRound() {
-		return null;
-	}
-
 	boolean toggleParticipation(Player player) {
 		if (currentTournament.getPlayers().contains(player)) {
 			removePlayer(player);
@@ -95,6 +92,44 @@ class TournamentManager {
 		addGame(game);
 	}
 
+	void addGame(Game game) {
+		currentTournament.addGame(game);
+	}
+
+	boolean removeLastGame() {
+		return currentTournament.removeLastGame();
+	}
+
+	List<Game> getGames() {
+		return currentTournament.getGames();
+	}
+
+	List<Game> getGamesToCommit() {
+		List<Game> gamesToCommit = new ArrayList<>();
+		for(Game game: currentTournament.getGames()){
+			if(!game.isFinished()){
+				gamesToCommit.add(game);
+			}
+		}
+		return gamesToCommit;
+	}
+
+	//TODO: handle editing finished game (how do we allow "admin edit" or just extra confirm?)
+	void finalizeGame(int position, int scoreTeam1, int scoreTeam2) throws TournamentManagerException {
+		int maxScore = currentTournament.getMaxScore();
+		if (position >= getGames().size()) {
+			throw new IndexOutOfBoundsException("game with position " + position + " does not exist");
+		} else if (scoreTeam1 > maxScore || scoreTeam2 > maxScore || scoreTeam1 < 0 || scoreTeam2 < 0) {
+			throw new TournamentManagerException(String.format("one of the entered scores is invalid: team1:%d, " +
+					"team2:%d", scoreTeam1, scoreTeam2));
+		} else {
+			Game gameToBeFinalized = currentTournament.getGame(position);
+			gameToBeFinalized.setScoreTeam1(scoreTeam1);
+			gameToBeFinalized.setScoreTeam2(scoreTeam2);
+			gameToBeFinalized.setFinished(true);
+		}
+	}
+
 	void addPlayer(Player player) {
 		currentTournament.addPlayer(player);
 	}
@@ -110,25 +145,5 @@ class TournamentManager {
 
 	List<Player> getPlayers() {
 		return currentTournament.getPlayers();
-	}
-
-	void addGame(Game game) {
-		currentTournament.addGame(game);
-	}
-
-	boolean removeLastGame() {
-		return currentTournament.removeLastGame();
-	}
-
-	List<Game> getGames() {
-		return currentTournament.getGames();
-	}
-
-	boolean isOneOnOne() {
-		return oneOnOne;
-	}
-
-	void setOneOnOne(boolean oneOnOne) {
-		this.oneOnOne = oneOnOne;
 	}
 }
