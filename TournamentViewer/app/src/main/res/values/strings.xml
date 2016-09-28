@@ -30,6 +30,14 @@
     <string name="button_edit_game_cancel">Cancel</string>
     <string name="button_commit_results">Commit</string>
     <string name="button_refresh">Refresh</string>
+    <string name="header_player_rank">#</string>
+    <string name="header_player_name">Name</string>
+    <string name="header_player_games_total">Games</string>
+    <string name="header_player_games_won">Games</string>
+    <string name="header_player_games_lost">Games</string>
+    <string name="header_player_games_tied">Games</string>
+    <string name="header_player_ranking">Score</string>
+
 
     <!-- Placeholder -->
     <string name="button_plus">+</string>

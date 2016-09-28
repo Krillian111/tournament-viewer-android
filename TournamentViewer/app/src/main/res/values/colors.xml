@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="text_standard">#000000</color>
+    <color name="text_header">#303F9F</color>
     <color name="player_signed_up">#66CC8A</color>
     <color name="player_not_signed_up">#FFFFFF</color>
-
 </resources>

@@ -46,11 +46,11 @@ public class TournamentGamesAdapter extends BaseAdapter implements ListAdapter {
 		View view = convertView;
 		if (view == null) {
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			view = inflater.inflate(R.layout.item_tournament_stats, null);
+			view = inflater.inflate(R.layout.item_tournament_games, null);
 		}
 
 		//Handle TextView and display player name
-		TextView listItemText = (TextView) view.findViewById(R.id.tournament_stats_item_text_view);
+		TextView listItemText = (TextView) view.findViewById(R.id.tournament_game_item_text_view);
 		listItemText.setText(getItem(position).toString());
 
 		// add alertDialog to allow changing values of games
@@ -120,7 +120,8 @@ public class TournamentGamesAdapter extends BaseAdapter implements ListAdapter {
 					AppManager.getInstance().finalizeGame(position, np1.getValue(), np2.getValue());
 				} catch (AppManagerException e) {
 					Log.e(TournamentGamesAdapter.class.toString(), String.format("couldnt finalize game, " +
-							"invalid input: position:%d, score1:%d, score2:%d", position, np1.getValue(), np2.getValue()));
+							"invalid input: position:%d, score1:%d, score2:%d", position, np1.getValue(), np2.getValue
+							()));
 				}
 				notifyDataSetChanged();
 				dialog.dismiss();
