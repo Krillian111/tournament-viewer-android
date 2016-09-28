@@ -1,51 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="8pt"
-            android:textColor="@color/text_header"
             android:layout_weight="10"
-            android:text="@string/header_player_rank"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="8pt"
+            android:text="@string/header_player_rank"
             android:textColor="@color/text_header"
-            android:layout_weight="60"
-            android:text="@string/header_player_name"/>
+            android:textSize="8pt"/>
+
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="8pt"
+            android:layout_weight="50"
+            android:maxLines="1"
+            android:text="@string/header_player_name"
+            android:textAlignment="viewStart"
             android:textColor="@color/text_header"
-            android:layout_weight="10"
-            android:textAlignment="center"
-            android:text="@string/header_player_games_total"/>
+            android:textSize="8pt"/>
+
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="8pt"
-            android:textColor="@color/text_header"
             android:layout_weight="20"
+            android:maxLines="1"
+            android:text="@string/header_player_games_total"
             android:textAlignment="center"
-            android:text="@string/header_player_ranking"/>
+            android:textColor="@color/text_header"
+            android:textSize="8pt"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="20"
+            android:maxLines="1"
+            android:text="@string/header_player_ranking"
+            android:textAlignment="center"
+            android:textColor="@color/text_header"
+            android:textSize="8pt"/>
     </LinearLayout>
+
     <ListView
         android:id="@+id/list_view_tournament_stats"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@color/text_standard"
-        android:dividerHeight="0.1dp" >
+        android:dividerHeight="0.1dp">
     </ListView>
+
     <Button
         android:id="@+id/button_refresh_tournamen_stats"
         android:layout_width="wrap_content"
