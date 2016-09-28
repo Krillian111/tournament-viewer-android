@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="10"
         android:textColor="@color/text_standard"
-        android:textSize="8pt"/>
+        android:textSize="@dimen/text_default_size"/>
 
     <TextView
         android:id="@+id/tournament_stats_item_name"
@@ -21,7 +21,7 @@
         android:layout_weight="50"
         android:textAlignment="viewStart"
         android:textColor="@color/text_standard"
-        android:textSize="8pt"/>
+        android:textSize="@dimen/text_default_size"/>
 
     <TextView
         android:id="@+id/tournament_stats_item_played_games"
@@ -30,7 +30,7 @@
         android:layout_weight="20"
         android:textAlignment="center"
         android:textColor="@color/text_standard"
-        android:textSize="8pt"/>
+        android:textSize="@dimen/text_default_size"/>
 
     <TextView
         android:id="@+id/tournament_stats_item_ranking"
@@ -39,5 +39,5 @@
         android:layout_weight="20"
         android:textAlignment="center"
         android:textColor="@color/text_standard"
-        android:textSize="8pt"/>
+        android:textSize="@dimen/text_default_size"/>
 </LinearLayout>

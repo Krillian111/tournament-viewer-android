@@ -17,7 +17,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="10pt"
-                android:text="@string/team_1"
+                android:text="@string/header_team_1"
                 android:layout_weight="50"
                 android:textAlignment="center"/>
             <NumberPicker
@@ -35,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="10pt"
-                android:text="@string/team_2"
+                android:text="@string/header_team_2"
                 android:textAlignment="center"/>
             <NumberPicker
                 android:id="@+id/edit_game_number_picker_2"

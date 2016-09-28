@@ -1,11 +1,8 @@
 TODOs:
-- TournamentManager
 
-- entity tournament (if necessary)
+- save player list permanently
 
-- interface MatchmakingUtil (specifically MonsterDYP)
-
-- MonsterDYPMatchmakingUtil implements MatchmakingUtil
+- inconsistency regarding sortting of players with equal games played
 
 - unit tests (entities)
 
@@ -15,3 +12,6 @@ TODOs:
 -- implement Parcelable for Tournament (implies Game and Player)
 -- save Tournament in correct method (onDestroy?)
 -- all other activities should be checked to work without saving a state
+
+- switch button texts for proper images (add, delete, signup etc.)
+

@@ -1,35 +1,47 @@
 <resources>
+    <!-- ###################### -->
+    <!-- Globals -->
+    <!-- ###################### -->
     <string name="app_name">TournamentViewer</string>
-    <!-- Preference file-->
     <string name="preference_file">de.tum.kickercoding.tournamentviewer.shared_pref_file</string>
-    <!-- Start -->
+    <!-- ###################### -->
+    <!-- Start Menu-->
+    <!-- ###################### -->
     <string name="edit_message">Enter a message</string>
     <string name="button_monsterdyp">MonsterDYP</string>
+    <!-- ###################### -->
     <!-- Monster Dyp Setup Basic Setup-->
+    <!-- ###################### -->
     <string name="button_next">Next</string>
     <string name="message_maxscore">Max Score</string>
     <string name="message_defaultmaxscore">7</string>
     <string name="message_numberofgames">Number of games</string>
     <string name="message_defaultnumberofgames">1</string>
+    <string name="button_plus">+</string>
+    <string name="button_minus">-</string>
+    <!-- ###################### -->
     <!-- Monster Dyp Player Setup-->
+    <!-- ###################### -->
     <string name="message_newPlayerDefault">New Player</string>
-
-    <!-- Monster Dyp Setup-->
     <string name="button_addplayer">Add</string>
     <string name="button_delete">DEL</string>
     <string name="button_toggle_participation">Sign up</string>
 
+    <!-- ###################### -->
     <!-- Monster Dyp Tournament -->
+    <!-- ###################### -->
     <string name="button_add_game">+Game</string>
     <string name="button_add_round">+Round</string>
     <string name="button_remove_last_game">-Game</string>
-    <string name="team_1">Team 1</string>
-    <string name="team_2">Team 2</string>
+    <string name="header_team_1">Team 1</string>
+    <string name="header_team_2">Team 2</string>
+    <string name="header_game_score">Score</string>
     <string name="title_edit_game">Set the scores:</string>
     <string name="button_edit_game_confirm">Confirm</string>
     <string name="button_edit_game_cancel">Cancel</string>
     <string name="button_commit_results">Commit</string>
     <string name="button_refresh">Refresh</string>
+
     <string name="header_player_rank">#</string>
     <string name="header_player_name">Name</string>
     <string name="header_player_games_total">Games</string>
@@ -37,10 +49,5 @@
     <string name="header_player_games_lost">Games</string>
     <string name="header_player_games_tied">Games</string>
     <string name="header_player_ranking">Score</string>
-
-
-    <!-- Placeholder -->
-    <string name="button_plus">+</string>
-    <string name="button_minus">-</string>
 
 </resources>

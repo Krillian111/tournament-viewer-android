@@ -12,6 +12,8 @@ import android.widget.ListAdapter;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
+import java.util.List;
+
 import de.tum.kickercoding.tournamentviewer.R;
 import de.tum.kickercoding.tournamentviewer.entities.Game;
 import de.tum.kickercoding.tournamentviewer.exceptions.AppManagerException;
@@ -50,9 +52,7 @@ public class TournamentGamesAdapter extends BaseAdapter implements ListAdapter {
 		}
 
 		//Handle TextView and display player name
-		TextView listItemText = (TextView) view.findViewById(R.id.tournament_game_item_text_view);
-		listItemText.setText(getItem(position).toString());
-
+		populateTextViews(view, position);
 		// add alertDialog to allow changing values of games
 		view.setClickable(true);
 		view.setOnClickListener(new View.OnClickListener() {
@@ -63,6 +63,23 @@ public class TournamentGamesAdapter extends BaseAdapter implements ListAdapter {
 			}
 		});
 		return view;
+	}
+
+	private void populateTextViews(View view, int position) {
+		Game game = (Game) getItem(position);
+		List<String> namesTeam1 = game.getTeam1PlayerNames();
+		String team1InView = namesTeam1.get(0) + "\n" + namesTeam1.get(1);
+		List<String> namesTeam2 = game.getTeam2PlayerNames();
+		String team2InView = namesTeam2.get(0) + "\n" + namesTeam2.get(1);
+		prepareTextView(view, R.id.tournament_game_item_team_1, team1InView);
+		prepareTextView(view, R.id.tournament_game_item_team_2, team2InView);
+		prepareTextView(view, R.id.tournament_game_item_score, game.getScoreTeam1() + ":" + game.getScoreTeam2());
+
+	}
+
+	private void prepareTextView(View view, int id, String text) {
+		TextView textView = (TextView) view.findViewById(id);
+		textView.setText(text);
 	}
 
 	private Dialog createEditGameDialog(Context context, View viewItem, int position) {

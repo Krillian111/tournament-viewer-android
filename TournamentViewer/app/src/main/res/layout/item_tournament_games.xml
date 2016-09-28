@@ -1,15 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/tournament_game_item_root"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
     <TextView
-        android:id="@+id/tournament_game_item_text_view"
-        android:layout_width="wrap_content"
+        android:id="@+id/tournament_game_item_team_1"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="8pt"
-        android:textColor="@color/text_standard"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true" />
-</RelativeLayout>
+        android:layout_weight="35"
+        android:maxLines="2"
+        android:text="@string/header_team_1"
+        android:textColor="@color/text_header"
+        android:textSize="@dimen/text_default_size"/>
+
+    <TextView
+        android:id="@+id/tournament_game_item_team_2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="35"
+        android:maxLines="2"
+        android:text="@string/header_team_2"
+        android:textColor="@color/text_header"
+        android:textSize="@dimen/text_default_size"/>
+
+    <TextView
+        android:id="@+id/tournament_game_item_score"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="30"
+        android:text="@string/header_game_score"
+        android:textAlignment="center"
+        android:textColor="@color/text_header"
+        android:textSize="@dimen/text_default_size"/>
+
+</LinearLayout>
