@@ -30,7 +30,6 @@ class TournamentManager {
 
 	private Tournament currentTournament;
 
-	private boolean oneOnOne = false;
 
 	void initialize(TournamentMode mode) {
 		this.currentTournament = new Tournament();
@@ -71,7 +70,7 @@ class TournamentManager {
 
 	void generateRound() {
 		List<Game> newGames;
-		if (oneOnOne) {
+		if (isOneOnOne()) {
 			newGames = matchmaking.generateRound1on1(getPlayers());
 		} else {
 			newGames = matchmaking.generateRound2on2(getPlayers());
@@ -84,7 +83,7 @@ class TournamentManager {
 
 	void generateGame() {
 		Game game;
-		if (oneOnOne) {
+		if (isOneOnOne()) {
 			game = matchmaking.generateGame1on1(getPlayers());
 		} else {
 			game = matchmaking.generateGame2on2(getPlayers());
@@ -106,8 +105,8 @@ class TournamentManager {
 
 	List<Game> getGamesToCommit() {
 		List<Game> gamesToCommit = new ArrayList<>();
-		for(Game game: currentTournament.getGames()){
-			if(!game.isFinished()){
+		for (Game game : currentTournament.getGames()) {
+			if (!game.isFinished()) {
 				gamesToCommit.add(game);
 			}
 		}
@@ -145,5 +144,9 @@ class TournamentManager {
 
 	List<Player> getPlayers() {
 		return currentTournament.getPlayers();
+	}
+
+	public boolean isOneOnOne() {
+		return currentTournament.isOneOnOne();
 	}
 }
