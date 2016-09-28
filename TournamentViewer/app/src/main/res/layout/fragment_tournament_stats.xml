@@ -13,7 +13,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="10"
+            android:layout_weight="5"
             android:text="@string/header_player_rank"
             android:textColor="@color/text_header"
             android:textSize="@dimen/header_default_size"/>
@@ -21,7 +21,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="50"
+            android:layout_weight="45"
             android:maxLines="1"
             android:text="@string/header_player_name"
             android:textAlignment="viewStart"
@@ -31,9 +31,19 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="20"
+            android:layout_weight="15"
             android:maxLines="1"
             android:text="@string/header_player_games_total"
+            android:textAlignment="center"
+            android:textColor="@color/text_header"
+            android:textSize="@dimen/header_default_size"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="15"
+            android:maxLines="1"
+            android:text="@string/header_player_games_won"
             android:textAlignment="center"
             android:textColor="@color/text_header"
             android:textSize="@dimen/header_default_size"/>

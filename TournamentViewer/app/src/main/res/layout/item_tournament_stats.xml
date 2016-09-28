@@ -10,7 +10,7 @@
         android:id="@+id/tournament_stats_item_rank"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="10"
+        android:layout_weight="5"
         android:textColor="@color/text_standard"
         android:textSize="@dimen/text_default_size"/>
 
@@ -18,16 +18,25 @@
         android:id="@+id/tournament_stats_item_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="50"
+        android:layout_weight="45"
         android:textAlignment="viewStart"
         android:textColor="@color/text_standard"
         android:textSize="@dimen/text_default_size"/>
 
     <TextView
-        android:id="@+id/tournament_stats_item_played_games"
+        android:id="@+id/tournament_stats_item_games_played"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="20"
+        android:layout_weight="15"
+        android:textAlignment="center"
+        android:textColor="@color/text_standard"
+        android:textSize="@dimen/text_default_size"/>
+
+    <TextView
+        android:id="@+id/tournament_stats_item_games_won"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="15"
         android:textAlignment="center"
         android:textColor="@color/text_standard"
         android:textSize="@dimen/text_default_size"/>

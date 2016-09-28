@@ -44,10 +44,10 @@
 
     <string name="header_player_rank">#</string>
     <string name="header_player_name">Name</string>
-    <string name="header_player_games_total">Games</string>
-    <string name="header_player_games_won">Games</string>
-    <string name="header_player_games_lost">Games</string>
-    <string name="header_player_games_tied">Games</string>
+    <string name="header_player_games_total">G</string>
+    <string name="header_player_games_won">W</string>
+    <string name="header_player_games_lost">L</string>
+    <string name="header_player_games_tied">T</string>
     <string name="header_player_ranking">Score</string>
 
 </resources>

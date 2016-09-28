@@ -45,9 +45,10 @@ public class TournamentStatsAdapter extends BaseAdapter implements ListAdapter {
 		}
 
 		Player player = (Player) getItem(position);
-		prepareTextView(view, R.id.tournament_stats_item_rank, "" + position);
+		prepareTextView(view, R.id.tournament_stats_item_rank, "" + (position + 1));
 		prepareTextView(view, R.id.tournament_stats_item_name, player.getName());
-		prepareTextView(view, R.id.tournament_stats_item_played_games, "" + player.getPlayedGames());
+		prepareTextView(view, R.id.tournament_stats_item_games_played, "" + player.getPlayedGames());
+		prepareTextView(view, R.id.tournament_stats_item_games_won, "" + player.getWonGames());
 		prepareTextView(view, R.id.tournament_stats_item_ranking, "" + player.getRankingScore());
 		return view;
 	}
