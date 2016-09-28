@@ -91,6 +91,125 @@ class TournamentManager {
 		addGame(game);
 	}
 
+	/**
+	 * Commit results of all finished but not yet committed games.
+	 */
+	void commitGameResults() throws TournamentManagerException {
+		List<Game> games = getGamesToCommit();
+		for (Game game : games) {
+			commitGameResult(game);
+		}
+	}
+
+	private void commitGameResult(Game game) throws TournamentManagerException {
+		if (game.isResultCommitted()) {
+			throw new TournamentManagerException("Error: game was already committed");
+		}
+		if (!game.isFinished()) {
+			throw new TournamentManagerException("Cannot commit unfinished game");
+		}
+
+		// TODO: calculate ranking score (change) for all players
+		int scoreTeam1 = game.getScoreTeam1();
+		List<String> team1 = game.getTeam1PlayerNames();
+		int scoreTeam2 = game.getScoreTeam2();
+		List<String> team2 = game.getTeam2PlayerNames();
+		if (scoreTeam1 == scoreTeam2) {
+			// add a tied and a played game to both teams (played = implicitly)
+			addTiedGame(team1);
+			addTiedGame(team2);
+			// TODO: update ranking score of all players
+		} else if (scoreTeam1 > scoreTeam2) {
+			// add a won game to team 1, a lost game to team 2 and a played game to both teams (played = implicitly)
+			addWonGame(team1);
+			addLostGame(team2);
+			// TODO: update ranking score of all players
+		} else {
+			// add a won game to team 2, a lost game to team 1 and a played game to both teams (played = implicitly)
+			addWonGame(team2);
+			addLostGame(team1);
+			// TODO: update ranking score of all players
+		}
+		game.setResultCommitted(true);
+		if (isOneOnOne()) {
+			Log.d(TournamentManager.class.toString(), String.format("commitGameResult: game %s vs %s was commited " +
+					"with result (%d:%d)", team1.get(0), team2.get(0), scoreTeam1, scoreTeam2));
+		} else {
+			Log.d(TournamentManager.class.toString(), String.format("commitGameResult: game with team1(%s,%s) vs " +
+							"team2(%s,%s) was commited with result (%d:%d)",
+					team1.get(0), team1.get(1), team2.get(0), team2.get(1), scoreTeam1, scoreTeam2));
+		}
+
+	}
+
+	private List<Game> getGamesToCommit() {
+		List<Game> gamesToCommit = new ArrayList<>();
+		for (Game game : currentTournament.getGames()) {
+			if (game.isFinished() && !game.isResultCommitted()) {
+				gamesToCommit.add(game);
+			}
+		}
+		return gamesToCommit;
+	}
+
+	/**
+	 * Add a played and a tied game to players.
+	 *
+	 * @param playersToUpdate The players that should be updated.
+	 */
+	private void addTiedGame(List<String> playersToUpdate) throws TournamentManagerException {
+		Player playerToUpdate;
+		for (String playerName : playersToUpdate) {
+			playerToUpdate = getPlayerByName(playerName);
+			playerToUpdate.setPlayedGames(playerToUpdate.getPlayedGames() + 1);
+			playerToUpdate.setTiedGames(playerToUpdate.getTiedGames() + 1);
+		}
+	}
+
+	/**
+	 * Add a played and a won game to players.
+	 *
+	 * @param playersToUpdate The players that should be updated.
+	 */
+	private void addWonGame(List<String> playersToUpdate) throws TournamentManagerException {
+		Player playerToUpdate;
+		for (String playerName : playersToUpdate) {
+			playerToUpdate = getPlayerByName(playerName);
+			playerToUpdate.setPlayedGames(playerToUpdate.getPlayedGames() + 1);
+			playerToUpdate.setWonGames(playerToUpdate.getWonGames() + 1);
+		}
+	}
+
+	/**
+	 * Add a played and a lost game to players.
+	 *
+	 * @param playersToUpdate The players that should be updated.
+	 */
+	private void addLostGame(List<String> playersToUpdate) throws TournamentManagerException {
+		Player playerToUpdate;
+		for (String playerName : playersToUpdate) {
+			playerToUpdate = getPlayerByName(playerName);
+			playerToUpdate.setPlayedGames(playerToUpdate.getPlayedGames() + 1);
+			playerToUpdate.setLostGames(playerToUpdate.getLostGames() + 1);
+		}
+	}
+
+	/**
+	 * Get the {@link Player} for a specific name.
+	 *
+	 * @param name The name of the {@link Player} you want to get.
+	 * @return The {@link Player} with the given name.
+	 * @throws TournamentManagerException If there is no {@link Player} with the given name.
+	 */
+	Player getPlayerByName(String name) throws TournamentManagerException {
+		for (Player player : getPlayers()) {
+			if (player.getName() == name) {
+				return player;
+			}
+		}
+		throw new TournamentManagerException("No player found for the requested name");
+	}
+
 	void addGame(Game game) {
 		currentTournament.addGame(game);
 	}
@@ -101,16 +220,6 @@ class TournamentManager {
 
 	List<Game> getGames() {
 		return currentTournament.getGames();
-	}
-
-	List<Game> getGamesToCommit() {
-		List<Game> gamesToCommit = new ArrayList<>();
-		for (Game game : currentTournament.getGames()) {
-			if (!game.isFinished()) {
-				gamesToCommit.add(game);
-			}
-		}
-		return gamesToCommit;
 	}
 
 	//TODO: handle editing finished game (how do we allow "admin edit" or just extra confirm?)

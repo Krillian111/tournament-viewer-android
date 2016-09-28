@@ -134,14 +134,19 @@ public class TournamentGamesAdapter extends BaseAdapter implements ListAdapter {
 			@Override
 			public void onClick(View v) {
 				try {
-					AppManager.getInstance().finalizeGame(position, np1.getValue(), np2.getValue());
+					if (np1.getValue() == getMaxScore(context) || np2.getValue() == getMaxScore(context)) {
+						AppManager.getInstance().finalizeGame(position, np1.getValue(), np2.getValue());
+						notifyDataSetChanged();
+						dialog.dismiss();
+					} else {
+						AppManager.getInstance().displayError(context, "At least one team needs to have maximum " +
+								"score!");
+					}
 				} catch (AppManagerException e) {
 					Log.e(TournamentGamesAdapter.class.toString(), String.format("couldnt finalize game, " +
 							"invalid input: position:%d, score1:%d, score2:%d", position, np1.getValue(), np2.getValue
 							()));
 				}
-				notifyDataSetChanged();
-				dialog.dismiss();
 			}
 		});
 	}

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/tournament_stats_header_line"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -53,6 +53,7 @@
         android:id="@+id/list_view_tournament_stats"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/tournament_stats_header_line"
         android:divider="@color/text_standard"
         android:dividerHeight="0.1dp">
     </ListView>
@@ -61,5 +62,6 @@
         android:id="@+id/button_refresh_tournamen_stats"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:text="@string/button_refresh"/>
-</LinearLayout>
+</RelativeLayout>

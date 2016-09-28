@@ -37,7 +37,10 @@ public class TournamentStatsFragment extends Fragment {
 		refreshButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View buttonView) {
-				adapter.notifyDataSetChanged();
+				View parentView = (View) buttonView.getParent();
+				ListView listViewToRefresh = (ListView) parentView.findViewById(R.id.list_view_tournament_stats);
+				TournamentStatsAdapter listAdapter = (TournamentStatsAdapter) listViewToRefresh.getAdapter();
+				listAdapter.notifyDataSetChanged();
 			}
 		});
 	}

@@ -4,6 +4,8 @@ TODOs:
 
 - inconsistency regarding sortting of players with equal games played
 
+- add entity Match to allow multiple modelling games
+
 - unit tests (entities)
 
 - implement safety against silent process killing by android:

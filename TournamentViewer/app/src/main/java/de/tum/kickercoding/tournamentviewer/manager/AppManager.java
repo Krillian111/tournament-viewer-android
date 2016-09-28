@@ -132,17 +132,6 @@ public class AppManager {
 		playerManager.commitPlayerList();
 	}
 
-	public void commitGameResults() throws AppManagerException {
-		try {
-			for(Game game: tournamentManager.getGamesToCommit()){
-				playerManager.commitGameResult(game);
-			}
-		} catch (PlayerManagerException e) {
-			throw new AppManagerException(e.getMessage());
-		}
-	}
-
-
 	/**
 	 * load max score from settings
 	 *
@@ -223,6 +212,18 @@ public class AppManager {
 	}
 
 	/**
+	 * Commit results of all finished but not yet committed games.
+	 */
+	public void commitGameResults() throws AppManagerException {
+		try {
+			tournamentManager.commitGameResults();
+		} catch (TournamentManagerException e) {
+			throw new AppManagerException(e.getMessage());
+		}
+	}
+
+
+	/**
 	 * checks if player is already signed up (i.e. in the list of players for the current tournament)
 	 *
 	 * @param player
@@ -247,17 +248,17 @@ public class AppManager {
 	/**
 	 * generate as many games as possible such that each player participates in at most one game
 	 */
-	public void generateRound(){
+	public void generateRound() {
 		tournamentManager.generateRound();
 	}
 
-	public void removeLastGame(){
+	public void removeLastGame() {
 		tournamentManager.removeLastGame();
 	}
 
-	public void finalizeGame(int position, int scoreTeam1, int scoreTeam2) throws AppManagerException{
+	public void finalizeGame(int position, int scoreTeam1, int scoreTeam2) throws AppManagerException {
 		try {
-			tournamentManager.finalizeGame(position,scoreTeam1,scoreTeam2);
+			tournamentManager.finalizeGame(position, scoreTeam1, scoreTeam2);
 		} catch (TournamentManagerException e) {
 			throw new AppManagerException(e.getMessage());
 		}
