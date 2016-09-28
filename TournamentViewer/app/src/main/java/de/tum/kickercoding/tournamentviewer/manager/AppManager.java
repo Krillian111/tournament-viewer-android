@@ -216,7 +216,7 @@ public class AppManager {
 	 */
 	public void commitGameResults() throws AppManagerException {
 		try {
-			tournamentManager.commitGameResults();
+			tournamentManager.commitGames();
 		} catch (TournamentManagerException e) {
 			throw new AppManagerException(e.getMessage());
 		}

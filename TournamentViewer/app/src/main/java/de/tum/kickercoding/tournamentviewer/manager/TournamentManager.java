@@ -94,14 +94,14 @@ class TournamentManager {
 	/**
 	 * Commit results of all finished but not yet committed games.
 	 */
-	void commitGameResults() throws TournamentManagerException {
+	void commitGames() throws TournamentManagerException {
 		List<Game> games = getGamesToCommit();
 		for (Game game : games) {
-			commitGameResult(game);
+			commitGame(game);
 		}
 	}
 
-	private void commitGameResult(Game game) throws TournamentManagerException {
+	private void commitGame(Game game) throws TournamentManagerException {
 		if (game.isResultCommitted()) {
 			throw new TournamentManagerException("Error: game was already committed");
 		}
@@ -132,10 +132,10 @@ class TournamentManager {
 		}
 		game.setResultCommitted(true);
 		if (isOneOnOne()) {
-			Log.d(TournamentManager.class.toString(), String.format("commitGameResult: game %s vs %s was commited " +
+			Log.d(TournamentManager.class.toString(), String.format("commitGame: game %s vs %s was commited " +
 					"with result (%d:%d)", team1.get(0), team2.get(0), scoreTeam1, scoreTeam2));
 		} else {
-			Log.d(TournamentManager.class.toString(), String.format("commitGameResult: game with team1(%s,%s) vs " +
+			Log.d(TournamentManager.class.toString(), String.format("commitGame: game with team1(%s,%s) vs " +
 							"team2(%s,%s) was commited with result (%d:%d)",
 					team1.get(0), team1.get(1), team2.get(0), team2.get(1), scoreTeam1, scoreTeam2));
 		}
