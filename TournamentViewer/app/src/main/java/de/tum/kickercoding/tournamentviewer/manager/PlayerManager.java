@@ -64,13 +64,9 @@ class PlayerManager {
 	 * @throws PlayerManagerException
 	 */
 	boolean removePlayer(String name) {
-		for (Player p : players) {
-			if (p.getName().equals(name)) {
-				players.remove(p);
-				return true;
-			}
-		}
-		return false;
+		// players with same name are considered equal, see player.equals()
+		Player dummyPlayer = new Player(name);
+		return players.remove(dummyPlayer);
 	}
 
 	/**
