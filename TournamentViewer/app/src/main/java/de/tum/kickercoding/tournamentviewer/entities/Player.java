@@ -12,6 +12,10 @@ import java.util.Locale;
 
 public class Player implements Parcelable {
 
+	/**
+	 * IF FIELDS ARE ADDED/REMOVED: UPDATE PARCELABLE INTERFACE METHODS
+	 */
+
 	private static final String DECIMAL_PATTERN = "#0.00###";
 
 	// IMPORTANT: adjust writeToParcel when adding new fields

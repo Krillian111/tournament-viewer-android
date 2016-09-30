@@ -11,6 +11,10 @@ import java.util.List;
 // TODO: write unit tests
 public class Tournament implements Parcelable {
 
+	/**
+	 * IF FIELDS ARE ADDED/REMOVED: UPDATE PARCELABLE INTERFACE METHODS
+	 */
+
 	private List<Player> players = new ArrayList<>();
 
 	private List<Game> games = new ArrayList<>();

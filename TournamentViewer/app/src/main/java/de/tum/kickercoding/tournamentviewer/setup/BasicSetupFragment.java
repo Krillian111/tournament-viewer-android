@@ -23,10 +23,6 @@ public class BasicSetupFragment extends Fragment {
 	public BasicSetupFragment() {
 	}
 
-	public static BasicSetupFragment getInstance() {
-		return new BasicSetupFragment();
-	}
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {

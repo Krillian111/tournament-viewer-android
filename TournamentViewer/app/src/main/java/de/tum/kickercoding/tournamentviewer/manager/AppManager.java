@@ -128,7 +128,7 @@ public class AppManager {
 	}
 
 	/**
-	 * commit all changes to the list of players to the SharedPreferences
+	 * commit all changes to the list of players to permanent storage
 	 *
 	 * @throws AppManagerException
 	 */
@@ -198,6 +198,8 @@ public class AppManager {
 
 	/**
 	 * initialize tournament
+	 *
+	 * @throws AppManagerException
 	 */
 	public void startNewTournament() throws AppManagerException {
 		try {
@@ -207,6 +209,11 @@ public class AppManager {
 		}
 	}
 
+	/**
+	 * Finishes up the tournament, write changes to players to permanent storage
+	 *
+	 * @throws AppManagerException
+	 */
 	public void finishTournament() throws AppManagerException {
 		try {
 			tournamentManager.finishTournament();
@@ -224,6 +231,7 @@ public class AppManager {
 	 *
 	 * @param player
 	 * @return true if player signed up as result of pressing button, false otherwise
+	 * @throws AppManagerException
 	 */
 	public boolean toggleParticipation(Player player) throws AppManagerException {
 		try {
@@ -235,6 +243,8 @@ public class AppManager {
 
 	/**
 	 * Commit results of all finished but not yet committed games.
+	 *
+	 * @throws AppManagerException
 	 */
 	public void commitGameResults() throws AppManagerException {
 		try {
@@ -263,6 +273,11 @@ public class AppManager {
 		return tournamentManager.getGames();
 	}
 
+	/**
+	 * generate a single game for the Tournament
+	 *
+	 * @throws AppManagerException
+	 */
 	public void generateGame() throws AppManagerException {
 		try {
 			tournamentManager.generateGame();
@@ -273,6 +288,8 @@ public class AppManager {
 
 	/**
 	 * generate as many games as possible such that each player participates in at most one game
+	 *
+	 * @throws AppManagerException
 	 */
 	public void generateRound() throws AppManagerException {
 		try {
@@ -282,6 +299,11 @@ public class AppManager {
 		}
 	}
 
+	/**
+	 * remove the game which was created last
+	 *
+	 * @throws AppManagerException
+	 */
 	public void removeLastGame() throws AppManagerException {
 		try {
 			tournamentManager.removeLastGame();
@@ -290,6 +312,14 @@ public class AppManager {
 		}
 	}
 
+	/**
+	 * finish up a game, making it eligible for commitment of results
+	 *
+	 * @param position
+	 * @param scoreTeam1
+	 * @param scoreTeam2
+	 * @throws AppManagerException
+	 */
 	public void finalizeGame(int position, int scoreTeam1, int scoreTeam2) throws AppManagerException {
 		try {
 			tournamentManager.finalizeGame(position, scoreTeam1, scoreTeam2);

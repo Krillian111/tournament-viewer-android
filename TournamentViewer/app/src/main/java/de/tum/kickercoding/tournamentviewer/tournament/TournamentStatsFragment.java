@@ -15,11 +15,7 @@ public class TournamentStatsFragment extends Fragment {
 
 	public TournamentStatsFragment() {
 	}
-
-	public static TournamentStatsFragment newInstance() {
-		return new TournamentStatsFragment();
-	}
-
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {

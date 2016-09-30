@@ -18,10 +18,6 @@ public class TournamentGamesFragment extends Fragment {
 	public TournamentGamesFragment() {
 	}
 
-	public static TournamentGamesFragment newInstance() {
-		return new TournamentGamesFragment();
-	}
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {

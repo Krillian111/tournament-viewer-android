@@ -20,5 +20,6 @@ TODOs:
 -- save Tournament in correct method (onDestroy?)
 -- all other activities should be checked to work without saving a state
 
-- switch button texts for proper images (add, delete, signup etc.)
+- switch button texts for proper icons (add, delete, signup etc.)
 
+- add custom launcher icon

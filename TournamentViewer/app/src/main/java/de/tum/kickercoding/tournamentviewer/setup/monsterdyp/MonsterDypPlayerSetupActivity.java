@@ -18,7 +18,7 @@ public class MonsterDypPlayerSetupActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_monster_dyp_player_setup);
 	}
 
-	public void startTournament(View view) {
+	public void goToTournament(View view) {
 		try {
 			saveSelectedPlayers();
 		} catch (AppManagerException e) {
