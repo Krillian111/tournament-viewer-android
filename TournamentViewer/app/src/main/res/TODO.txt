@@ -2,9 +2,14 @@ TODOs:
 
 - save player list permanently
 
-- inconsistency regarding sortting of players with equal games played
+- inconsistency regarding sorting of players with equal games played
 
 - add entity Match to allow multiple modelling games
+
+- add win/losses/ties etc. for tournament (otherwise only accumulated games etc. are displayed)
+-- calculate ranking score as ratio of currentWins/currentGames
+
+- check for at least 2 or 4 players when starting tournament
 
 - unit tests (entities)
 
