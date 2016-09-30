@@ -167,7 +167,7 @@ public class Player implements Parcelable {
 
 	/****************************
 	 * hand written (de)serialization using json
-	 * reason: as "interface methods" of serializable would need to be wrapped into stream
+	 * reason: "interface methods" of serializable would need to be wrapped into stream
 	 * parsing methods to generate the actual serialization
 	 *****************************/
 	public String toJson() {
@@ -175,7 +175,7 @@ public class Player implements Parcelable {
 		return gson.toJson(this);
 	}
 
-	public static Player fromJson(String playerAsJson) throws IllegalArgumentException {
+	public static Player fromJson(String playerAsJson) {
 		Gson gson = new Gson();
 		return gson.fromJson(playerAsJson, Player.class);
 	}
