@@ -65,7 +65,7 @@ public class AppManager {
 
 	/**
 	 * add new Player;
-	 * to permanently save this action call {@link #commitChanges()}
+	 * to permanently save this action call {@link #commitPlayerList()}
 	 *
 	 * @param name: name of the player
 	 * @throws AppManagerException
@@ -81,7 +81,7 @@ public class AppManager {
 
 	/**
 	 * delete player with specified name;
-	 * to permanently save this action call {@link #commitChanges()}
+	 * to permanently save this action call {@link #commitPlayerList()}
 	 *
 	 * @param name
 	 * @throws AppManagerException
@@ -128,7 +128,7 @@ public class AppManager {
 	 *
 	 * @throws AppManagerException
 	 */
-	public void commitChanges() throws AppManagerException {
+	public void commitPlayerList() throws AppManagerException {
 		playerManager.commitPlayerList();
 	}
 

@@ -30,6 +30,6 @@ public class MonsterDypPlayerSetupActivity extends AppCompatActivity {
 	}
 
 	private void saveSelectedPlayers() throws AppManagerException {
-		AppManager.getInstance().commitChanges();
+		AppManager.getInstance().commitPlayerList();
 	}
 }
