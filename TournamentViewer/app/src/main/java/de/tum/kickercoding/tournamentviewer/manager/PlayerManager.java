@@ -57,6 +57,18 @@ class PlayerManager {
 		players.add(newPlayer);
 	}
 
+
+	void updatePlayer(Player playerToUpdate) throws PlayerManagerException {
+		for (int i = 0;i < players.size();i++) {
+			if (players.get(i).equals(playerToUpdate)) {
+				players.set(i, playerToUpdate);
+				return;
+			}
+		}
+		throw new PlayerManagerException(String.format("Player update failed: player %s does not exist in global " +
+				"player list", playerToUpdate.getName()));
+	}
+
 	/**
 	 * Remove {@link Player} from player list.
 	 *
@@ -91,8 +103,14 @@ class PlayerManager {
 	/**
 	 * commits the current player list with all its changes to the preference file
 	 */
-	void commitPlayerList() {
-		// TODO: implement
+	void commitPlayerList() throws PlayerManagerException {
+		for (Player p : players) {
+			try {
+				preferenceFileManager.savePlayer(p);
+			} catch (PreferenceFileException e) {
+				throw new PlayerManagerException(e.getMessage());
+			}
+		}
 	}
 
 	Player getPlayerByPosition(int position) throws PlayerManagerException {

@@ -65,7 +65,7 @@ public class AppManager {
 
 	/**
 	 * add new Player;
-	 * to permanently save this action call {@link #commitChanges()}
+	 * to permanently save this action call {@link #commitPlayerList()}
 	 *
 	 * @param name: name of the player
 	 * @throws AppManagerException
@@ -81,7 +81,7 @@ public class AppManager {
 
 	/**
 	 * delete player with specified name;
-	 * to permanently save this action call {@link #commitChanges()}
+	 * to permanently save this action call {@link #commitPlayerList()}
 	 *
 	 * @param name
 	 * @throws AppManagerException
@@ -89,7 +89,11 @@ public class AppManager {
 	public void removePlayer(String name) throws AppManagerException {
 		playerManager.removePlayer(name);
 		// removes player from tournament as well (to prevent inconsistency)
-		tournamentManager.removePlayer(name);
+		try {
+			tournamentManager.removePlayer(name);
+		} catch (TournamentManagerException e) {
+			throw new AppManagerException(e.getMessage());
+		}
 	}
 
 	/**
@@ -128,8 +132,12 @@ public class AppManager {
 	 *
 	 * @throws AppManagerException
 	 */
-	public void commitChanges() throws AppManagerException {
-		playerManager.commitPlayerList();
+	public void commitPlayerList() throws AppManagerException {
+		try {
+			playerManager.commitPlayerList();
+		} catch (PlayerManagerException e) {
+			throw new AppManagerException(e.getMessage());
+		}
 	}
 
 	/**
@@ -199,16 +207,30 @@ public class AppManager {
 		}
 	}
 
+	public void finishTournament() throws AppManagerException {
+		try {
+			tournamentManager.finishTournament();
+			for (Player player : tournamentManager.getPlayers()) {
+				playerManager.updatePlayer(player);
+			}
+			playerManager.commitPlayerList();
+		} catch (TournamentManagerException | PlayerManagerException e) {
+			throw new AppManagerException(e.getMessage());
+		}
+	}
+
 	/**
 	 * adds player to tournament or removes player if already signed up
 	 *
 	 * @param player
 	 * @return true if player signed up as result of pressing button, false otherwise
 	 */
-	public boolean toggleParticipation(Player player) {
-		boolean playerAdded = tournamentManager.toggleParticipation(player);
-		logDebug("Player " + player.getName() + " added to tournament: " + playerAdded);
-		return playerAdded;
+	public boolean toggleParticipation(Player player) throws AppManagerException {
+		try {
+			return tournamentManager.toggleParticipation(player);
+		} catch (TournamentManagerException e) {
+			throw new AppManagerException(e.getMessage());
+		}
 	}
 
 	/**
@@ -241,19 +263,31 @@ public class AppManager {
 		return tournamentManager.getGames();
 	}
 
-	public void generateGame() {
-		tournamentManager.generateGame();
+	public void generateGame() throws AppManagerException {
+		try {
+			tournamentManager.generateGame();
+		} catch (TournamentManagerException e) {
+			throw new AppManagerException(e.getMessage());
+		}
 	}
 
 	/**
 	 * generate as many games as possible such that each player participates in at most one game
 	 */
-	public void generateRound() {
-		tournamentManager.generateRound();
+	public void generateRound() throws AppManagerException {
+		try {
+			tournamentManager.generateRound();
+		} catch (TournamentManagerException e) {
+			throw new AppManagerException(e.getMessage());
+		}
 	}
 
-	public void removeLastGame() {
-		tournamentManager.removeLastGame();
+	public void removeLastGame() throws AppManagerException {
+		try {
+			tournamentManager.removeLastGame();
+		} catch (TournamentManagerException e) {
+			throw new AppManagerException(e.getMessage());
+		}
 	}
 
 	public void finalizeGame(int position, int scoreTeam1, int scoreTeam2) throws AppManagerException {
