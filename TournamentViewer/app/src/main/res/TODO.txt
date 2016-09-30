@@ -1,18 +1,6 @@
 TODOs:
 
-- save player list permanently
-
-- inconsistency regarding sorting of players with equal games played
-
-- add entity Match to allow multiple modelling games
-
-- add win/losses/ties etc. for tournament (otherwise only accumulated games etc. are displayed)
--- calculate ranking score as ratio of currentWins/currentGames
-
-- check for at least 2 or 4 players when starting tournament
-
-- unit tests (entities)
-
+0.
 - implement safety against silent process killing by android:
 -- AppManager is not initialized by default
 -- getInstance checks for initialized, else initializes all Managers -> no active initialization by StartActivity necessary
@@ -20,6 +8,39 @@ TODOs:
 -- save Tournament in correct method (onDestroy?)
 -- all other activities should be checked to work without saving a state
 
+1. save tournament in playersetupactivity and tournamentactivity
+
+2. add win/losses/ties etc. for tournament (otherwise only accumulated games etc. are displayed)
+2.1. calculate ranking score as ratio of currentWins/currentGames
+2.2 sort players by ranking
+
+3. add button to commit tournament
+
+5. add entity Match to allow multiple modelling games
+
+
+- implement fragment communication (no refresh/commit button)
+
+- implement adjusting scores
+
+- add player detail view
+
+- check for at least 2 or 4 players when starting tournament
+
+- unit tests (entities)
+
+- move "-GAME" button to game detail view
+
 - switch button texts for proper icons (add, delete, signup etc.)
 
 - add custom launcher icon
+
+
+
+minor features:
+- external ladder from start screen
+- add tabbed view for tournament
+
+major features:
+- add more sophisticated rating (e.g. elo)
+- add mode for mixed teams
