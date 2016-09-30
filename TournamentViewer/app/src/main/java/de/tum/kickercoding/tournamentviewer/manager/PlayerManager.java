@@ -6,7 +6,6 @@ import java.util.List;
 import de.tum.kickercoding.tournamentviewer.entities.Player;
 import de.tum.kickercoding.tournamentviewer.exceptions.PlayerManagerException;
 import de.tum.kickercoding.tournamentviewer.exceptions.PreferenceFileException;
-import de.tum.kickercoding.tournamentviewer.util.Constants;
 
 
 // TODO: add comments to methods/class
@@ -45,11 +44,6 @@ class PlayerManager {
 	 * @throws PlayerManagerException If there are symbols that are not allowed in the name of the {@link Player}.
 	 */
 	void addPlayer(String name) throws PlayerManagerException {
-		if (name.contains(Constants.DELIMITER)) {
-			throw new PlayerManagerException(String.format("Invalid character: %s (underscore)", Constants
-					.DELIMITER));
-		}
-
 		Player newPlayer = new Player(name);
 		if (players.contains(newPlayer)) {
 			throw new PlayerManagerException(String.format("Player %s already exists", name));

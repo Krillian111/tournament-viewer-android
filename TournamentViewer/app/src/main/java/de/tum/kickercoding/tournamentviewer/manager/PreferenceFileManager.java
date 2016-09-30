@@ -48,21 +48,8 @@ class PreferenceFileManager {
 	void savePlayer(Player player) throws PreferenceFileException {
 		if (isInitialized()) {
 			SharedPreferences pref = context.getSharedPreferences(Constants.FILE_GLOBAL_PLAYERS_LIST, 0);
-			String playerAsString = pref.getString(player.getName(), null);
-			if (playerAsString != null) {
-				updatePlayer(pref, player);
-			} else {
-				addPlayer(pref, player);
-			}
+			pref.edit().putString(player.getName(), player.toJson()).apply();
 		} else throw new PreferenceFileException(NOT_INIT);
-	}
-
-	private void addPlayer(SharedPreferences pref, Player player) throws PreferenceFileException {
-		pref.edit().putString(player.getName(), player.toJson()).apply();
-	}
-
-	private void updatePlayer(SharedPreferences pref, Player updatePlayer) throws PreferenceFileException {
-		pref.edit().putString(updatePlayer.getName(), updatePlayer.toJson()).apply();
 	}
 
 	/**
