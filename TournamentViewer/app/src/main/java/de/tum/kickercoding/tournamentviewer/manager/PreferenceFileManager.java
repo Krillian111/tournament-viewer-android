@@ -45,7 +45,7 @@ class PreferenceFileManager {
 		return (context != null);
 	}
 
-	void setPlayer(Player player) throws PreferenceFileException {
+	void savePlayer(Player player) throws PreferenceFileException {
 		if (isInitialized()) {
 			SharedPreferences pref = context.getSharedPreferences(Constants.FILE_GLOBAL_PLAYERS_LIST, 0);
 			String playerAsString = pref.getString(player.getName(), null);
