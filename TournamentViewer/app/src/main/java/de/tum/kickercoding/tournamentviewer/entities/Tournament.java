@@ -3,6 +3,8 @@ package de.tum.kickercoding.tournamentviewer.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +25,18 @@ public class Tournament implements Parcelable {
 	}
 
 	public void addGame(Game game) throws IllegalArgumentException {
+		// all players need to be registered for the tournament
+		List<Player> playersForGame = new ArrayList<>();
+		playersForGame.addAll(game.getTeam1());
+		playersForGame.addAll(game.getTeam2());
+
+		for (Player p : playersForGame) {
+			if (!players.contains(p)) {
+				throw new IllegalArgumentException(String.format("Game contains player %s who is not registered for " +
+						"the tournament", p.getName()));
+			}
+		}
+		// check correct game type
 		if (game.isOneOnOne() == isOneOnOne()) {
 			games.add(game);
 		} else {
@@ -122,4 +136,20 @@ public class Tournament implements Parcelable {
 		numberOfGames = in.readInt();
 		oneOnOne = in.readInt() != 0;
 	}
+
+	/****************************
+	 * hand written (de)serialization using json
+	 * reason: as "interface methods" of serializable would need to be wrapped into stream
+	 * parsing methods to generate the actual serialization
+	 *****************************/
+	public String toJson() {
+		Gson gson = new Gson();
+		return gson.toJson(this);
+	}
+
+	public static Tournament fromJson(String gameAsJson) {
+		Gson gson = new Gson();
+		return gson.fromJson(gameAsJson, Tournament.class);
+	}
+
 }
