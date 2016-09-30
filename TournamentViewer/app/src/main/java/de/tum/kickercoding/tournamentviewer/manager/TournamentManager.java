@@ -30,7 +30,6 @@ class TournamentManager {
 
 	private Tournament currentTournament;
 
-
 	void initialize(TournamentMode mode) {
 		this.currentTournament = new Tournament();
 		switch (mode) {
@@ -54,7 +53,17 @@ class TournamentManager {
 		}
 	}
 
-	boolean toggleParticipation(Player player) {
+	void finishTournament() throws TournamentManagerException {
+		if (currentTournament.isFinished()) {
+			throw new TournamentManagerException("Can't finish: Tournament was already finished previously");
+		}
+		currentTournament.setFinished(true);
+	}
+
+	boolean toggleParticipation(Player player) throws TournamentManagerException {
+		if (currentTournament.isFinished()) {
+			throw new TournamentManagerException("Can't toggle player participation: Tournament finished");
+		}
 		if (currentTournament.getPlayers().contains(player)) {
 			removePlayer(player);
 			return false;
@@ -68,7 +77,10 @@ class TournamentManager {
 		return currentTournament.getPlayers().contains(new Player(playerName));
 	}
 
-	void generateRound() {
+	void generateRound() throws TournamentManagerException {
+		if (currentTournament.isFinished()) {
+			throw new TournamentManagerException("Can't create new round: Tournament finished");
+		}
 		List<Game> newGames;
 		if (isOneOnOne()) {
 			newGames = matchmaking.generateRound1on1(getPlayers());
@@ -78,10 +90,12 @@ class TournamentManager {
 		for (Game game : newGames) {
 			addGame(game);
 		}
-
 	}
 
-	void generateGame() {
+	void generateGame() throws TournamentManagerException {
+		if (currentTournament.isFinished()) {
+			throw new TournamentManagerException("Can't create new game: Tournament finished");
+		}
 		Game game;
 		if (isOneOnOne()) {
 			game = matchmaking.generateGame1on1(getPlayers());
@@ -95,6 +109,9 @@ class TournamentManager {
 	 * Commit results of all finished but not yet committed games.
 	 */
 	void commitGames() throws TournamentManagerException {
+		if (currentTournament.isFinished()) {
+			throw new TournamentManagerException("Can't commit games: Tournament finished");
+		}
 		List<Game> games = getGamesToCommit();
 		for (Game game : games) {
 			commitGame(game);
@@ -210,11 +227,14 @@ class TournamentManager {
 		throw new TournamentManagerException("No player found for the requested name");
 	}
 
-	void addGame(Game game) {
+	private void addGame(Game game) {
 		currentTournament.addGame(game);
 	}
 
-	boolean removeLastGame() {
+	boolean removeLastGame() throws TournamentManagerException {
+		if (currentTournament.isFinished()) {
+			throw new TournamentManagerException("Can't remove game: Tournament finished");
+		}
 		return currentTournament.removeLastGame();
 	}
 
@@ -224,6 +244,9 @@ class TournamentManager {
 
 	//TODO: handle editing finished game (how do we allow "admin edit" or just extra confirm?)
 	void finalizeGame(int position, int scoreTeam1, int scoreTeam2) throws TournamentManagerException {
+		if (currentTournament.isFinished()) {
+			throw new TournamentManagerException("Can't finalize game: Tournament finished");
+		}
 		int maxScore = currentTournament.getMaxScore();
 		if (position >= getGames().size()) {
 			throw new IndexOutOfBoundsException("game with position " + position + " does not exist");
@@ -232,6 +255,9 @@ class TournamentManager {
 					"team2:%d", scoreTeam1, scoreTeam2));
 		} else {
 			Game gameToBeFinalized = currentTournament.getGame(position);
+			if (gameToBeFinalized.isResultCommitted()) {
+				throw new TournamentManagerException("Game was already committed, can't alter results");
+			}
 			gameToBeFinalized.setScoreTeam1(scoreTeam1);
 			gameToBeFinalized.setScoreTeam2(scoreTeam2);
 			gameToBeFinalized.setFinished(true);
@@ -239,14 +265,18 @@ class TournamentManager {
 	}
 
 	void addPlayer(Player player) {
+
 		currentTournament.addPlayer(player);
 	}
 
-	boolean removePlayer(Player player) {
+	private boolean removePlayer(Player player) {
 		return currentTournament.removePlayer(player);
 	}
 
-	boolean removePlayer(String name) {
+	boolean removePlayer(String name) throws TournamentManagerException {
+		if (currentTournament.isFinished()) {
+			throw new TournamentManagerException("Can't remove player: Tournament finished");
+		}
 		// use fake player to force removal; players with identical name are considered equal
 		return removePlayer(new Player(name));
 	}

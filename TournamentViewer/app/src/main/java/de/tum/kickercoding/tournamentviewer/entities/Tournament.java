@@ -21,6 +21,8 @@ public class Tournament implements Parcelable {
 
 	private boolean oneOnOne = false;
 
+	private boolean finished = false;
+
 	public Tournament() {
 	}
 
@@ -99,6 +101,14 @@ public class Tournament implements Parcelable {
 		return oneOnOne;
 	}
 
+	public boolean isFinished() {
+		return finished;
+	}
+
+	public void setFinished(boolean finished) {
+		this.finished = finished;
+	}
+
 	/**********************************
 	 * Parcelable interface methods
 	 *********************************/
@@ -116,6 +126,7 @@ public class Tournament implements Parcelable {
 		dest.writeInt(numberOfGames);
 		// use int to represent boolean (no writeBoolean method available)
 		dest.writeInt(oneOnOne ? 1 : 0);
+		dest.writeInt(finished ? 1 : 0);
 	}
 
 	// Creator
@@ -135,6 +146,7 @@ public class Tournament implements Parcelable {
 		maxScore = in.readInt();
 		numberOfGames = in.readInt();
 		oneOnOne = in.readInt() != 0;
+		finished = in.readInt() != 0;
 	}
 
 	/****************************
