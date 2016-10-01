@@ -7,7 +7,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class GameUnitTest {
@@ -66,58 +65,6 @@ public class GameUnitTest {
 	}
 
 	@Test
-	public void testToJson() {
-		List<Player> players = Arrays.asList(new Player("p1"), new Player("p2"), new Player("p3"), new Player
-				("p4"));
-		Game game = new Game(players);
-		game.setScoreTeam1(5);
-		game.setScoreTeam2(7);
-		game.setFinished(true);
-		game.setResultCommitted(false);
-		String gameAsJson = game.toJson();
-		assertEquals("{\"participants\":[" +
-				"{\"name\":\"p1\",\"playedGames\":0,\"wonGames\":0,\"lostGames\":0," + "\"tiedGames\":0," +
-				"\"rankingScore\":0.0}," +
-				"{\"name\":\"p2\",\"playedGames\":0,\"wonGames\":0," + "\"lostGames\":0," + "\"tiedGames\":0," +
-				"\"rankingScore\":0.0}," +
-				"{\"name\":\"p3\",\"playedGames\":0,\"wonGames\":0," + "\"lostGames\":0,\"tiedGames\":0," +
-				"\"rankingScore\":0.0}," +
-				"{\"name\":\"p4\"," + "\"playedGames\":0," + "\"wonGames\":0,\"lostGames\":0,\"tiedGames\":0," +
-				"\"rankingScore\":0.0}" +
-				"]," +
-				"\"scoreTeam1\":5," + "\"scoreTeam2\":7,\"finished\":true,\"oneOnOne\":false," +
-				"\"resultCommitted\":false}", gameAsJson);
-	}
-
-	@Test
-	public void testFromJson() {
-		String gameAsJson = "{\"participants\":[" +
-				"{\"name\":\"p1\",\"playedGames\":0,\"wonGames\":0,\"lostGames\":0," + "\"tiedGames\":0," +
-				"\"rankingScore\":0.0}," +
-				"{\"name\":\"p2\",\"playedGames\":0,\"wonGames\":0," + "\"lostGames\":0," + "\"tiedGames\":0," +
-				"\"rankingScore\":0.0}," +
-				"{\"name\":\"p3\",\"playedGames\":0,\"wonGames\":0," + "\"lostGames\":0,\"tiedGames\":0," +
-				"\"rankingScore\":0.0}," +
-				"{\"name\":\"p4\"," + "\"playedGames\":0," + "\"wonGames\":0,\"lostGames\":0,\"tiedGames\":0," +
-				"\"rankingScore\":0.0}" +
-				"]," +
-				"\"scoreTeam1\":5," + "\"scoreTeam2\":7,\"finished\":true,\"oneOnOne\":false," +
-				"\"resultCommitted\":false}";
-		Game game = Game.fromJson(gameAsJson);
-		assertEquals(5, game.getScoreTeam1());
-		assertEquals(7, game.getScoreTeam2());
-		assertTrue(game.isFinished());
-		assertFalse(game.isResultCommitted());
-		assertEquals(2, game.getTeam1().size());
-		assertEquals(2, game.getTeam2().size());
-		// use .equals instead of object reference via assertEquals
-		assertTrue(new Player("p1").equals(game.getTeam1().get(0)));
-		assertTrue(new Player("p2").equals(game.getTeam1().get(1)));
-		assertTrue(new Player("p3").equals(game.getTeam2().get(0)));
-		assertTrue(new Player("p4").equals(game.getTeam2().get(1)));
-	}
-
-	@Test
 	public void testToAndFromJson() {
 		List<Player> players = Arrays.asList(new Player("p1"), new Player("p2"), new Player("p3"), new Player
 				("p4"));
@@ -132,7 +79,7 @@ public class GameUnitTest {
 		assertEquals(game.getScoreTeam2(), gameFromJson.getScoreTeam2());
 		assertEquals(game.isFinished(), gameFromJson.isFinished());
 		assertEquals(game.isResultCommitted(), gameFromJson.isResultCommitted());
-		// use .equals instead of object reference via assertEquals
+		// use .equals instead of object reference via assertEquals (only checks name equality though)
 		assertTrue(game.getTeam1().get(0).equals(game.getTeam1().get(0)));
 		assertTrue(game.getTeam1().get(1).equals(game.getTeam1().get(1)));
 		assertTrue(game.getTeam2().get(0).equals(game.getTeam2().get(0)));

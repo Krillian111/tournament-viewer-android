@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="20"
             android:maxLines="1"
-            android:text="@string/header_player_ranking"
+            android:text="@string/header_player_win_rate"
             android:textAlignment="center"
             android:textColor="@color/text_header"
             android:textSize="@dimen/header_default_size"/>

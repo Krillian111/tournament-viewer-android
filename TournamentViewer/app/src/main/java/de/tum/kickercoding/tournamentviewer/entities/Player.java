@@ -9,27 +9,27 @@ import java.util.Locale;
 
 public class Player {
 
-	/**
-	 * IF FIELDS ARE ADDED/REMOVED: UPDATE PARCELABLE INTERFACE METHODS
-	 */
-
 	private static final String DECIMAL_PATTERN = "#0.00###";
 
-	// IMPORTANT: adjust writeToParcel when adding new fields
 	private String name;
-	private int playedGames;
 	private int wonGames;
 	private int lostGames;
 	private int tiedGames;
-	private double rankingScore;
+	private int wonGamesInTournament;
+	private int lostGamesInTournament;
+	private int tiedGamesInTournament;
+	private double mmr;
 
 	public Player(String name) {
 		this.name = name;
-		playedGames = 0;
 		wonGames = 0;
 		lostGames = 0;
 		tiedGames = 0;
-		rankingScore = 0.0;
+		wonGamesInTournament = 0;
+		lostGamesInTournament = 0;
+		tiedGamesInTournament = 0;
+		mmr = 0.0;
+
 	}
 
 	/**
@@ -37,72 +37,116 @@ public class Player {
 	 * of singletons)
 	 *
 	 * @param name
-	 * @param playedGames
 	 * @param wonGames
 	 * @param lostGames
 	 * @param tiedGames
-	 * @param rankingScore
+	 * @param wonGamesInTournament
+	 * @param lostGamesInTournament
+	 * @param tiedGamesInTournament
+	 * @param mmr
 	 */
-	public Player(String name, int playedGames, int wonGames, int lostGames, int tiedGames, double rankingScore) {
+	public Player(String name, int wonGames, int lostGames, int tiedGames, int wonGamesInTournament, int
+			lostGamesInTournament, int tiedGamesInTournament,
+				  double mmr) {
 		this.name = name;
-		this.playedGames = playedGames;
 		this.wonGames = wonGames;
 		this.lostGames = lostGames;
 		this.tiedGames = tiedGames;
-		this.rankingScore = rankingScore;
+		this.wonGamesInTournament = wonGamesInTournament;
+		this.lostGamesInTournament = lostGamesInTournament;
+		this.tiedGamesInTournament = tiedGamesInTournament;
+		this.mmr = mmr;
+
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public int getPlayedGames() {
-		return playedGames;
+	public void setWonGames(int wonGames) {
+		this.wonGames = wonGames;
 	}
 
 	public int getWonGames() {
 		return wonGames;
 	}
 
-	public int getLostGames() {
-		return lostGames;
-	}
-
-	public int getTiedGames() {
-		return tiedGames;
-	}
-
-	public double getRankingScore() {
-		return rankingScore;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public void setPlayedGames(int playedGames) {
-		this.playedGames = playedGames;
-	}
-
-	public void setWonGames(int wonGames) {
-		this.wonGames = wonGames;
-	}
-
 	public void setLostGames(int lostGames) {
 		this.lostGames = lostGames;
+	}
+
+	public int getLostGames() {
+		return lostGames;
 	}
 
 	public void setTiedGames(int tiedGames) {
 		this.tiedGames = tiedGames;
 	}
 
+	public int getTiedGames() {
+		return tiedGames;
+	}
+
+	public int getWonGamesInTournament() {
+		return wonGamesInTournament;
+	}
+
+	public void setWonGamesInTournament(int wonGamesInTournament) {
+		this.wonGamesInTournament = wonGamesInTournament;
+	}
+
+	public int getLostGamesInTournament() {
+		return lostGamesInTournament;
+	}
+
+	public void setLostGamesInTournament(int lostGamesInTournament) {
+		this.lostGamesInTournament = lostGamesInTournament;
+	}
+
+	public int getTiedGamesInTournament() {
+		return tiedGamesInTournament;
+	}
+
+	public void setTiedGamesInTournament(int tiedGamesInTournament) {
+		this.tiedGamesInTournament = tiedGamesInTournament;
+	}
+
 	/**
 	 * rounds to 4 digits after comma before calling setter
 	 *
-	 * @param rankingScore
+	 * @param mmr
 	 */
-	public void setRankingScore(double rankingScore) {
-		this.rankingScore = roundDouble(rankingScore);
+	public void setMmr(double mmr) {
+		this.mmr = roundDouble(mmr);
+	}
+
+	public double getMmr() {
+
+		return mmr;
+	}
+
+	public int getPlayedGames() {
+		return wonGames + lostGames + tiedGames;
+	}
+
+	public int getPlayedGamesInTournament() {
+		return wonGamesInTournament + lostGamesInTournament + tiedGamesInTournament;
+	}
+
+	public double getWinRate() {
+		if (getPlayedGames() != 0) {
+			return roundDouble(wonGames / (double) getPlayedGames());
+		} else {
+			return 0;
+		}
+	}
+
+	public double getWinRateInTournament() {
+		if (getPlayedGamesInTournament() != 0) {
+			return roundDouble(wonGamesInTournament / (double) getPlayedGamesInTournament());
+		} else {
+			return 0;
+		}
 	}
 
 
@@ -124,7 +168,8 @@ public class Player {
 	}
 
 	public Player copy() {
-		return new Player(name, playedGames, wonGames, lostGames, tiedGames, rankingScore);
+		return new Player(name, wonGames, lostGames, tiedGames,
+				wonGamesInTournament, lostGamesInTournament, tiedGamesInTournament, mmr);
 	}
 
 	/****************************

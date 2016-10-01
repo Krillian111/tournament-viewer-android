@@ -148,12 +148,22 @@ public class AppManager {
 	 * @return the currently set max score
 	 * @throws AppManagerException
 	 */
-	public int getMaxScore() throws AppManagerException {
+	public int getMaxScoreFromSettings() throws AppManagerException {
 		try {
 			return preferenceFileManager.loadMaxScore();
 		} catch (PreferenceFileManagerException e) {
 			throw new AppManagerException(e.getMessage());
 		}
+	}
+
+	/**
+	 * load max score from settings
+	 *
+	 * @return the currently set max score
+	 * @throws AppManagerException
+	 */
+	public int getMaxScoreFromTournament() {
+		return tournamentManager.getMaxScore();
 	}
 
 	/**

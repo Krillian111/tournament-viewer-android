@@ -101,13 +101,7 @@ public class TournamentGamesAdapter extends BaseAdapter implements ListAdapter {
 	}
 
 	private int getMaxScore(Context context) {
-		try {
-			return AppManager.getInstance().getMaxScore();
-		} catch (AppManagerException e) {
-			Log.e(TournamentGamesAdapter.class.toString(), "couldn't load max score");
-			AppManager.getInstance().displayFatalError(context);
-			return 0;
-		}
+		return AppManager.getInstance().getMaxScoreFromTournament();
 	}
 
 

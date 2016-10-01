@@ -17,17 +17,17 @@ import static org.junit.Assert.fail;
 public class MonsterDypMatchmakingUnitTest {
 
 	@Test
-	public void distinctPlayersMatched(){
+	public void distinctPlayersMatched() {
 		// prepare input
-		Player p1 = new Player("p1", 1, 1, 0, 0, 0.0);
-		Player p2 = new Player("p2", 2, 1, 1, 0, 0.0);
-		Player p3 = new Player("p3", 3, 2, 1, 0, 0.0);
-		Player p4 = new Player("p4", 4, 2, 2, 0, 0.0);
-		Player p5 = new Player("p5", 5, 3, 2, 0, 0.0);
-		Player p6 = new Player("p6", 6, 3, 3, 0, 0.0);
-		Player p7 = new Player("p7", 7, 4, 3, 0, 0.0);
-		Player p8 = new Player("p8", 8, 4, 4, 0, 0.0);
-		Player p9 = new Player("p9", 9, 5, 4, 0, 0.0);
+		Player p1 = new Player("p1", 1, 0, 0, 0, 0, 0, 0.0);
+		Player p2 = new Player("p2", 1, 1, 0, 0, 0, 0, 0.0);
+		Player p3 = new Player("p3", 2, 1, 0, 0, 0, 0, 0.0);
+		Player p4 = new Player("p4", 2, 2, 0, 0, 0, 0, 0.0);
+		Player p5 = new Player("p5", 3, 2, 0, 0, 0, 0, 0.0);
+		Player p6 = new Player("p6", 3, 3, 0, 0, 0, 0, 0.0);
+		Player p7 = new Player("p7", 4, 3, 0, 0, 0, 0, 0.0);
+		Player p8 = new Player("p8", 4, 4, 0, 0, 0, 0, 0.0);
+		Player p9 = new Player("p9", 5, 4, 0, 0, 0, 0, 0.0);
 		List<Player> players = new ArrayList<>();
 		players.add(p1);
 		players.add(p2);
@@ -39,11 +39,11 @@ public class MonsterDypMatchmakingUnitTest {
 		players.add(p8);
 		players.add(p9);
 		List<Game> games = MonsterDypMatchmaking.getInstance().generateRound2on2(players);
-		for(Game game: games){
-			for (Player p: game.getTeam1()){
+		for (Game game : games) {
+			for (Player p : game.getTeam1()) {
 				players.remove(p);
 			}
-			for (Player p: game.getTeam2()){
+			for (Player p : game.getTeam2()) {
 				players.remove(p);
 			}
 		}
@@ -52,14 +52,14 @@ public class MonsterDypMatchmakingUnitTest {
 	}
 
 	@Test
-	public void selectPlayersWithLeastGames2on2(){
+	public void selectPlayersWithLeastGames2on2() {
 		// prepare input
-		Player p1 = new Player("p1", 1, 1, 0, 0, 0.0);
-		Player p2 = new Player("p2", 2, 1, 1, 0, 0.0);
-		Player p3 = new Player("p3", 3, 2, 1, 0, 0.0);
-		Player p4 = new Player("p4", 4, 2, 2, 0, 0.0);
-		Player p5 = new Player("p5", 5, 3, 2, 0, 0.0);
-		Player p6 = new Player("p6", 6, 3, 3, 0, 0.0);
+		Player p1 = new Player("p1", 1, 0, 0, 0, 0, 0, 0.0);
+		Player p2 = new Player("p2", 1, 1, 0, 0, 0, 0, 0.0);
+		Player p3 = new Player("p3", 2, 1, 0, 0, 0, 0, 0.0);
+		Player p4 = new Player("p4", 2, 2, 0, 0, 0, 0, 0.0);
+		Player p5 = new Player("p5", 3, 2, 0, 0, 0, 0, 0.0);
+		Player p6 = new Player("p6", 3, 3, 0, 0, 0, 0, 0.0);
 		List<Player> players = new ArrayList<>();
 		players.add(p1);
 		players.add(p2);
@@ -71,7 +71,8 @@ public class MonsterDypMatchmakingUnitTest {
 		MonsterDypMatchmaking matchmaking = MonsterDypMatchmaking.getInstance();
 		Method methodSelectPlayers = null;
 		try {
-			methodSelectPlayers  = matchmaking.getClass().getDeclaredMethod("selectPlayers", List.class, boolean.class);
+			methodSelectPlayers = matchmaking.getClass().getDeclaredMethod("selectPlayers", List.class, boolean
+					.class, boolean.class);
 		} catch (NoSuchMethodException e) {
 			fail(e.toString());
 			return;
@@ -80,7 +81,7 @@ public class MonsterDypMatchmakingUnitTest {
 		List<Player> list = null;
 		try {
 			methodSelectPlayers.setAccessible(true);
-			list = (List) methodSelectPlayers.invoke(matchmaking, players, false);
+			list = (List) methodSelectPlayers.invoke(matchmaking, players, false, false);
 
 		} catch (IllegalAccessException e) {
 			fail(e.toString());
@@ -97,11 +98,11 @@ public class MonsterDypMatchmakingUnitTest {
 	}
 
 	@Test
-	public void selectPlayersWithLeastGames1on1(){
+	public void selectPlayersWithLeastGames1on1() {
 		// prepare input
-		Player p1 = new Player("p1", 1, 1, 0, 0, 0.0);
-		Player p2 = new Player("p2", 2, 1, 1, 0, 0.0);
-		Player p3 = new Player("p3", 3, 2, 1, 0, 0.0);
+		Player p1 = new Player("p1", 1, 0, 0, 0, 0, 0, 0.0);
+		Player p2 = new Player("p2", 1, 1, 0, 0, 0, 0, 0.0);
+		Player p3 = new Player("p3", 2, 1, 0, 0, 0, 0, 0.0);
 		List<Player> players = new ArrayList<>();
 		players.add(p1);
 		players.add(p2);
@@ -110,7 +111,8 @@ public class MonsterDypMatchmakingUnitTest {
 		MonsterDypMatchmaking matchmaking = MonsterDypMatchmaking.getInstance();
 		Method methodSelectPlayers = null;
 		try {
-			methodSelectPlayers  = matchmaking.getClass().getDeclaredMethod("selectPlayers", List.class, boolean.class);
+			methodSelectPlayers = matchmaking.getClass().getDeclaredMethod("selectPlayers", List.class, boolean
+					.class, boolean.class);
 		} catch (NoSuchMethodException e) {
 			fail(e.toString());
 			return;
@@ -119,12 +121,12 @@ public class MonsterDypMatchmakingUnitTest {
 		List<Player> list = null;
 		try {
 			methodSelectPlayers.setAccessible(true);
-			list = (List) methodSelectPlayers.invoke(matchmaking, players, true);
+			list = (List) methodSelectPlayers.invoke(matchmaking, players, true, false);
 
 		} catch (IllegalAccessException e) {
 			fail(e.toString());
 		} catch (InvocationTargetException e) {
-			fail(e.toString()+ ", cause:"+ e.getCause());
+			fail(e.toString() + ", cause:" + e.getCause());
 		}
 		// check result
 		assertTrue(list.contains(p1));

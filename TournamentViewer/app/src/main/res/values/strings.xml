@@ -52,6 +52,6 @@
     <string name="header_player_games_won">W</string>
     <string name="header_player_games_lost">L</string>
     <string name="header_player_games_tied">T</string>
-    <string name="header_player_ranking">Score</string>
+    <string name="header_player_win_rate">Score</string>
 
 </resources>

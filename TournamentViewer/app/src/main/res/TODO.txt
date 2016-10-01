@@ -1,9 +1,6 @@
 TODOs:
 
-1. add win/losses/ties etc. for tournament (otherwise only accumulated games etc. are displayed)
-1.1. calculate ranking score as ratio of currentWins/currentGames
-1.2 sort players by ranking
-1.3. add player detail view
+1. add player detail view
 
 2. add button to commit tournament
 
@@ -14,6 +11,8 @@ TODOs:
 - implement fragment communication (no refresh/commit button)
 
 - implement adjusting scores
+
+- add mmr (matchmakingrating) for matchmaking, rankingscore is supposed to be used as ranking in a tournament
 
 - check for at least 2 or 4 players when starting tournament
 

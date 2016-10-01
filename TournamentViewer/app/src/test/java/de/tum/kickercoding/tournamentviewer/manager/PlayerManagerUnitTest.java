@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 import de.tum.kickercoding.tournamentviewer.entities.Player;
 import de.tum.kickercoding.tournamentviewer.exceptions.PlayerManagerException;
-import de.tum.kickercoding.tournamentviewer.util.Constants;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -57,16 +56,6 @@ public class PlayerManagerUnitTest {
 			return;
 		}
 		fail("Duplicated player not recognized");
-	}
-
-	@Test
-	public void addPlayerWithDelimiter() {
-		try {
-			playerManager.addPlayer("TestPlayer" + Constants.DELIMITER);
-		} catch (PlayerManagerException e) {
-			return;
-		}
-		fail(String.format("Symbol %s not allowed in player name", Constants.DELIMITER));
 	}
 
 	@Test

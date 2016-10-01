@@ -165,17 +165,17 @@ class TournamentManager {
 		int scoreTeam2 = game.getScoreTeam2();
 		List<String> team2 = game.getTeam2PlayerNames();
 		if (scoreTeam1 == scoreTeam2) {
-			// add a tied and a played game to both teams (played = implicitly)
+			// add a tied game to both teams
 			addTiedGame(team1);
 			addTiedGame(team2);
 			// TODO: update ranking score of all players
 		} else if (scoreTeam1 > scoreTeam2) {
-			// add a won game to team 1, a lost game to team 2 and a played game to both teams (played = implicitly)
+			// add a won game to team 1, a lost game to team 2
 			addWonGame(team1);
 			addLostGame(team2);
 			// TODO: update ranking score of all players
 		} else {
-			// add a won game to team 2, a lost game to team 1 and a played game to both teams (played = implicitly)
+			// add a won game to team 2, a lost game to team 1
 			addWonGame(team2);
 			addLostGame(team1);
 			// TODO: update ranking score of all players
@@ -211,7 +211,7 @@ class TournamentManager {
 		Player playerToUpdate;
 		for (String playerName : playersToUpdate) {
 			playerToUpdate = getPlayerByName(playerName);
-			playerToUpdate.setPlayedGames(playerToUpdate.getPlayedGames() + 1);
+			playerToUpdate.setTiedGamesInTournament(playerToUpdate.getTiedGamesInTournament() + 1);
 			playerToUpdate.setTiedGames(playerToUpdate.getTiedGames() + 1);
 		}
 	}
@@ -225,7 +225,7 @@ class TournamentManager {
 		Player playerToUpdate;
 		for (String playerName : playersToUpdate) {
 			playerToUpdate = getPlayerByName(playerName);
-			playerToUpdate.setPlayedGames(playerToUpdate.getPlayedGames() + 1);
+			playerToUpdate.setWonGamesInTournament(playerToUpdate.getWonGamesInTournament() + 1);
 			playerToUpdate.setWonGames(playerToUpdate.getWonGames() + 1);
 		}
 	}
@@ -239,7 +239,7 @@ class TournamentManager {
 		Player playerToUpdate;
 		for (String playerName : playersToUpdate) {
 			playerToUpdate = getPlayerByName(playerName);
-			playerToUpdate.setPlayedGames(playerToUpdate.getPlayedGames() + 1);
+			playerToUpdate.setLostGamesInTournament(playerToUpdate.getLostGamesInTournament() + 1);
 			playerToUpdate.setLostGames(playerToUpdate.getLostGames() + 1);
 		}
 	}
@@ -298,7 +298,10 @@ class TournamentManager {
 	}
 
 	void addPlayer(Player player) {
-
+		// reset stats for tournament
+		player.setWonGamesInTournament(0);
+		player.setLostGamesInTournament(0);
+		player.setTiedGamesInTournament(0);
 		currentTournament.addPlayer(player);
 	}
 
@@ -320,5 +323,9 @@ class TournamentManager {
 
 	public boolean isOneOnOne() {
 		return currentTournament.isOneOnOne();
+	}
+
+	public int getMaxScore() {
+		return currentTournament.getMaxScore();
 	}
 }

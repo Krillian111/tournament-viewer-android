@@ -8,6 +8,10 @@ import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
+
 import de.tum.kickercoding.tournamentviewer.R;
 import de.tum.kickercoding.tournamentviewer.entities.Player;
 import de.tum.kickercoding.tournamentviewer.manager.AppManager;
@@ -47,14 +51,21 @@ public class TournamentStatsAdapter extends BaseAdapter implements ListAdapter {
 		Player player = (Player) getItem(position);
 		prepareTextView(view, R.id.tournament_stats_item_rank, "" + (position + 1));
 		prepareTextView(view, R.id.tournament_stats_item_name, player.getName());
-		prepareTextView(view, R.id.tournament_stats_item_games_played, "" + player.getPlayedGames());
-		prepareTextView(view, R.id.tournament_stats_item_games_won, "" + player.getWonGames());
-		prepareTextView(view, R.id.tournament_stats_item_ranking, "" + player.getRankingScore());
+		prepareTextView(view, R.id.tournament_stats_item_games_played, "" + player.getPlayedGamesInTournament());
+		prepareTextView(view, R.id.tournament_stats_item_games_won, "" + player.getWonGamesInTournament());
+
+		prepareTextView(view, R.id.tournament_stats_item_win_rate, prepareWinRateForView(player
+				.getWinRateInTournament()));
 		return view;
 	}
 
 	private void prepareTextView(View view, int id, String text) {
 		TextView textView = (TextView) view.findViewById(id);
 		textView.setText(text);
+	}
+
+	private String prepareWinRateForView(double winrate) {
+		DecimalFormat df = new DecimalFormat("#0%", new DecimalFormatSymbols(Locale.US));
+		return df.format(winrate);
 	}
 }
