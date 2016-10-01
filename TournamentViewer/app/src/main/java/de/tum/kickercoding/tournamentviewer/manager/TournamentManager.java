@@ -8,7 +8,7 @@ import java.util.List;
 import de.tum.kickercoding.tournamentviewer.entities.Game;
 import de.tum.kickercoding.tournamentviewer.entities.Player;
 import de.tum.kickercoding.tournamentviewer.entities.Tournament;
-import de.tum.kickercoding.tournamentviewer.exceptions.PreferenceFileException;
+import de.tum.kickercoding.tournamentviewer.exceptions.PreferenceFileManagerException;
 import de.tum.kickercoding.tournamentviewer.exceptions.TournamentManagerException;
 import de.tum.kickercoding.tournamentviewer.tournament.Matchmaking;
 import de.tum.kickercoding.tournamentviewer.tournament.monsterdyp.MonsterDypMatchmaking;
@@ -17,7 +17,9 @@ import de.tum.kickercoding.tournamentviewer.util.TournamentMode;
 // TODO: write unit tests
 class TournamentManager {
 
-	static TournamentManager instance = new TournamentManager();
+	private final String LOG_TAG = TournamentManager.class.toString();
+
+	private static TournamentManager instance = new TournamentManager();
 
 	static TournamentManager getInstance() {
 		return instance;
@@ -30,15 +32,27 @@ class TournamentManager {
 
 	private Tournament currentTournament;
 
-	void initialize(TournamentMode mode) {
-		this.currentTournament = new Tournament();
-		switch (mode) {
-			case MONSTERDYP:
-				matchmaking = MonsterDypMatchmaking.getInstance();
-				break;
-			default:
-				Log.e(TournamentManager.class.toString(),
-						String.format("initialize: used mode %s not yet implemented", mode.getName()));
+	void initialize() {
+		currentTournament = new Tournament();
+	}
+
+	void setMode(TournamentMode mode) {
+		currentTournament.setMode(mode);
+	}
+
+	void initMatchmaking() throws TournamentManagerException {
+		TournamentMode mode = currentTournament.getMode();
+		if (mode != null) {
+			switch (mode) {
+				case MONSTERDYP:
+					matchmaking = MonsterDypMatchmaking.getInstance();
+					break;
+				default:
+					Log.e(LOG_TAG,
+							String.format("initialize: mode %s not yet implemented", currentTournament.getMode()));
+			}
+		} else {
+			throw new TournamentManagerException("TournamentMode was not set, cannot create games");
 		}
 	}
 
@@ -48,8 +62,21 @@ class TournamentManager {
 			int numberOfGames = PreferenceFileManager.getInstance().loadNumberOfGames();
 			currentTournament.setMaxScore(maxScore);
 			currentTournament.setNumberOfGames(numberOfGames);
-		} catch (PreferenceFileException e) {
+		} catch (PreferenceFileManagerException e) {
 			throw new TournamentManagerException("Failed to start new tournament, wrapped Exception:" + e.toString());
+		}
+	}
+
+	void saveTournament() throws PreferenceFileManagerException {
+		PreferenceFileManager.getInstance().saveTournament(currentTournament);
+	}
+
+	void loadTournament() throws PreferenceFileManagerException, TournamentManagerException {
+		Tournament loadedTournament = PreferenceFileManager.getInstance().loadTournament();
+		if (loadedTournament != null) {
+			currentTournament = loadedTournament;
+		} else {
+			throw new TournamentManagerException("Loading tournament failed; Tournament must be created from scratch");
 		}
 	}
 
@@ -81,6 +108,9 @@ class TournamentManager {
 		if (currentTournament.isFinished()) {
 			throw new TournamentManagerException("Can't create new round: Tournament finished");
 		}
+		if (matchmaking == null) {
+			initMatchmaking();
+		}
 		List<Game> newGames;
 		if (isOneOnOne()) {
 			newGames = matchmaking.generateRound1on1(getPlayers());
@@ -95,6 +125,9 @@ class TournamentManager {
 	void generateGame() throws TournamentManagerException {
 		if (currentTournament.isFinished()) {
 			throw new TournamentManagerException("Can't create new game: Tournament finished");
+		}
+		if (matchmaking == null) {
+			initMatchmaking();
 		}
 		Game game;
 		if (isOneOnOne()) {
@@ -149,10 +182,10 @@ class TournamentManager {
 		}
 		game.setResultCommitted(true);
 		if (isOneOnOne()) {
-			Log.d(TournamentManager.class.toString(), String.format("commitGame: game %s vs %s was commited " +
+			Log.d(LOG_TAG, String.format("commitGame: game %s vs %s was commited " +
 					"with result (%d:%d)", team1.get(0), team2.get(0), scoreTeam1, scoreTeam2));
 		} else {
-			Log.d(TournamentManager.class.toString(), String.format("commitGame: game with team1(%s,%s) vs " +
+			Log.d(LOG_TAG, String.format("commitGame: game with team1(%s,%s) vs " +
 							"team2(%s,%s) was commited with result (%d:%d)",
 					team1.get(0), team1.get(1), team2.get(0), team2.get(1), scoreTeam1, scoreTeam2));
 		}

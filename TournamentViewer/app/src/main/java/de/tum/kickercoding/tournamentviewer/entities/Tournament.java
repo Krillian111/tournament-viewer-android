@@ -8,6 +8,8 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.tum.kickercoding.tournamentviewer.util.TournamentMode;
+
 // TODO: write unit tests
 public class Tournament implements Parcelable {
 
@@ -26,6 +28,8 @@ public class Tournament implements Parcelable {
 	private boolean oneOnOne = false;
 
 	private boolean finished = false;
+
+	private TournamentMode mode;
 
 	public Tournament() {
 	}
@@ -113,6 +117,14 @@ public class Tournament implements Parcelable {
 		this.finished = finished;
 	}
 
+	public TournamentMode getMode() {
+		return mode;
+	}
+
+	public void setMode(TournamentMode mode) {
+		this.mode = mode;
+	}
+
 	/**********************************
 	 * Parcelable interface methods
 	 *********************************/
@@ -131,6 +143,7 @@ public class Tournament implements Parcelable {
 		// use int to represent boolean (no writeBoolean method available)
 		dest.writeInt(oneOnOne ? 1 : 0);
 		dest.writeInt(finished ? 1 : 0);
+		dest.writeString(mode.getName());
 	}
 
 	// Creator
@@ -151,6 +164,7 @@ public class Tournament implements Parcelable {
 		numberOfGames = in.readInt();
 		oneOnOne = in.readInt() != 0;
 		finished = in.readInt() != 0;
+		mode = TournamentMode.valueOf(in.readString());
 	}
 
 	/****************************

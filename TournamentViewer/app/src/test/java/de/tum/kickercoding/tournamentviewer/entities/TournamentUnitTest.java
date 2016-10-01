@@ -4,6 +4,8 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
+import de.tum.kickercoding.tournamentviewer.util.TournamentMode;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -16,6 +18,7 @@ public class TournamentUnitTest {
 		t.setMaxScore(7);
 		t.setNumberOfGames(2);
 		t.setOneOnOne(false);
+		t.setMode(TournamentMode.MONSTERDYP);
 		Player p1 = new Player("p1");
 		Player p2 = new Player("p2", 6, 1, 2, 3, 4.0);
 		Player p3 = new Player("p3");
@@ -50,7 +53,8 @@ public class TournamentUnitTest {
 						"\"scoreTeam1\":0,\"scoreTeam2\":0,\"finished\":false,\"oneOnOne\":false," +
 						"\"resultCommitted\":false}" +
 						"]," +
-						"\"maxScore\":7,\"numberOfGames\":2,\"oneOnOne\":false}"
+						"\"maxScore\":7,\"numberOfGames\":2,\"oneOnOne\":false,\"finished\":false," +
+						"\"mode\":\"MONSTERDYP\"}"
 				, tournamentAsJson);
 	}
 
@@ -80,13 +84,15 @@ public class TournamentUnitTest {
 				"\"scoreTeam1\":0,\"scoreTeam2\":0,\"finished\":false,\"oneOnOne\":false," +
 				"\"resultCommitted\":false}" +
 				"]," +
-				"\"maxScore\":7,\"numberOfGames\":2,\"oneOnOne\":false}";
+				"\"maxScore\":7,\"numberOfGames\":2,\"oneOnOne\":false,\"finished\":false,\"mode\":\"MONSTERDYP\"}";
 		Tournament t = Tournament.fromJson(tournamentAsJson);
 		assertEquals(7, t.getMaxScore());
 		assertEquals(2, t.getNumberOfGames());
 		assertFalse(t.isOneOnOne());
 		assertEquals(4, t.getPlayers().size());
 		assertEquals(1, t.getGames().size());
+		assertEquals(false, t.isFinished());
+		assertEquals(TournamentMode.MONSTERDYP, t.getMode());
 		assertTrue(new Player("p1").equals(t.getGame(0).getTeam1().get(0)));
 		assertTrue(new Player("p2").equals(t.getGame(0).getTeam1().get(1)));
 		assertTrue(new Player("p3").equals(t.getGame(0).getTeam2().get(0)));
@@ -117,6 +123,8 @@ public class TournamentUnitTest {
 		t.setMaxScore(7);
 		t.setNumberOfGames(2);
 		t.setOneOnOne(false);
+		t.setFinished(true);
+		t.setMode(TournamentMode.MONSTERDYP);
 		Player p1 = new Player("p1");
 		Player p2 = new Player("p2", 6, 1, 2, 3, 4.0);
 		Player p3 = new Player("p3");
@@ -131,6 +139,7 @@ public class TournamentUnitTest {
 		assertEquals(tFromJson.getMaxScore(), t.getMaxScore());
 		assertEquals(tFromJson.getNumberOfGames(), t.getNumberOfGames());
 		assertEquals(tFromJson.isOneOnOne(), t.isOneOnOne());
+		assertEquals(tFromJson.isFinished(), t.isFinished());
 		assertEquals(tFromJson.getPlayers().size(), t.getPlayers().size());
 		assertEquals(tFromJson.getGames().size(), t.getGames().size());
 		// check attributes of p2 from players (has non zero values); only in players as more specific checks are

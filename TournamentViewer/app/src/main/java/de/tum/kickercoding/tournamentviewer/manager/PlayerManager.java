@@ -5,14 +5,13 @@ import java.util.List;
 
 import de.tum.kickercoding.tournamentviewer.entities.Player;
 import de.tum.kickercoding.tournamentviewer.exceptions.PlayerManagerException;
-import de.tum.kickercoding.tournamentviewer.exceptions.PreferenceFileException;
+import de.tum.kickercoding.tournamentviewer.exceptions.PreferenceFileManagerException;
 
 
 // TODO: add comments to methods/class
 class PlayerManager {
 
 	private static PlayerManager instance = new PlayerManager();
-	private PreferenceFileManager preferenceFileManager = null;
 	private List<Player> players = new ArrayList<Player>();
 
 	private PlayerManager() {
@@ -30,11 +29,10 @@ class PlayerManager {
 	/**
 	 * Initialization (should be called after instantiation)
 	 *
-	 * @throws PreferenceFileException
+	 * @throws PreferenceFileManagerException
 	 */
-	void initialize() throws PreferenceFileException {
-		preferenceFileManager = PreferenceFileManager.getInstance();
-		players = preferenceFileManager.getPlayerList();
+	void initialize() throws PreferenceFileManagerException {
+		players = PreferenceFileManager.getInstance().getPlayerList();
 	}
 
 	/**
@@ -100,8 +98,8 @@ class PlayerManager {
 	void commitPlayerList() throws PlayerManagerException {
 		for (Player p : players) {
 			try {
-				preferenceFileManager.savePlayer(p);
-			} catch (PreferenceFileException e) {
+				PreferenceFileManager.getInstance().savePlayer(p);
+			} catch (PreferenceFileManagerException e) {
 				throw new PlayerManagerException(e.getMessage());
 			}
 		}

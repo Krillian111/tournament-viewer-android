@@ -1,14 +1,6 @@
 TODOs:
 
-0.
-- implement safety against silent process killing by android:
--- AppManager is not initialized by default
--- getInstance checks for initialized, else initializes all Managers -> no active initialization by StartActivity necessary
--- implement Parcelable for Tournament (implies Game and Player)
--- save Tournament in correct method (onDestroy?)
--- all other activities should be checked to work without saving a state
-
-1. save tournament in playersetupactivity and tournamentactivity
+1. loading mechanism for tournament
 
 2. add win/losses/ties etc. for tournament (otherwise only accumulated games etc. are displayed)
 2.1. calculate ranking score as ratio of currentWins/currentGames
@@ -18,6 +10,9 @@ TODOs:
 
 5. add entity Match to allow multiple modelling games
 
+- consider deleting parcelable interface for entities, might not be necessary
+
+- divide start screen into "New Tournament" / "Load Tournament" section
 
 - implement fragment communication (no refresh/commit button)
 
