@@ -1,15 +1,12 @@
 package de.tum.kickercoding.tournamentviewer.entities;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
 
 // TODO: add comments to methods/class
-public class Game implements Parcelable {
+public class Game {
 
 	/**
 	 * IF FIELDS ARE ADDED/REMOVED: UPDATE PARCELABLE INTERFACE METHODS
@@ -123,46 +120,6 @@ public class Game implements Parcelable {
 
 	public void setResultCommitted(boolean resultCommitted) {
 		this.resultCommitted = resultCommitted;
-	}
-
-	/**********************************
-	 * Parcelable interface methods
-	 *********************************/
-
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeTypedList(participants);
-		dest.writeInt(scoreTeam1);
-		dest.writeInt(scoreTeam2);
-		// use int to represent boolean (no writeBoolean method available)
-		dest.writeInt(finished ? 1 : 0);
-		dest.writeInt(oneOnOne ? 1 : 0);
-		dest.writeInt(resultCommitted ? 1 : 0);
-	}
-
-	// Creator
-	public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
-		public Game createFromParcel(Parcel in) {
-			return new Game(in);
-		}
-
-		public Game[] newArray(int size) {
-			return new Game[size];
-		}
-	};
-
-	private Game(Parcel in) {
-		in.readTypedList(participants, Player.CREATOR);
-		scoreTeam1 = in.readInt();
-		scoreTeam2 = in.readInt();
-		finished = in.readInt() != 0;
-		oneOnOne = in.readInt() != 0;
-		resultCommitted = in.readInt() != 0;
 	}
 
 	/****************************

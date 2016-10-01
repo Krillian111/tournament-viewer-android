@@ -1,8 +1,5 @@
 package de.tum.kickercoding.tournamentviewer.entities;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.google.gson.Gson;
 
 import java.text.DecimalFormat;
@@ -10,7 +7,7 @@ import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
 
-public class Player implements Parcelable {
+public class Player {
 
 	/**
 	 * IF FIELDS ARE ADDED/REMOVED: UPDATE PARCELABLE INTERFACE METHODS
@@ -128,45 +125,6 @@ public class Player implements Parcelable {
 
 	public Player copy() {
 		return new Player(name, playedGames, wonGames, lostGames, tiedGames, rankingScore);
-	}
-
-	/**********************************
-	 * Parcelable interface methods
-	 *********************************/
-
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeString(name);
-		dest.writeInt(playedGames);
-		dest.writeInt(wonGames);
-		dest.writeInt(lostGames);
-		dest.writeInt(tiedGames);
-		dest.writeDouble(rankingScore);
-	}
-
-	// Creator
-	public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
-		public Player createFromParcel(Parcel in) {
-			return new Player(in);
-		}
-
-		public Player[] newArray(int size) {
-			return new Player[size];
-		}
-	};
-
-	private Player(Parcel in) {
-		name = in.readString();
-		playedGames = in.readInt();
-		wonGames = in.readInt();
-		lostGames = in.readInt();
-		tiedGames = in.readInt();
-		rankingScore = in.readDouble();
 	}
 
 	/****************************

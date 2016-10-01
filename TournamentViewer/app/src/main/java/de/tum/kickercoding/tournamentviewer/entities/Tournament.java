@@ -1,8 +1,5 @@
 package de.tum.kickercoding.tournamentviewer.entities;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -11,7 +8,7 @@ import java.util.List;
 import de.tum.kickercoding.tournamentviewer.util.TournamentMode;
 
 // TODO: write unit tests
-public class Tournament implements Parcelable {
+public class Tournament {
 
 	/**
 	 * IF FIELDS ARE ADDED/REMOVED: UPDATE PARCELABLE INTERFACE METHODS
@@ -125,47 +122,6 @@ public class Tournament implements Parcelable {
 		this.mode = mode;
 	}
 
-	/**********************************
-	 * Parcelable interface methods
-	 *********************************/
-
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeTypedList(players);
-		dest.writeTypedList(games);
-		dest.writeInt(maxScore);
-		dest.writeInt(numberOfGames);
-		// use int to represent boolean (no writeBoolean method available)
-		dest.writeInt(oneOnOne ? 1 : 0);
-		dest.writeInt(finished ? 1 : 0);
-		dest.writeString(mode.getName());
-	}
-
-	// Creator
-	public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
-		public Tournament createFromParcel(Parcel in) {
-			return new Tournament(in);
-		}
-
-		public Tournament[] newArray(int size) {
-			return new Tournament[size];
-		}
-	};
-
-	private Tournament(Parcel in) {
-		in.readTypedList(players, Player.CREATOR);
-		in.readTypedList(games, Game.CREATOR);
-		maxScore = in.readInt();
-		numberOfGames = in.readInt();
-		oneOnOne = in.readInt() != 0;
-		finished = in.readInt() != 0;
-		mode = TournamentMode.valueOf(in.readString());
-	}
 
 	/****************************
 	 * hand written (de)serialization using json
