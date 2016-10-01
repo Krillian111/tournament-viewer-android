@@ -8,7 +8,11 @@
     <!-- Start Menu-->
     <!-- ###################### -->
     <string name="edit_message">Enter a message</string>
+    <string name="header_new_tournament">New Tournament</string>
     <string name="button_monsterdyp">MonsterDYP</string>
+    <string name="header_load_tournament">Load Tournament</string>
+    <string name="button_load_tournament">LOAD</string>
+
     <!-- ###################### -->
     <!-- Monster Dyp Setup Basic Setup-->
     <!-- ###################### -->
