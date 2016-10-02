@@ -6,6 +6,8 @@ TODOs:
 
 3. add entity Match to allow multiple modelling games
 
+- sort player list by name (while managing rank somehow)
+
 - divide start screen into "New Tournament" / "Load Tournament" section
 
 - implement fragment communication (no refresh/commit button)

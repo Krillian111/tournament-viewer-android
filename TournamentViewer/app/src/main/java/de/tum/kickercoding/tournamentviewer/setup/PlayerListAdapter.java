@@ -1,5 +1,6 @@
 package de.tum.kickercoding.tournamentviewer.setup;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -60,6 +61,15 @@ public class PlayerListAdapter extends BaseAdapter implements ListAdapter {
 		final String playerName = ((Player) getItem(position)).getName();
 		listItemText.setText(playerName);
 
+		view.setClickable(true);
+		view.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View viewItem) {
+				Dialog dialog = createPlayerDialog(context, viewItem, position);
+				dialog.show();
+			}
+		});
+
 		Button deleteButton = (Button) view.findViewById(R.id.player_list_item_delete_button);
 		deleteButton.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -107,5 +117,49 @@ public class PlayerListAdapter extends BaseAdapter implements ListAdapter {
 			newBackgroundColor = ContextCompat.getColor(context, R.color.player_not_signed_up);
 		}
 		relativeLayout.setBackgroundColor(newBackgroundColor);
+	}
+
+	/**
+	 * Creates a dialog to display all information of a player. Can be reused in tournament view.
+	 *
+	 * @param context
+	 * @param viewItem
+	 * @param position
+	 * @return
+	 */
+	private Dialog createPlayerDialog(Context context, View viewItem, int position) {
+		final Dialog dialog = new Dialog(context);
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context
+				.LAYOUT_INFLATER_SERVICE);
+		dialog.setContentView(inflater.inflate(R.layout.dialog_player_details, null));
+		dialog.setTitle(R.string.title_player_details);
+
+		Player player = (Player) getItem(position);
+		prepareTextView(dialog, R.id.player_details_name, player.getName());
+		prepareTextView(dialog, R.id.player_details_rank_global, "?");
+		prepareTextView(dialog, R.id.player_details_played_games, "" + player.getPlayedGames());
+		prepareTextView(dialog, R.id.player_details_won_games, "" + player.getWonGames());
+		prepareTextView(dialog, R.id.player_details_lost_games, "" + player.getLostGames());
+		prepareTextView(dialog, R.id.player_details_tied_games, "" + player.getTiedGames());
+		prepareTextView(dialog, R.id.player_details_win_rate, "" + player.getWinRate());
+		prepareTextView(dialog, R.id.player_details_mmr, "" + player.getMmr());
+
+		setupButtonListener(dialog);
+		return dialog;
+	}
+
+	private void prepareTextView(Dialog dialog, int id, String text) {
+		TextView textView = (TextView) dialog.findViewById(id);
+		textView.setText(text);
+	}
+
+	private void setupButtonListener(final Dialog dialog) {
+		Button backButton = (Button) dialog.findViewById(R.id.button_player_details_back);
+		backButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
 	}
 }
