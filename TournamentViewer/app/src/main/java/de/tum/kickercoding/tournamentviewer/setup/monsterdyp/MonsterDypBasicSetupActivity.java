@@ -31,7 +31,7 @@ public class MonsterDypBasicSetupActivity extends AppCompatActivity {
 	public void goToPlayerSetup(View view) {
 		try {
 			saveGameSettings(view.getRootView());
-			AppManager.getInstance().startNewTournament();
+			AppManager.getInstance().setTournamentParameters();
 		} catch (AppManagerException e) {
 			AppManager.getInstance().displayError(this, "Failed to save game settings: " + e.getMessage());
 			return;

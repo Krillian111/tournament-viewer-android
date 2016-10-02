@@ -29,7 +29,7 @@ public class StartMenuActivity extends AppCompatActivity {
 	 * Called when the user clicks the MonsterDYP button
 	 */
 	public void monsterDypSetup(View view) {
-		AppManager.getInstance().setTournamentMode(TournamentMode.MONSTERDYP);
+		AppManager.getInstance().startNewTournament(TournamentMode.MONSTERDYP);
 		Intent intent = new Intent(this, MonsterDypBasicSetupActivity.class);
 		startActivity(intent);
 	}

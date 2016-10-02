@@ -2,32 +2,36 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
+
     <RelativeLayout
         android:id="@+id/rel_layout_add_player"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <EditText
-            android:id ="@+id/editable_new_player"
+            android:id="@+id/editable_new_player"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="10pt"
-            android:text="@string/message_newPlayerDefault"
-            android:layout_toLeftOf="@+id/button_add_player"/>
+            android:layout_toLeftOf="@+id/button_add_player"
+            android:hint="@string/message_newPlayerDefault"
+            android:textSize="10pt"/>
+
         <Button
             android:id="@+id/button_add_player"
             android:layout_width="40pt"
             android:layout_height="wrap_content"
-            android:text="@string/button_addplayer"
+            android:layout_alignParentRight="true"
             android:onClick="addPlayerToList"
-            android:layout_alignParentRight="true"/>
+            android:text="@string/button_addplayer"/>
     </RelativeLayout>
+
     <ListView
         android:id="@+id/list_view_add_players"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/rel_layout_add_player"
         android:divider="@color/text_standard"
-        android:dividerHeight="0.1dp"
-        android:layout_below="@+id/rel_layout_add_player">
+        android:dividerHeight="0.1dp">
     </ListView>
 </RelativeLayout>

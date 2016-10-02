@@ -36,10 +36,6 @@ class TournamentManager {
 		currentTournament = new Tournament();
 	}
 
-	void setMode(TournamentMode mode) {
-		currentTournament.setMode(mode);
-	}
-
 	void initMatchmaking() throws TournamentManagerException {
 		TournamentMode mode = currentTournament.getMode();
 		if (mode != null) {
@@ -56,12 +52,18 @@ class TournamentManager {
 		}
 	}
 
-	void startNewTournament() throws TournamentManagerException {
+	void startNewTournament(TournamentMode mode) {
+		currentTournament = new Tournament();
+		currentTournament.setMode(mode);
+	}
+
+	void setTournamentParameters() throws TournamentManagerException {
 		try {
 			int maxScore = PreferenceFileManager.getInstance().loadMaxScore();
 			int numberOfGames = PreferenceFileManager.getInstance().loadNumberOfGames();
 			currentTournament.setMaxScore(maxScore);
 			currentTournament.setNumberOfGames(numberOfGames);
+
 		} catch (PreferenceFileManagerException e) {
 			throw new TournamentManagerException("Failed to start new tournament, wrapped Exception:" + e.toString());
 		}

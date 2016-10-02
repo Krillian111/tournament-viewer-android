@@ -59,10 +59,10 @@ public class AppManager {
 	}
 
 	/**
-	 * initialize TournamentManager, necessary to start a new Tournament
+	 * initialize new tournament
 	 */
-	public void setTournamentMode(TournamentMode mode) {
-		tournamentManager.setMode(mode);
+	public void startNewTournament(TournamentMode mode) {
+		tournamentManager.startNewTournament(mode);
 	}
 
 	/**
@@ -213,9 +213,9 @@ public class AppManager {
 	 *
 	 * @throws AppManagerException
 	 */
-	public void startNewTournament() throws AppManagerException {
+	public void setTournamentParameters() throws AppManagerException {
 		try {
-			tournamentManager.startNewTournament();
+			tournamentManager.setTournamentParameters();
 		} catch (TournamentManagerException e) {
 			throw new AppManagerException(e.getMessage());
 		}
