@@ -8,7 +8,11 @@
     <!-- Start Menu-->
     <!-- ###################### -->
     <string name="edit_message">Enter a message</string>
+    <string name="header_new_tournament">New Tournament</string>
     <string name="button_monsterdyp">MonsterDYP</string>
+    <string name="header_load_tournament">Load Tournament</string>
+    <string name="button_load_tournament">LOAD</string>
+
     <!-- ###################### -->
     <!-- Monster Dyp Setup Basic Setup-->
     <!-- ###################### -->
@@ -41,13 +45,17 @@
     <string name="button_edit_game_cancel">Cancel</string>
     <string name="button_commit_results">Commit</string>
     <string name="button_refresh">Refresh</string>
+    <string name="button_generate_playoffs">PLAYOFFS</string>
+    <string name="button_finish_tournament">FINISH</string>
 
+    <string name="title_player_details">Player details:</string>
     <string name="header_player_rank">#</string>
     <string name="header_player_name">Name</string>
     <string name="header_player_games_total">G</string>
     <string name="header_player_games_won">W</string>
     <string name="header_player_games_lost">L</string>
     <string name="header_player_games_tied">T</string>
-    <string name="header_player_ranking">Score</string>
-
+    <string name="header_player_win_rate">Score</string>
+    <string name="header_player_mmr">Rating</string>
+    <string name="button_player_details_back">Back</string>
 </resources>

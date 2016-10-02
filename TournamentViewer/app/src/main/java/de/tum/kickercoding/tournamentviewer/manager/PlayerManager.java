@@ -5,15 +5,13 @@ import java.util.List;
 
 import de.tum.kickercoding.tournamentviewer.entities.Player;
 import de.tum.kickercoding.tournamentviewer.exceptions.PlayerManagerException;
-import de.tum.kickercoding.tournamentviewer.exceptions.PreferenceFileException;
-import de.tum.kickercoding.tournamentviewer.util.Constants;
+import de.tum.kickercoding.tournamentviewer.exceptions.PreferenceFileManagerException;
 
 
 // TODO: add comments to methods/class
 class PlayerManager {
 
 	private static PlayerManager instance = new PlayerManager();
-	private PreferenceFileManager preferenceFileManager = null;
 	private List<Player> players = new ArrayList<Player>();
 
 	private PlayerManager() {
@@ -31,11 +29,10 @@ class PlayerManager {
 	/**
 	 * Initialization (should be called after instantiation)
 	 *
-	 * @throws PreferenceFileException
+	 * @throws PreferenceFileManagerException
 	 */
-	void initialize() throws PreferenceFileException {
-		preferenceFileManager = PreferenceFileManager.getInstance();
-		players = preferenceFileManager.getPlayerList();
+	void initialize() throws PreferenceFileManagerException {
+		players = PreferenceFileManager.getInstance().getPlayerList();
 	}
 
 	/**
@@ -45,16 +42,23 @@ class PlayerManager {
 	 * @throws PlayerManagerException If there are symbols that are not allowed in the name of the {@link Player}.
 	 */
 	void addPlayer(String name) throws PlayerManagerException {
-		if (name.contains(Constants.DELIMITER)) {
-			throw new PlayerManagerException(String.format("Invalid character: %s (underscore)", Constants
-					.DELIMITER));
-		}
-
 		Player newPlayer = new Player(name);
 		if (players.contains(newPlayer)) {
 			throw new PlayerManagerException(String.format("Player %s already exists", name));
 		}
 		players.add(newPlayer);
+	}
+
+
+	void updatePlayer(Player playerToUpdate) throws PlayerManagerException {
+		for (int i = 0;i < players.size();i++) {
+			if (players.get(i).equals(playerToUpdate)) {
+				players.set(i, playerToUpdate);
+				return;
+			}
+		}
+		throw new PlayerManagerException(String.format("Player update failed: player %s does not exist in global " +
+				"player list", playerToUpdate.getName()));
 	}
 
 	/**
@@ -64,13 +68,9 @@ class PlayerManager {
 	 * @throws PlayerManagerException
 	 */
 	boolean removePlayer(String name) {
-		for (Player p : players) {
-			if (p.getName().equals(name)) {
-				players.remove(p);
-				return true;
-			}
-		}
-		return false;
+		// players with same name are considered equal, see player.equals()
+		Player dummyPlayer = new Player(name);
+		return players.remove(dummyPlayer);
 	}
 
 	/**
@@ -95,8 +95,14 @@ class PlayerManager {
 	/**
 	 * commits the current player list with all its changes to the preference file
 	 */
-	void commitPlayerList() {
-		// TODO: implement
+	void commitPlayerList() throws PlayerManagerException {
+		for (Player p : players) {
+			try {
+				PreferenceFileManager.getInstance().savePlayer(p);
+			} catch (PreferenceFileManagerException e) {
+				throw new PlayerManagerException(e.getMessage());
+			}
+		}
 	}
 
 	Player getPlayerByPosition(int position) throws PlayerManagerException {

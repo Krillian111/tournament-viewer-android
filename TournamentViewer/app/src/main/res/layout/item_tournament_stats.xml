@@ -42,7 +42,7 @@
         android:textSize="@dimen/text_default_size"/>
 
     <TextView
-        android:id="@+id/tournament_stats_item_ranking"
+        android:id="@+id/tournament_stats_item_win_rate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="20"

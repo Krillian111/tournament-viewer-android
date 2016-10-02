@@ -18,47 +18,44 @@ import de.tum.kickercoding.tournamentviewer.manager.AppManager;
 /**
  * Fragment contains a ListView with a global list of players and a button to add additional players
  * <br>
- * Changes to list are only permanent if they are commited using {@link AppManager#commitPlayerList()}
+ * Changes to list are only permanent if they are commited using {@link AppManager#commitPlayerList()} ()}
  */
 public class AddPlayersFragment extends Fragment {
 
-    public AddPlayersFragment(){}
-
-    public static AddPlayersFragment getInstance() {
-        return new AddPlayersFragment();
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_add_players, container, false);
-    }
+	public AddPlayersFragment() {
+	}
 
 	@Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        preparePlayerListView(view);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+							 Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.fragment_add_players, container, false);
+	}
+
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		preparePlayerListView(view);
 		attachButtonListener(view);
-    }
+	}
 
 	private void preparePlayerListView(View view) {
-        ListView playerListView = (ListView) view.findViewById(R.id.list_view_add_players);
-        playerListView.setAdapter(new PlayerListAdapter(getActivity()));
+		ListView playerListView = (ListView) view.findViewById(R.id.list_view_add_players);
+		playerListView.setAdapter(new PlayerListAdapter(getActivity()));
 
-        playerListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-            public void onItemClick(AdapterView<?> arg0, View view,int position, long arg3) {
-                try {
-                    Player player = AppManager.getInstance().getPlayer(position);
-                    AppManager.getInstance().displayError(getActivity(), player.toString());
-                } catch (AppManagerException e) {
-                    AppManager.getInstance().displayError(getActivity(), "Error: Player not found");
-                }
-            }
-        });
-    }
+		playerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			public void onItemClick(AdapterView<?> arg0, View view, int position, long arg3) {
+				try {
+					Player player = AppManager.getInstance().getPlayer(position);
+					AppManager.getInstance().displayError(getActivity(), player.toString());
+				} catch (AppManagerException e) {
+					AppManager.getInstance().displayError(getActivity(), "Error: Player not found");
+				}
+			}
+		});
+	}
 
 	private void attachButtonListener(View view) {
 		Button addPlayerButton = (Button) view.findViewById(R.id.button_add_player);
-		addPlayerButton.setOnClickListener(new View.OnClickListener(){
+		addPlayerButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View buttonView) {
 				addPlayerToList(buttonView);
@@ -66,16 +63,17 @@ public class AddPlayersFragment extends Fragment {
 		});
 	}
 
-    private void addPlayerToList(View buttonView) {
-        View rootView = buttonView.getRootView();
-        EditText editableNewPlayer = (EditText) rootView.findViewById(R.id.editable_new_player);
-        String newPlayer = editableNewPlayer.getText().toString();
-        ListView listView = (ListView) rootView.findViewById(R.id.list_view_add_players);
-        try {
-            AppManager.getInstance().addNewPlayer(newPlayer);
-        } catch (AppManagerException e) {
-            AppManager.getInstance().displayError(buttonView.getContext(), e.getMessage());
-        }
-        ((PlayerListAdapter) listView.getAdapter()).notifyDataSetChanged();
-    }
+	private void addPlayerToList(View buttonView) {
+		View rootView = buttonView.getRootView();
+		EditText editableNewPlayer = (EditText) rootView.findViewById(R.id.editable_new_player);
+		String newPlayer = editableNewPlayer.getText().toString();
+		try {
+			AppManager.getInstance().addNewPlayer(newPlayer);
+		} catch (AppManagerException e) {
+			AppManager.getInstance().displayError(buttonView.getContext(), e.getMessage());
+			return;
+		}
+		ListView listView = (ListView) rootView.findViewById(R.id.list_view_add_players);
+		((PlayerListAdapter) listView.getAdapter()).notifyDataSetChanged();
+	}
 }

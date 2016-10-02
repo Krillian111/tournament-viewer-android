@@ -8,7 +8,7 @@ import java.util.List;
 import de.tum.kickercoding.tournamentviewer.entities.Game;
 import de.tum.kickercoding.tournamentviewer.entities.Player;
 import de.tum.kickercoding.tournamentviewer.entities.Tournament;
-import de.tum.kickercoding.tournamentviewer.exceptions.PreferenceFileException;
+import de.tum.kickercoding.tournamentviewer.exceptions.PreferenceFileManagerException;
 import de.tum.kickercoding.tournamentviewer.exceptions.TournamentManagerException;
 import de.tum.kickercoding.tournamentviewer.tournament.Matchmaking;
 import de.tum.kickercoding.tournamentviewer.tournament.monsterdyp.MonsterDypMatchmaking;
@@ -17,7 +17,9 @@ import de.tum.kickercoding.tournamentviewer.util.TournamentMode;
 // TODO: write unit tests
 class TournamentManager {
 
-	static TournamentManager instance = new TournamentManager();
+	private final String LOG_TAG = TournamentManager.class.toString();
+
+	private static TournamentManager instance = new TournamentManager();
 
 	static TournamentManager getInstance() {
 		return instance;
@@ -30,16 +32,27 @@ class TournamentManager {
 
 	private Tournament currentTournament;
 
+	void initialize() {
+		currentTournament = new Tournament();
+	}
 
-	void initialize(TournamentMode mode) {
-		this.currentTournament = new Tournament();
-		switch (mode) {
-			case MONSTERDYP:
-				matchmaking = MonsterDypMatchmaking.getInstance();
-				break;
-			default:
-				Log.e(TournamentManager.class.toString(),
-						String.format("initialize: used mode %s not yet implemented", mode.getName()));
+	void setMode(TournamentMode mode) {
+		currentTournament.setMode(mode);
+	}
+
+	void initMatchmaking() throws TournamentManagerException {
+		TournamentMode mode = currentTournament.getMode();
+		if (mode != null) {
+			switch (mode) {
+				case MONSTERDYP:
+					matchmaking = MonsterDypMatchmaking.getInstance();
+					break;
+				default:
+					Log.e(LOG_TAG,
+							String.format("initialize: mode %s not yet implemented", currentTournament.getMode()));
+			}
+		} else {
+			throw new TournamentManagerException("TournamentMode was not set, cannot create games");
 		}
 	}
 
@@ -49,12 +62,35 @@ class TournamentManager {
 			int numberOfGames = PreferenceFileManager.getInstance().loadNumberOfGames();
 			currentTournament.setMaxScore(maxScore);
 			currentTournament.setNumberOfGames(numberOfGames);
-		} catch (PreferenceFileException e) {
+		} catch (PreferenceFileManagerException e) {
 			throw new TournamentManagerException("Failed to start new tournament, wrapped Exception:" + e.toString());
 		}
 	}
 
-	boolean toggleParticipation(Player player) {
+	void saveTournament() throws PreferenceFileManagerException {
+		PreferenceFileManager.getInstance().saveTournament(currentTournament);
+	}
+
+	void loadTournament() throws PreferenceFileManagerException, TournamentManagerException {
+		Tournament loadedTournament = PreferenceFileManager.getInstance().loadTournament();
+		if (loadedTournament != null) {
+			currentTournament = loadedTournament;
+		} else {
+			throw new TournamentManagerException("Loading tournament failed; Tournament must be created from scratch");
+		}
+	}
+
+	void finishTournament() throws TournamentManagerException {
+		if (currentTournament.isFinished()) {
+			throw new TournamentManagerException("Can't finish: Tournament was already finished previously");
+		}
+		currentTournament.setFinished(true);
+	}
+
+	boolean toggleParticipation(Player player) throws TournamentManagerException {
+		if (currentTournament.isFinished()) {
+			throw new TournamentManagerException("Can't toggle player participation: Tournament finished");
+		}
 		if (currentTournament.getPlayers().contains(player)) {
 			removePlayer(player);
 			return false;
@@ -68,7 +104,13 @@ class TournamentManager {
 		return currentTournament.getPlayers().contains(new Player(playerName));
 	}
 
-	void generateRound() {
+	void generateRound() throws TournamentManagerException {
+		if (currentTournament.isFinished()) {
+			throw new TournamentManagerException("Can't create new round: Tournament finished");
+		}
+		if (matchmaking == null) {
+			initMatchmaking();
+		}
 		List<Game> newGames;
 		if (isOneOnOne()) {
 			newGames = matchmaking.generateRound1on1(getPlayers());
@@ -78,10 +120,15 @@ class TournamentManager {
 		for (Game game : newGames) {
 			addGame(game);
 		}
-
 	}
 
-	void generateGame() {
+	void generateGame() throws TournamentManagerException {
+		if (currentTournament.isFinished()) {
+			throw new TournamentManagerException("Can't create new game: Tournament finished");
+		}
+		if (matchmaking == null) {
+			initMatchmaking();
+		}
 		Game game;
 		if (isOneOnOne()) {
 			game = matchmaking.generateGame1on1(getPlayers());
@@ -95,6 +142,9 @@ class TournamentManager {
 	 * Commit results of all finished but not yet committed games.
 	 */
 	void commitGames() throws TournamentManagerException {
+		if (currentTournament.isFinished()) {
+			throw new TournamentManagerException("Can't commit games: Tournament finished");
+		}
 		List<Game> games = getGamesToCommit();
 		for (Game game : games) {
 			commitGame(game);
@@ -115,27 +165,27 @@ class TournamentManager {
 		int scoreTeam2 = game.getScoreTeam2();
 		List<String> team2 = game.getTeam2PlayerNames();
 		if (scoreTeam1 == scoreTeam2) {
-			// add a tied and a played game to both teams (played = implicitly)
+			// add a tied game to both teams
 			addTiedGame(team1);
 			addTiedGame(team2);
 			// TODO: update ranking score of all players
 		} else if (scoreTeam1 > scoreTeam2) {
-			// add a won game to team 1, a lost game to team 2 and a played game to both teams (played = implicitly)
+			// add a won game to team 1, a lost game to team 2
 			addWonGame(team1);
 			addLostGame(team2);
 			// TODO: update ranking score of all players
 		} else {
-			// add a won game to team 2, a lost game to team 1 and a played game to both teams (played = implicitly)
+			// add a won game to team 2, a lost game to team 1
 			addWonGame(team2);
 			addLostGame(team1);
 			// TODO: update ranking score of all players
 		}
 		game.setResultCommitted(true);
 		if (isOneOnOne()) {
-			Log.d(TournamentManager.class.toString(), String.format("commitGame: game %s vs %s was commited " +
+			Log.d(LOG_TAG, String.format("commitGame: game %s vs %s was commited " +
 					"with result (%d:%d)", team1.get(0), team2.get(0), scoreTeam1, scoreTeam2));
 		} else {
-			Log.d(TournamentManager.class.toString(), String.format("commitGame: game with team1(%s,%s) vs " +
+			Log.d(LOG_TAG, String.format("commitGame: game with team1(%s,%s) vs " +
 							"team2(%s,%s) was commited with result (%d:%d)",
 					team1.get(0), team1.get(1), team2.get(0), team2.get(1), scoreTeam1, scoreTeam2));
 		}
@@ -161,7 +211,7 @@ class TournamentManager {
 		Player playerToUpdate;
 		for (String playerName : playersToUpdate) {
 			playerToUpdate = getPlayerByName(playerName);
-			playerToUpdate.setPlayedGames(playerToUpdate.getPlayedGames() + 1);
+			playerToUpdate.setTiedGamesInTournament(playerToUpdate.getTiedGamesInTournament() + 1);
 			playerToUpdate.setTiedGames(playerToUpdate.getTiedGames() + 1);
 		}
 	}
@@ -175,7 +225,7 @@ class TournamentManager {
 		Player playerToUpdate;
 		for (String playerName : playersToUpdate) {
 			playerToUpdate = getPlayerByName(playerName);
-			playerToUpdate.setPlayedGames(playerToUpdate.getPlayedGames() + 1);
+			playerToUpdate.setWonGamesInTournament(playerToUpdate.getWonGamesInTournament() + 1);
 			playerToUpdate.setWonGames(playerToUpdate.getWonGames() + 1);
 		}
 	}
@@ -189,7 +239,7 @@ class TournamentManager {
 		Player playerToUpdate;
 		for (String playerName : playersToUpdate) {
 			playerToUpdate = getPlayerByName(playerName);
-			playerToUpdate.setPlayedGames(playerToUpdate.getPlayedGames() + 1);
+			playerToUpdate.setLostGamesInTournament(playerToUpdate.getLostGamesInTournament() + 1);
 			playerToUpdate.setLostGames(playerToUpdate.getLostGames() + 1);
 		}
 	}
@@ -210,11 +260,14 @@ class TournamentManager {
 		throw new TournamentManagerException("No player found for the requested name");
 	}
 
-	void addGame(Game game) {
+	private void addGame(Game game) {
 		currentTournament.addGame(game);
 	}
 
-	boolean removeLastGame() {
+	boolean removeLastGame() throws TournamentManagerException {
+		if (currentTournament.isFinished()) {
+			throw new TournamentManagerException("Can't remove game: Tournament finished");
+		}
 		return currentTournament.removeLastGame();
 	}
 
@@ -224,6 +277,9 @@ class TournamentManager {
 
 	//TODO: handle editing finished game (how do we allow "admin edit" or just extra confirm?)
 	void finalizeGame(int position, int scoreTeam1, int scoreTeam2) throws TournamentManagerException {
+		if (currentTournament.isFinished()) {
+			throw new TournamentManagerException("Can't finalize game: Tournament finished");
+		}
 		int maxScore = currentTournament.getMaxScore();
 		if (position >= getGames().size()) {
 			throw new IndexOutOfBoundsException("game with position " + position + " does not exist");
@@ -232,6 +288,9 @@ class TournamentManager {
 					"team2:%d", scoreTeam1, scoreTeam2));
 		} else {
 			Game gameToBeFinalized = currentTournament.getGame(position);
+			if (gameToBeFinalized.isResultCommitted()) {
+				throw new TournamentManagerException("Game was already committed, can't alter results");
+			}
 			gameToBeFinalized.setScoreTeam1(scoreTeam1);
 			gameToBeFinalized.setScoreTeam2(scoreTeam2);
 			gameToBeFinalized.setFinished(true);
@@ -239,14 +298,21 @@ class TournamentManager {
 	}
 
 	void addPlayer(Player player) {
+		// reset stats for tournament
+		player.setWonGamesInTournament(0);
+		player.setLostGamesInTournament(0);
+		player.setTiedGamesInTournament(0);
 		currentTournament.addPlayer(player);
 	}
 
-	boolean removePlayer(Player player) {
+	private boolean removePlayer(Player player) {
 		return currentTournament.removePlayer(player);
 	}
 
-	boolean removePlayer(String name) {
+	boolean removePlayer(String name) throws TournamentManagerException {
+		if (currentTournament.isFinished()) {
+			throw new TournamentManagerException("Can't remove player: Tournament finished");
+		}
 		// use fake player to force removal; players with identical name are considered equal
 		return removePlayer(new Player(name));
 	}
@@ -257,5 +323,9 @@ class TournamentManager {
 
 	public boolean isOneOnOne() {
 		return currentTournament.isOneOnOne();
+	}
+
+	public int getMaxScore() {
+		return currentTournament.getMaxScore();
 	}
 }

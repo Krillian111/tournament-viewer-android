@@ -23,10 +23,6 @@ public class BasicSetupFragment extends Fragment {
 	public BasicSetupFragment() {
 	}
 
-	public static BasicSetupFragment getInstance() {
-		return new BasicSetupFragment();
-	}
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
@@ -41,7 +37,7 @@ public class BasicSetupFragment extends Fragment {
 
 	private void setInitialSetupValues(View view) {
 		try {
-			String maxScore = "" + AppManager.getInstance().getMaxScore();
+			String maxScore = "" + AppManager.getInstance().getMaxScoreFromSettings();
 			String numberOfGames = "" + AppManager.getInstance().getNumberOfGames();
 			((EditText) view.findViewById(R.id.editable_max_score)).setText(maxScore);
 			((EditText) view.findViewById(R.id.editable_number_games)).setText(numberOfGames);

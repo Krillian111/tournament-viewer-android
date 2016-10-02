@@ -1,194 +1,189 @@
 package de.tum.kickercoding.tournamentviewer.entities;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import com.google.gson.Gson;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
-import de.tum.kickercoding.tournamentviewer.util.Constants;
+
+public class Player {
+
+	private static final String DECIMAL_PATTERN = "#0.00###";
+
+	private String name;
+	private int wonGames;
+	private int lostGames;
+	private int tiedGames;
+	private int wonGamesInTournament;
+	private int lostGamesInTournament;
+	private int tiedGamesInTournament;
+	private double mmr;
+
+	public Player(String name) {
+		this.name = name;
+		wonGames = 0;
+		lostGames = 0;
+		tiedGames = 0;
+		wonGamesInTournament = 0;
+		lostGamesInTournament = 0;
+		tiedGamesInTournament = 0;
+		mmr = 0.0;
+
+	}
+
+	/**
+	 * utitliy constructor, used for unittest and copying objects (to prevent references to lists
+	 * of singletons)
+	 *
+	 * @param name
+	 * @param wonGames
+	 * @param lostGames
+	 * @param tiedGames
+	 * @param wonGamesInTournament
+	 * @param lostGamesInTournament
+	 * @param tiedGamesInTournament
+	 * @param mmr
+	 */
+	public Player(String name, int wonGames, int lostGames, int tiedGames, int wonGamesInTournament, int
+			lostGamesInTournament, int tiedGamesInTournament,
+				  double mmr) {
+		this.name = name;
+		this.wonGames = wonGames;
+		this.lostGames = lostGames;
+		this.tiedGames = tiedGames;
+		this.wonGamesInTournament = wonGamesInTournament;
+		this.lostGamesInTournament = lostGamesInTournament;
+		this.tiedGamesInTournament = tiedGamesInTournament;
+		this.mmr = mmr;
+
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setWonGames(int wonGames) {
+		this.wonGames = wonGames;
+	}
+
+	public int getWonGames() {
+		return wonGames;
+	}
+
+	public void setLostGames(int lostGames) {
+		this.lostGames = lostGames;
+	}
+
+	public int getLostGames() {
+		return lostGames;
+	}
+
+	public void setTiedGames(int tiedGames) {
+		this.tiedGames = tiedGames;
+	}
+
+	public int getTiedGames() {
+		return tiedGames;
+	}
+
+	public int getWonGamesInTournament() {
+		return wonGamesInTournament;
+	}
+
+	public void setWonGamesInTournament(int wonGamesInTournament) {
+		this.wonGamesInTournament = wonGamesInTournament;
+	}
+
+	public int getLostGamesInTournament() {
+		return lostGamesInTournament;
+	}
+
+	public void setLostGamesInTournament(int lostGamesInTournament) {
+		this.lostGamesInTournament = lostGamesInTournament;
+	}
+
+	public int getTiedGamesInTournament() {
+		return tiedGamesInTournament;
+	}
+
+	public void setTiedGamesInTournament(int tiedGamesInTournament) {
+		this.tiedGamesInTournament = tiedGamesInTournament;
+	}
+
+	/**
+	 * rounds to 4 digits after comma before calling setter
+	 *
+	 * @param mmr
+	 */
+	public void setMmr(double mmr) {
+		this.mmr = roundDouble(mmr);
+	}
+
+	public double getMmr() {
+
+		return mmr;
+	}
+
+	public int getPlayedGames() {
+		return wonGames + lostGames + tiedGames;
+	}
+
+	public int getPlayedGamesInTournament() {
+		return wonGamesInTournament + lostGamesInTournament + tiedGamesInTournament;
+	}
+
+	public double getWinRate() {
+		if (getPlayedGames() != 0) {
+			return roundDouble(wonGames / (double) getPlayedGames());
+		} else {
+			return 0;
+		}
+	}
+
+	public double getWinRateInTournament() {
+		if (getPlayedGamesInTournament() != 0) {
+			return roundDouble(wonGamesInTournament / (double) getPlayedGamesInTournament());
+		} else {
+			return 0;
+		}
+	}
 
 
-public class Player implements Parcelable {
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Player) {
+			return ((Player) o).getName().equals(this.getName());
+		}
+		return false;
+	}
 
-    private static final String DECIMAL_PATTERN = "#0.00###";
+	private double roundDouble(double toRound) {
+		return Double.parseDouble(parseDouble(toRound));
+	}
 
-    // IMPORTANT: adjust writeToParcel when adding new fields
-    private String name;
-    private int playedGames;
-    private int wonGames;
-    private int lostGames;
-    private int tiedGames;
-    private double rankingScore;
+	private String parseDouble(double toParse) {
+		DecimalFormat df = new DecimalFormat(DECIMAL_PATTERN, new DecimalFormatSymbols(Locale.US));
+		return df.format(toParse);
+	}
 
-    public Player(String name) {
-        this.name = name;
-        playedGames = 0;
-        wonGames = 0;
-        lostGames = 0;
-        tiedGames = 0;
-        rankingScore = 0.0;
-    }
+	public Player copy() {
+		return new Player(name, wonGames, lostGames, tiedGames,
+				wonGamesInTournament, lostGamesInTournament, tiedGamesInTournament, mmr);
+	}
 
-    /**
-     * utitliy constructor, used for unittest and copying objects (to prevent references to lists
-     * of singletons)
-     *
-     * @param name
-     * @param playedGames
-     * @param wonGames
-     * @param lostGames
-     * @param tiedGames
-     * @param rankingScore
-     */
-    public Player(String name, int playedGames, int wonGames, int lostGames, int tiedGames, double rankingScore) {
-        this.name = name;
-        this.playedGames = playedGames;
-        this.wonGames = wonGames;
-        this.lostGames = lostGames;
-        this.tiedGames = tiedGames;
-        this.rankingScore = rankingScore;
-    }
+	/****************************
+	 * hand written (de)serialization using json
+	 * reason: "interface methods" of serializable would need to be wrapped into stream
+	 * parsing methods to generate the actual serialization
+	 *****************************/
+	public String toJson() {
+		Gson gson = new Gson();
+		return gson.toJson(this);
+	}
 
-    public String getName() {
-        return name;
-    }
-
-    public int getPlayedGames() {
-        return playedGames;
-    }
-
-    public int getWonGames() {
-        return wonGames;
-    }
-
-    public int getLostGames() {
-        return lostGames;
-    }
-
-    public int getTiedGames() {
-        return tiedGames;
-    }
-
-    public double getRankingScore() {
-        return rankingScore;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setPlayedGames(int playedGames) {
-        this.playedGames = playedGames;
-    }
-
-    public void setWonGames(int wonGames) {
-        this.wonGames = wonGames;
-    }
-
-    public void setLostGames(int lostGames) {
-        this.lostGames = lostGames;
-    }
-
-    public void setTiedGames(int tiedGames) {
-        this.tiedGames = tiedGames;
-    }
-
-    /**
-     * rounds to 4 digits after comma before calling setter
-     *
-     * @param rankingScore
-     */
-    public void setRankingScore(double rankingScore) {
-        this.rankingScore = roundDouble(rankingScore);
-    }
-
-    // Players with identical name need to return true; if change needed all utility methods based
-    // on name need to be changed as well!
-    //TODO: IMPLEMENT METHOD COMPARETO FOR CONSISTENCY
-    @Override
-    public boolean equals(Object o) {
-        if (o instanceof Player) {
-            return ((Player) o).getName().equals(this.getName());
-        }
-        return false;
-    }
-
-    /**
-     * toString() representation of player: 'name~playedGames~wonGames~lostGames~tiedGames~rankingScore'
-     */
-    @Override
-    public String toString() {
-        return String.format("%s_%d_%d_%d_%d_%s", name, playedGames, wonGames, lostGames, tiedGames, parseDouble(rankingScore));
-    }
-
-    public static Player fromString(String player) {
-        String[] playerFields = player.split(Constants.DELIMITER);
-        if (playerFields.length != 6) {
-            for (int i = 0; i < playerFields.length; i++) {
-                System.out.println(playerFields[i]);
-            }
-            throw new IllegalArgumentException("String representing player object must contain exactly 5 tildes \"~\"");
-        }
-        Player playerFromString = new Player(playerFields[0],
-                Integer.parseInt(playerFields[1]),
-                Integer.parseInt(playerFields[2]),
-                Integer.parseInt(playerFields[3]),
-                Integer.parseInt(playerFields[4]),
-                Double.parseDouble(playerFields[5]));
-        return playerFromString;
-    }
-
-    private double roundDouble(double toRound) {
-        return Double.parseDouble(parseDouble(toRound));
-    }
-
-    private String parseDouble(double toParse) {
-        DecimalFormat df = new DecimalFormat(DECIMAL_PATTERN, new DecimalFormatSymbols(Locale.US));
-        return df.format(toParse);
-    }
-
-    public Player copy() {
-        return new Player(name, playedGames, wonGames, lostGames, tiedGames, rankingScore);
-    }
-
-    /**********************************
-     * Parcelable interface methods
-     *********************************/
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(name);
-        dest.writeInt(playedGames);
-        dest.writeInt(wonGames);
-        dest.writeInt(lostGames);
-        dest.writeInt(tiedGames);
-        dest.writeDouble(rankingScore);
-    }
-
-    // Creator
-    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
-        public Player createFromParcel(Parcel in) {
-            return new Player(in);
-        }
-
-        public Player[] newArray(int size) {
-            return new Player[size];
-        }
-    };
-
-    private Player(Parcel in) {
-        name = in.readString();
-        playedGames = in.readInt();
-        wonGames = in.readInt();
-        lostGames = in.readInt();
-        tiedGames = in.readInt();
-        rankingScore = in.readDouble();
-    }
+	public static Player fromJson(String playerAsJson) {
+		Gson gson = new Gson();
+		return gson.fromJson(playerAsJson, Player.class);
+	}
 }
