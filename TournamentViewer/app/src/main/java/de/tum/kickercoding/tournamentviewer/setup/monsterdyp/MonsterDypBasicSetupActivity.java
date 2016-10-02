@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.TextView;
 
 import de.tum.kickercoding.tournamentviewer.R;
 import de.tum.kickercoding.tournamentviewer.exceptions.AppManagerException;
@@ -25,6 +25,7 @@ public class MonsterDypBasicSetupActivity extends AppCompatActivity {
 	/**
 	 * Called when "Next" button is pressed: starts activity for selecting players <br>
 	 * Returns without starting new activity if game settings could not be saved
+	 *
 	 * @param view
 	 */
 	public void goToPlayerSetup(View view) {
@@ -41,8 +42,9 @@ public class MonsterDypBasicSetupActivity extends AppCompatActivity {
 
 	// save max score and number of games
 	private void saveGameSettings(View view) throws AppManagerException {
-		int maxScore = Integer.parseInt(((EditText) view.findViewById(R.id.editable_max_score)).getText().toString());
-		int numberOfGames = Integer.parseInt(((EditText) view.findViewById(R.id.editable_number_games)).getText().toString());
+		int maxScore = Integer.parseInt(((TextView) view.findViewById(R.id.var_max_score)).getText().toString());
+		int numberOfGames = Integer.parseInt(((TextView) view.findViewById(R.id.var_number_games)).getText().toString
+				());
 		AppManager.getInstance().setMaxScore(maxScore);
 		AppManager.getInstance().setNumberOfGames(numberOfGames);
 	}

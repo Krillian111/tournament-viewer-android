@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:padding="@dimen/padding_global">
 
     <fragment
         android:id="@+id/monster_dyp_setup_tournament_stats"
         android:name="de.tum.kickercoding.tournamentviewer.setup.AddPlayersFragment"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="90"/>
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button_go_to_tournament"
+        android:layout_alignParentTop="true"/>
 
     <Button
+        android:id="@+id/button_go_to_tournament"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_weight="10"
         android:onClick="goToTournament"
         android:text="@string/button_next"/>
-</LinearLayout>
+</RelativeLayout>

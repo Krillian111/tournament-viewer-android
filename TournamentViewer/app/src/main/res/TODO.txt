@@ -26,6 +26,9 @@ TODOs:
 
 - add custom launcher icon
 
+- toast for succesfully adding a player (and succesful actions in general)
+
+- add number of selected players at bottom (player selection)
 
 
 minor features:

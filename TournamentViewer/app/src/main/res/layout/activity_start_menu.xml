@@ -3,27 +3,47 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="@dimen/padding_global">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/header_new_tournament"/>
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/padding_large_bottom">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="monsterDypSetup"
-        android:text="@string/button_monsterdyp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/header_new_tournament"
+            android:textSize="@dimen/header_default_size_big"/>
 
-    <TextView
+        <View style="@style/Divider"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="monsterDypSetup"
+            android:text="@string/button_monsterdyp"/>
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/header_load_tournament"/>
+        android:orientation="vertical">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="loadLastTournament"
-        android:text="@string/button_load_tournament"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/header_load_tournament"
+            android:textSize="@dimen/header_default_size_big"/>
+
+        <View style="@style/Divider"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="loadLastTournament"
+            android:text="@string/button_load_tournament"/>
+    </LinearLayout>
 </LinearLayout>

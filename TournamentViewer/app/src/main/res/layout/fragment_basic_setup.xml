@@ -3,58 +3,79 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".setup.BasicSetupFragment" >
+    android:padding="@dimen/padding_global"
+    tools:context=".setup.BasicSetupFragment">
+
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14pt"
-            android:text="@string/message_maxscore" />
+            android:text="@string/message_maxscore"
+            android:textSize="@dimen/header_default_size_big"/>
+
+        <View style="@style/Divider"/>
+
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/padding_large_bottom">
+
             <Button
                 android:id="@+id/button_setup_decrement_score"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/button_width_no_text"
                 android:layout_height="wrap_content"
-                android:text="@string/button_minus" />
-            <EditText android:id ="@+id/editable_max_score"
-                android:layout_width="wrap_content"
+                android:text="@string/button_minus"/>
+
+            <TextView
+                android:id="@+id/var_max_score"
+                android:layout_width="@dimen/text_single_double_digit"
                 android:layout_height="wrap_content"
-                android:textSize="10pt"
-                android:text="@string/message_defaultmaxscore" />
+                android:gravity="center"
+                android:text="@string/message_defaultmaxscore"
+                android:textSize="@dimen/text_default_size_big"/>
+
             <Button
                 android:id="@+id/button_setup_increment_score"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/button_width_no_text"
                 android:layout_height="wrap_content"
-                android:text="@string/button_plus" />
+                android:text="@string/button_plus"/>
         </LinearLayout>
+
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="14pt"
-            android:text="@string/message_numberofgames" />
+            android:text="@string/message_numberofgames"
+            android:textSize="@dimen/header_default_size_big"/>
+
+        <View style="@style/Divider"/>
+
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
+
             <Button
                 android:id="@+id/button_setup_decrement_games"
-                android:layout_width="wrap_content"
+                android:layout_width="45dp"
                 android:layout_height="wrap_content"
-                android:text="@string/button_minus" />
-            <EditText android:id ="@+id/editable_number_games"
-                android:layout_width="wrap_content"
+                android:text="@string/button_minus"/>
+
+            <TextView
+                android:id="@+id/var_number_games"
+                android:layout_width="@dimen/text_single_double_digit"
                 android:layout_height="wrap_content"
-                android:textSize="10pt"
-                android:text="@string/message_defaultnumberofgames" />
+                android:gravity="center"
+                android:text="@string/message_defaultnumberofgames"
+                android:textSize="@dimen/text_default_size_big"/>
+
             <Button
                 android:id="@+id/button_setup_increment_games"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/button_width_no_text"
                 android:layout_height="wrap_content"
                 android:text="@string/button_plus"/>
         </LinearLayout>

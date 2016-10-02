@@ -7,12 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.TextView;
 
-import de.tum.kickercoding.tournamentviewer.util.Constants;
 import de.tum.kickercoding.tournamentviewer.R;
 import de.tum.kickercoding.tournamentviewer.exceptions.AppManagerException;
 import de.tum.kickercoding.tournamentviewer.manager.AppManager;
+import de.tum.kickercoding.tournamentviewer.util.Constants;
 
 
 /**
@@ -39,13 +39,14 @@ public class BasicSetupFragment extends Fragment {
 		try {
 			String maxScore = "" + AppManager.getInstance().getMaxScoreFromSettings();
 			String numberOfGames = "" + AppManager.getInstance().getNumberOfGames();
-			((EditText) view.findViewById(R.id.editable_max_score)).setText(maxScore);
-			((EditText) view.findViewById(R.id.editable_number_games)).setText(numberOfGames);
+			((TextView) view.findViewById(R.id.var_max_score)).setText(maxScore);
+			((TextView) view.findViewById(R.id.var_number_games)).setText(numberOfGames);
 		} catch (AppManagerException e) {
 			AppManager.getInstance().displayError(getActivity(), "could not load settings, default values used");
 			Log.e(BasicSetupFragment.class.toString(), "setInitialSetupValues: " + e.getMessage());
-			((EditText) view.findViewById(R.id.editable_max_score)).setText(Constants.DEFAULT_MAX_SCORE.toString());
-			((EditText) view.findViewById(R.id.editable_number_games)).setText(Constants.DEFAULT_NUMBER_OF_GAMES.toString());
+			((TextView) view.findViewById(R.id.var_max_score)).setText(Constants.DEFAULT_MAX_SCORE.toString());
+			((TextView) view.findViewById(R.id.var_number_games)).setText(Constants.DEFAULT_NUMBER_OF_GAMES
+					.toString());
 		}
 	}
 
@@ -82,33 +83,33 @@ public class BasicSetupFragment extends Fragment {
 
 	private void incrementMaxScore(View view) {
 		View rootView = view.getRootView();
-		EditText editableMaxScore = (EditText) rootView.findViewById(R.id.editable_max_score);
-		Integer currentScore = Integer.parseInt(editableMaxScore.getText().toString());
+		TextView textViewMaxScore = (TextView) rootView.findViewById(R.id.var_max_score);
+		Integer currentScore = Integer.parseInt(textViewMaxScore.getText().toString());
 		currentScore++;
-		editableMaxScore.setText(currentScore.toString());
+		textViewMaxScore.setText(currentScore.toString());
 	}
 
 	private void decrementMaxScore(View view) {
 		View rootView = view.getRootView();
-		EditText editableMaxScore = (EditText) rootView.findViewById(R.id.editable_max_score);
-		Integer currentScore = Integer.parseInt(editableMaxScore.getText().toString());
+		TextView textViewMaxScore = (TextView) rootView.findViewById(R.id.var_max_score);
+		Integer currentScore = Integer.parseInt(textViewMaxScore.getText().toString());
 		currentScore--;
-		editableMaxScore.setText(currentScore.toString());
+		textViewMaxScore.setText(currentScore.toString());
 	}
 
 	private void incrementNumberOfGames(View view) {
 		View rootView = view.getRootView();
-		EditText editableMaxScore = (EditText) rootView.findViewById(R.id.editable_number_games);
-		Integer currentScore = Integer.parseInt(editableMaxScore.getText().toString());
+		TextView textViewNumberOfGames = (TextView) rootView.findViewById(R.id.var_number_games);
+		Integer currentScore = Integer.parseInt(textViewNumberOfGames.getText().toString());
 		currentScore++;
-		editableMaxScore.setText(currentScore.toString());
+		textViewNumberOfGames.setText(currentScore.toString());
 	}
 
 	private void decrementNumberOfGames(View view) {
 		View rootView = view.getRootView();
-		EditText editableMaxScore = (EditText) rootView.findViewById(R.id.editable_number_games);
-		Integer currentScore = Integer.parseInt(editableMaxScore.getText().toString());
+		TextView textViewNumberOfGames = (TextView) rootView.findViewById(R.id.var_number_games);
+		Integer currentScore = Integer.parseInt(textViewNumberOfGames.getText().toString());
 		currentScore--;
-		editableMaxScore.setText(currentScore.toString());
+		textViewNumberOfGames.setText(currentScore.toString());
 	}
 }

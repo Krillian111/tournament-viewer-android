@@ -48,13 +48,18 @@
     <string name="button_generate_playoffs">PLAYOFFS</string>
     <string name="button_finish_tournament">FINISH</string>
 
-    <string name="title_player_details">Player details:</string>
-    <string name="header_player_rank">#</string>
+    <string name="title_player_details">Player details</string>
+    <string name="header_player_rank_short">#</string>
+    <string name="header_player_rank">Rank</string>
     <string name="header_player_name">Name</string>
-    <string name="header_player_games_total">G</string>
-    <string name="header_player_games_won">W</string>
-    <string name="header_player_games_lost">L</string>
-    <string name="header_player_games_tied">T</string>
+    <string name="header_player_games_total_short">G</string>
+    <string name="header_player_games_total">Games</string>
+    <string name="header_player_games_won_short">W</string>
+    <string name="header_player_games_won">Wins</string>
+    <string name="header_player_games_lost_short">L</string>
+    <string name="header_player_games_lost">Losses</string>
+    <string name="header_player_games_tied_short">T</string>
+    <string name="header_player_games_tied">Ties</string>
     <string name="header_player_win_rate">Score</string>
     <string name="header_player_mmr">Rating</string>
     <string name="button_player_details_back">Back</string>

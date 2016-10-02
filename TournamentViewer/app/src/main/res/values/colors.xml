@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#3ba4ef</color>
+    <color name="colorPrimaryDark">#203ea0</color>
+    <color name="colorAccent">#5daf7b</color>
     <color name="text_standard">#000000</color>
-    <color name="text_header">#303F9F</color>
-    <color name="player_signed_up">#66CC8A</color>
-    <color name="player_not_signed_up">#FFFFFF</color>
+    <color name="text_header">@color/colorPrimaryDark</color>
+    <color name="player_signed_up">@color/colorAccent</color>
+    <color name="player_not_signed_up">#ffffff</color>
+    <color name="divider">@color/colorPrimary</color>
 </resources>

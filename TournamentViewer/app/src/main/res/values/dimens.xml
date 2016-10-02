@@ -6,8 +6,19 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
 
-    <dimen name="header_default_size">16sp</dimen>
-    <dimen name="button_default_size">14sp</dimen>
+    <!-- text sizes -->
+    <dimen name="header_default_size_big">20sp</dimen>
+    <dimen name="text_default_size_big">18sp</dimen>
+    <dimen name="button_default_text_size">14sp</dimen>
     <dimen name="text_default_size">14sp</dimen>
 
+    <!-- padding -->
+    <dimen name="padding_left_right_global">2dp</dimen>
+    <dimen name="padding_top_bot_global">2dp</dimen>
+    <dimen name="padding_global">2dp</dimen>
+    <dimen name="padding_large_bottom">30dp</dimen>
+
+    <!-- element sizes -->
+    <dimen name="button_width_no_text">45dp</dimen>
+    <dimen name="text_single_double_digit">40dp</dimen>
 </resources>

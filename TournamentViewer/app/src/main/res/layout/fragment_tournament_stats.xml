@@ -14,9 +14,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="5"
-            android:text="@string/header_player_rank"
+            android:text="@string/header_player_rank_short"
             android:textColor="@color/text_header"
-            android:textSize="@dimen/header_default_size"/>
+            android:textSize="@dimen/text_default_size_big"/>
 
         <TextView
             android:layout_width="0dp"
@@ -26,27 +26,27 @@
             android:text="@string/header_player_name"
             android:textAlignment="viewStart"
             android:textColor="@color/text_header"
-            android:textSize="@dimen/header_default_size"/>
+            android:textSize="@dimen/text_default_size_big"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="15"
             android:maxLines="1"
-            android:text="@string/header_player_games_total"
+            android:text="@string/header_player_games_total_short"
             android:textAlignment="center"
             android:textColor="@color/text_header"
-            android:textSize="@dimen/header_default_size"/>
+            android:textSize="@dimen/text_default_size_big"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="15"
             android:maxLines="1"
-            android:text="@string/header_player_games_won"
+            android:text="@string/header_player_games_won_short"
             android:textAlignment="center"
             android:textColor="@color/text_header"
-            android:textSize="@dimen/header_default_size"/>
+            android:textSize="@dimen/text_default_size_big"/>
 
         <TextView
             android:layout_width="0dp"
@@ -56,15 +56,20 @@
             android:text="@string/header_player_win_rate"
             android:textAlignment="center"
             android:textColor="@color/text_header"
-            android:textSize="@dimen/header_default_size"/>
+            android:textSize="@dimen/text_default_size_big"/>
     </LinearLayout>
+
+    <View
+        android:id="@+id/tournament_stats_header_divider"
+        style="@style/Divider.Small"
+        android:layout_below="@+id/tournament_stats_header_line"/>
 
     <ListView
         android:id="@+id/list_view_tournament_stats"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/tournament_stats_header_line"
-        android:divider="@color/text_standard"
+        android:layout_below="@+id/tournament_stats_header_divider"
+        android:divider="@color/colorPrimaryDark"
         android:dividerHeight="0.1dp">
     </ListView>
 

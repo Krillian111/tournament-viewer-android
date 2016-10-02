@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingLeft="3dp"
-    android:paddingRight="3dp">
+    android:padding="@dimen/padding_global">
 
     <fragment
         android:id="@+id/monster_dyp_setup_tournament_stats"
