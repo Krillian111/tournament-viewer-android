@@ -141,7 +141,12 @@ public class AppManager {
 		}
 	}
 
-	public boolean isTournamentOneOnOne() {
+
+	public void setOneOnOne(boolean oneOnOne) {
+		tournamentManager.setOneOnOne(oneOnOne);
+	}
+
+	public boolean isOneOnOne() {
 		return tournamentManager.isOneOnOne();
 	}
 

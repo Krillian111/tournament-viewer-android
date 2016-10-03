@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +13,7 @@ import de.tum.kickercoding.tournamentviewer.R;
 import de.tum.kickercoding.tournamentviewer.StartMenuActivity;
 import de.tum.kickercoding.tournamentviewer.exceptions.AppManagerException;
 import de.tum.kickercoding.tournamentviewer.manager.AppManager;
+import de.tum.kickercoding.tournamentviewer.setup.monsterdyp.TournamentPagerAdapter;
 
 public class MonsterDypTournamentActivity extends AppCompatActivity {
 
@@ -21,6 +23,11 @@ public class MonsterDypTournamentActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_monster_dyp_tournament);
+
+		TournamentPagerAdapter pagerAdapter = new TournamentPagerAdapter(getSupportFragmentManager());
+
+		final ViewPager pager = (ViewPager) findViewById(R.id.tournament_pager);
+		pager.setAdapter(pagerAdapter);
 	}
 
 	@Override

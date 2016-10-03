@@ -3,7 +3,7 @@
           package="de.tum.kickercoding.tournamentviewer">
 
     <application
-        android:name="de.tum.kickercoding.tournamentviewer.TournamentViewerApplication"
+        android:name=".TournamentViewerApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -18,8 +18,9 @@
         </activity>
         <activity android:name=".setup.monsterdyp.MonsterDypBasicSetupActivity"/>
         <activity android:name=".setup.monsterdyp.MonsterDypPlayerSetupActivity"/>
-
         <activity android:name=".tournament.monsterdyp.MonsterDypTournamentActivity"/>
+        <activity android:name=".setup.monsterdyp.TestActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import de.tum.kickercoding.tournamentviewer.R;
@@ -45,7 +46,9 @@ public class MonsterDypBasicSetupActivity extends AppCompatActivity {
 		int maxScore = Integer.parseInt(((TextView) view.findViewById(R.id.var_max_score)).getText().toString());
 		int numberOfGames = Integer.parseInt(((TextView) view.findViewById(R.id.var_number_games)).getText().toString
 				());
+		boolean oneOnOne = ((CheckBox) view.findViewById(R.id.checkbox_one_on_one)).isChecked();
 		AppManager.getInstance().setMaxScore(maxScore);
 		AppManager.getInstance().setNumberOfGames(numberOfGames);
+		AppManager.getInstance().setOneOnOne(oneOnOne);
 	}
 }

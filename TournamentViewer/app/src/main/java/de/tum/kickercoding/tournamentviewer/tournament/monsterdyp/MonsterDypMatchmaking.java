@@ -30,19 +30,19 @@ public class MonsterDypMatchmaking implements Matchmaking {
 
 
 	@Override
-	public Game generateGame2on2(List<Player> players) {
-		List<Player> playersToMatch = selectPlayers(players, false, true);
-		return generateRandomGame(playersToMatch, false);
+	public Game generateGame(List<Player> players, boolean oneOnOne) {
+		List<Player> playersToMatch = selectPlayers(players, oneOnOne, true);
+		return generateRandomGame(playersToMatch, oneOnOne);
 	}
 
 	@Override
-	public List<Game> generateRound2on2(List<Player> players) {
-		List<Player> playersToMatch = selectPlayers(players, false, false);
+	public List<Game> generateRound(List<Player> players, boolean oneOnOne) {
+		List<Player> playersToMatch = selectPlayers(players, oneOnOne, false);
 		int gamesToGenerate = players.size() / 4;
 
 		List<Game> generatedGames = new ArrayList<>();
 		for (int i = 0;i < gamesToGenerate;i++) {
-			generatedGames.add(generateRandomGame(playersToMatch, false));
+			generatedGames.add(generateRandomGame(playersToMatch, oneOnOne));
 		}
 		return generatedGames;
 	}
@@ -89,22 +89,5 @@ public class MonsterDypMatchmaking implements Matchmaking {
 			playersForGame.add(players.remove(playerPosition));
 		}
 		return new Game(playersForGame);
-	}
-
-
-	/**********************************
-	 * 1 on 1 Matchmaking
-	 *********************************/
-
-	// TODO: implement
-	@Override
-	public Game generateGame1on1(List<Player> players) {
-		return null;
-	}
-
-	// TODO: implement
-	@Override
-	public List<Game> generateRound1on1(List<Player> players) {
-		return null;
 	}
 }

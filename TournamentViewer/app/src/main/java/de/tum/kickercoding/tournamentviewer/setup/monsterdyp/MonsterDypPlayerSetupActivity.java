@@ -51,7 +51,7 @@ public class MonsterDypPlayerSetupActivity extends AppCompatActivity {
 		// (needs to be done here as commitPlayerList() might also be used elsewhere)
 		int playersInTournament = AppManager.getInstance().getPlayersForTournament().size();
 		if (playersInTournament < 4) {
-			if (playersInTournament < 2 || !AppManager.getInstance().isTournamentOneOnOne()) {
+			if (playersInTournament < 2 || !AppManager.getInstance().isOneOnOne()) {
 				return false;
 			}
 		}

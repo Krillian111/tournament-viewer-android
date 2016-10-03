@@ -68,13 +68,17 @@ public class TournamentGamesAdapter extends BaseAdapter implements ListAdapter {
 	private void populateTextViews(View view, int position) {
 		Game game = (Game) getItem(position);
 		List<String> namesTeam1 = game.getTeam1PlayerNames();
-		String team1InView = namesTeam1.get(0) + "\n" + namesTeam1.get(1);
 		List<String> namesTeam2 = game.getTeam2PlayerNames();
-		String team2InView = namesTeam2.get(0) + "\n" + namesTeam2.get(1);
+		String team1InView = namesTeam1.get(0);
+		String team2InView = namesTeam2.get(0);
+		if (!AppManager.getInstance().isOneOnOne()) {
+			team1InView += "\n" + namesTeam1.get(1);
+			team2InView += "\n" + namesTeam2.get(1);
+		}
+
 		prepareTextView(view, R.id.tournament_game_item_team_1, team1InView);
 		prepareTextView(view, R.id.tournament_game_item_team_2, team2InView);
 		prepareTextView(view, R.id.tournament_game_item_score, game.getScoreTeam1() + ":" + game.getScoreTeam2());
-
 	}
 
 	private void prepareTextView(View view, int id, String text) {

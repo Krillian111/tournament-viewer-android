@@ -8,6 +8,8 @@ TODOs:
 
 - add mmr (match making rating) for matchmaking, win rate is supposed to be used as ranking in a tournament
 
+- change sign up to onItemClick, details as button
+
 - unit tests (entities)
 
 - move "-GAME" button to game detail view
@@ -20,10 +22,11 @@ TODOs:
 
 - add number of selected players at bottom (player selection)
 
+- prevent negative input in basic setup
+
 
 minor features:
 - external ladder from start screen (sorting based on rank; seperate sorted copy of list necessary?)
-- add tabbed view for tournament
 
 major features:
 - add more sophisticated rating (e.g. elo)

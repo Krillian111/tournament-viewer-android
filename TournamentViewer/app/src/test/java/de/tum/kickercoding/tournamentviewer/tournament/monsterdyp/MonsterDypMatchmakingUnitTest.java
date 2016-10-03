@@ -17,7 +17,7 @@ import static org.junit.Assert.fail;
 public class MonsterDypMatchmakingUnitTest {
 
 	@Test
-	public void distinctPlayersMatched() {
+	public void distinctPlayersMatched2on2() {
 		// prepare input
 		Player p1 = new Player("p1", 1, 0, 0, 0, 0, 0, 0.0);
 		Player p2 = new Player("p2", 1, 1, 0, 0, 0, 0, 0.0);
@@ -38,7 +38,42 @@ public class MonsterDypMatchmakingUnitTest {
 		players.add(p7);
 		players.add(p8);
 		players.add(p9);
-		List<Game> games = MonsterDypMatchmaking.getInstance().generateRound2on2(players);
+		List<Game> games = MonsterDypMatchmaking.getInstance().generateRound(players, false);
+		for (Game game : games) {
+			for (Player p : game.getTeam1()) {
+				players.remove(p);
+			}
+			for (Player p : game.getTeam2()) {
+				players.remove(p);
+			}
+		}
+		assertTrue(players.size() == 1);
+		assertTrue(players.get(0).equals(p9));
+	}
+
+	@Test
+	public void distinctPlayersMatched1on1() {
+		// prepare input
+		Player p1 = new Player("p1", 1, 0, 0, 0, 0, 0, 0.0);
+		Player p2 = new Player("p2", 1, 1, 0, 0, 0, 0, 0.0);
+		Player p3 = new Player("p3", 2, 1, 0, 0, 0, 0, 0.0);
+		Player p4 = new Player("p4", 2, 2, 0, 0, 0, 0, 0.0);
+		Player p5 = new Player("p5", 3, 2, 0, 0, 0, 0, 0.0);
+		Player p6 = new Player("p6", 3, 3, 0, 0, 0, 0, 0.0);
+		Player p7 = new Player("p7", 4, 3, 0, 0, 0, 0, 0.0);
+		Player p8 = new Player("p8", 4, 4, 0, 0, 0, 0, 0.0);
+		Player p9 = new Player("p9", 5, 4, 0, 0, 0, 0, 0.0);
+		List<Player> players = new ArrayList<>();
+		players.add(p1);
+		players.add(p2);
+		players.add(p3);
+		players.add(p4);
+		players.add(p5);
+		players.add(p6);
+		players.add(p7);
+		players.add(p8);
+		players.add(p9);
+		List<Game> games = MonsterDypMatchmaking.getInstance().generateRound(players, true);
 		for (Game game : games) {
 			for (Player p : game.getTeam1()) {
 				players.remove(p);

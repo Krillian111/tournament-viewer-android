@@ -17,12 +17,14 @@
     <!-- Monster Dyp Setup Basic Setup-->
     <!-- ###################### -->
     <string name="button_next">Next</string>
-    <string name="message_maxscore">Max Score</string>
+    <string name="header_maxscore">Max Score</string>
     <string name="message_defaultmaxscore">7</string>
-    <string name="message_numberofgames">Number of games</string>
+    <string name="header_numberofgames">Number of games (not yet implemented)</string>
     <string name="message_defaultnumberofgames">1</string>
     <string name="button_plus">+</string>
     <string name="button_minus">-</string>
+    <string name="header_other_options">Other Options</string>
+    <string name="message_one_on_one">1v1</string>
     <!-- ###################### -->
     <!-- Monster Dyp Player Setup-->
     <!-- ###################### -->
@@ -34,6 +36,9 @@
     <!-- ###################### -->
     <!-- Monster Dyp Tournament -->
     <!-- ###################### -->
+    <string name="page_header_stats">Stats</string>
+    <string name="page_header_games">Games</string>
+
     <string name="button_add_game">+Game</string>
     <string name="button_add_round">+Round</string>
     <string name="button_remove_last_game">-Game</string>

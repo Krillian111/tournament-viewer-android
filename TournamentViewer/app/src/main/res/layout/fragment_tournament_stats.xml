@@ -61,15 +61,16 @@
 
     <View
         android:id="@+id/tournament_stats_header_divider"
-        style="@style/Divider.Small"
-        android:layout_below="@+id/tournament_stats_header_line"/>
+        style="@style/Divider.Tiny"
+        android:layout_below="@+id/tournament_stats_header_line"
+        android:background="@color/divider_neutral"/>
 
     <ListView
         android:id="@+id/list_view_tournament_stats"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/tournament_stats_header_divider"
-        android:divider="@color/colorPrimaryDark"
+        android:divider="@color/divider_neutral"
         android:dividerHeight="0.1dp">
     </ListView>
 

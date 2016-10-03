@@ -14,7 +14,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/message_maxscore"
+            android:text="@string/header_maxscore"
             android:textSize="@dimen/header_default_size_big"/>
 
         <View style="@style/Divider"/>
@@ -49,7 +49,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/message_numberofgames"
+            android:text="@string/header_numberofgames"
             android:textSize="@dimen/header_default_size_big"/>
 
         <View style="@style/Divider"/>
@@ -57,7 +57,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/padding_large_bottom">
 
             <Button
                 android:id="@+id/button_setup_decrement_games"
@@ -79,5 +80,20 @@
                 android:layout_height="wrap_content"
                 android:text="@string/button_plus"/>
         </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/header_other_options"
+            android:textSize="@dimen/header_default_size_big"/>
+
+        <View style="@style/Divider"/>
+
+        <CheckBox
+            android:id="@+id/checkbox_one_on_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/message_one_on_one"/>
+
     </LinearLayout>
 </FrameLayout>

@@ -8,4 +8,5 @@
     <color name="player_signed_up">@color/colorAccent</color>
     <color name="player_not_signed_up">#ffffff</color>
     <color name="divider">@color/colorPrimary</color>
+    <color name="divider_neutral">#c1c1c1</color>
 </resources>

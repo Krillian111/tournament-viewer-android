@@ -115,12 +115,7 @@ class TournamentManager {
 		if (matchmaking == null) {
 			initMatchmaking();
 		}
-		List<Game> newGames;
-		if (isOneOnOne()) {
-			newGames = matchmaking.generateRound1on1(getPlayers());
-		} else {
-			newGames = matchmaking.generateRound2on2(getPlayers());
-		}
+		List<Game> newGames = matchmaking.generateRound(getPlayers(), isOneOnOne());
 		for (Game game : newGames) {
 			addGame(game);
 		}
@@ -133,12 +128,7 @@ class TournamentManager {
 		if (matchmaking == null) {
 			initMatchmaking();
 		}
-		Game game;
-		if (isOneOnOne()) {
-			game = matchmaking.generateGame1on1(getPlayers());
-		} else {
-			game = matchmaking.generateGame2on2(getPlayers());
-		}
+		Game game = matchmaking.generateGame(getPlayers(), isOneOnOne());
 		addGame(game);
 	}
 
@@ -342,6 +332,11 @@ class TournamentManager {
 	boolean isOneOnOne() {
 		return currentTournament.isOneOnOne();
 	}
+
+	void setOneOnOne(boolean oneOnOne) {
+		currentTournament.setOneOnOne(oneOnOne);
+	}
+
 
 	int getMaxScore() {
 		return currentTournament.getMaxScore();

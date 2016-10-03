@@ -95,7 +95,6 @@ public class Tournament {
 
 	public void setOneOnOne(boolean oneOnOne) {
 		this.oneOnOne = oneOnOne;
-
 	}
 
 	public boolean isOneOnOne() {
