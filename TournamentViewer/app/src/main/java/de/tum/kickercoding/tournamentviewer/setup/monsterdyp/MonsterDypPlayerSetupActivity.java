@@ -33,16 +33,29 @@ public class MonsterDypPlayerSetupActivity extends AppCompatActivity {
 
 	public void goToTournament(View view) {
 		try {
-			saveSelectedPlayers();
+			boolean savingSuccessful = saveSelectedPlayers();
+			if (!savingSuccessful) {
+				AppManager.getInstance().displayError(this, "Insufficient players to start tournament!");
+			} else {
+				Intent intent = new Intent(this, MonsterDypTournamentActivity.class);
+				startActivity(intent);
+			}
 		} catch (AppManagerException e) {
 			AppManager.getInstance().displayError(this, "Could not save players: " + e.getMessage());
 			return;
 		}
-		Intent intent = new Intent(this, MonsterDypTournamentActivity.class);
-		startActivity(intent);
 	}
 
-	private void saveSelectedPlayers() throws AppManagerException {
+	private boolean saveSelectedPlayers() throws AppManagerException {
+		// check if enough players are present
+		// (needs to be done here as commitPlayerList() might also be used elsewhere)
+		int playersInTournament = AppManager.getInstance().getPlayersForTournament().size();
+		if (playersInTournament < 4) {
+			if (playersInTournament < 2 || !AppManager.getInstance().isTournamentOneOnOne()) {
+				return false;
+			}
+		}
 		AppManager.getInstance().commitPlayerList();
+		return true;
 	}
 }

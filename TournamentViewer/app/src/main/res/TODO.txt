@@ -8,8 +8,6 @@ TODOs:
 
 - add mmr (match making rating) for matchmaking, win rate is supposed to be used as ranking in a tournament
 
-- check for at least 2 or 4 players when starting tournament
-
 - unit tests (entities)
 
 - move "-GAME" button to game detail view

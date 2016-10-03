@@ -141,6 +141,10 @@ public class AppManager {
 		}
 	}
 
+	public boolean isTournamentOneOnOne() {
+		return tournamentManager.isOneOnOne();
+	}
+
 	/**
 	 * load max score from settings
 	 *
