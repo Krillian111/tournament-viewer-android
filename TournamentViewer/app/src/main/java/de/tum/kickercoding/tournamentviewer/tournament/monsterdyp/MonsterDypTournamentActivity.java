@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -27,10 +28,13 @@ public class MonsterDypTournamentActivity extends AppCompatActivity implements O
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_monster_dyp_tournament);
 
+		ViewPager pager = (ViewPager) findViewById(R.id.tournament_pager);
+		TabLayout tabs = (TabLayout) findViewById(R.id.tournament_pager_tabs);
 		pagerAdapter = new TournamentPagerAdapter(getSupportFragmentManager());
 
-		final ViewPager pager = (ViewPager) findViewById(R.id.tournament_pager);
 		pager.setAdapter(pagerAdapter);
+		tabs.setupWithViewPager(pager);
+
 	}
 
 	@Override

@@ -36,8 +36,8 @@
     <!-- ###################### -->
     <!-- Monster Dyp Tournament -->
     <!-- ###################### -->
-    <string name="page_header_stats">Stats</string>
-    <string name="page_header_games">Games</string>
+    <string name="pager_header_stats">Stats</string>
+    <string name="pager_header_games">Games</string>
 
     <string name="button_add_game">+Game</string>
     <string name="button_add_round">+Round</string>

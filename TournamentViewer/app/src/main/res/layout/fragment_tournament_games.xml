@@ -1,37 +1,11 @@
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/tournament_games_root"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/tournament_games_button_wrapper"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
-
-        <Button
-            android:id="@+id/button_add_game_to_tournament"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/button_add_game"/>
-
-        <Button
-            android:id="@+id/button_add_round_to_tournament"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/button_add_round"/>
-
-        <Button
-            android:id="@+id/button_delete_last_game_from_tournament"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/button_remove_last_game"/>
-    </LinearLayout>
-
-    <LinearLayout
+        android:id="@+id/tournament_games_header_wrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -66,13 +40,57 @@
 
     </LinearLayout>
 
+    <View
+        android:id="@+id/tournament_games_header_divider"
+        style="@style/Divider.Tiny"
+        android:layout_below="@+id/tournament_games_header_wrapper"
+        android:background="@color/divider_neutral"/>
+
     <ListView
         android:id="@+id/list_view_tournament_games"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/tournament_games_button_wrapper"
+        android:layout_above="@+id/tournament_games_divider_buttons_top"
+        android:layout_below="@+id/tournament_games_header_divider"
         android:divider="@color/text_standard"
         android:dividerHeight="0.1dp">
     </ListView>
 
-</LinearLayout>
+    <View
+        android:id="@+id/tournament_games_divider_buttons_top"
+        style="@style/Divider.Small"
+        android:layout_above="@+id/tournament_games_button_wrapper"/>
+
+    <LinearLayout
+        android:id="@+id/tournament_games_button_wrapper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tournament_games_divider_buttons_bottom"
+        android:orientation="horizontal"
+        >
+
+        <Button
+            android:id="@+id/button_add_game_to_tournament"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_add_game"/>
+
+        <Button
+            android:id="@+id/button_add_round_to_tournament"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_add_round"/>
+
+        <Button
+            android:id="@+id/button_delete_last_game_from_tournament"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_remove_last_game"/>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/tournament_games_divider_buttons_bottom"
+        style="@style/Divider.Small"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

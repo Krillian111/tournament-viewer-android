@@ -15,6 +15,9 @@ public class TournamentPagerAdapter extends FragmentPagerAdapter implements OnGa
 	private final static int PAGE_STATS = 0;
 	private final static int PAGE_GAMES = 1;
 
+	public final static String PAGER_HEADER_STATS = "Stats";
+	public final static String PAGER_HEADER_GAMES = "Games";
+
 	private TournamentStatsFragment tab_stats;
 
 
@@ -37,6 +40,19 @@ public class TournamentPagerAdapter extends FragmentPagerAdapter implements OnGa
 			default: {
 				tab_stats = new TournamentStatsFragment();
 				return tab_stats;
+			}
+		}
+	}
+
+	@Override
+	public CharSequence getPageTitle(int position) {
+		switch (position) {
+			case PAGE_GAMES: {
+				return PAGER_HEADER_GAMES;
+			}
+			case PAGE_STATS:
+			default: {
+				return PAGER_HEADER_STATS;
 			}
 		}
 	}

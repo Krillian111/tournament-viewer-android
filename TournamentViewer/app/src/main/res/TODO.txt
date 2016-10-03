@@ -2,8 +2,6 @@ TODOs:
 
 - add entity Match to allow modelling multiple games
 
-- implement fragment communication (no refresh/commit button)
-
 - implement adjusting scores (remove committed game, add new one)
 
 - add mmr (match making rating) for matchmaking, win rate is supposed to be used as ranking in a tournament
@@ -23,6 +21,8 @@ TODOs:
 - add number of selected players at bottom (player selection)
 
 - prevent negative input in basic setup
+
+- add players during tournament
 
 
 minor features:
