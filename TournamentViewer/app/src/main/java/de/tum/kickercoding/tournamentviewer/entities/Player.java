@@ -7,7 +7,7 @@ import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
 
-public class Player {
+public class Player implements Comparable<Player> {
 
 	private static final String DECIMAL_PATTERN = "#0.00###";
 
@@ -149,15 +149,6 @@ public class Player {
 		}
 	}
 
-
-	@Override
-	public boolean equals(Object o) {
-		if (o instanceof Player) {
-			return ((Player) o).getName().equals(this.getName());
-		}
-		return false;
-	}
-
 	private double roundDouble(double toRound) {
 		return Double.parseDouble(parseDouble(toRound));
 	}
@@ -170,6 +161,19 @@ public class Player {
 	public Player copy() {
 		return new Player(name, wonGames, lostGames, tiedGames,
 				wonGamesInTournament, lostGamesInTournament, tiedGamesInTournament, mmr);
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Player) {
+			return ((Player) o).getName().equals(this.getName());
+		}
+		return false;
+	}
+
+	@Override
+	public int compareTo(Player otherPlayer) {
+		return getName().compareTo(otherPlayer.getName());
 	}
 
 	/****************************

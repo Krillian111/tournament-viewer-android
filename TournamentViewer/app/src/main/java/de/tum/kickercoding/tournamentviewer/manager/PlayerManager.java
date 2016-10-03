@@ -1,6 +1,7 @@
 package de.tum.kickercoding.tournamentviewer.manager;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import de.tum.kickercoding.tournamentviewer.entities.Player;
@@ -47,6 +48,7 @@ class PlayerManager {
 			throw new PlayerManagerException(String.format("Player %s already exists", name));
 		}
 		players.add(newPlayer);
+		Collections.sort(players);
 	}
 
 
@@ -105,11 +107,11 @@ class PlayerManager {
 		}
 	}
 
-	Player getPlayerByPosition(int position) throws PlayerManagerException {
+	Player getPlayer(int position) throws PlayerManagerException {
 		try {
 			return players.get(position);
 		} catch (IndexOutOfBoundsException e) {
-			throw new PlayerManagerException(String.format("No player at position %d", position));
+			throw new PlayerManagerException(String.format("IndexOutOfBounds: No player at position %d", position));
 		}
 	}
 }

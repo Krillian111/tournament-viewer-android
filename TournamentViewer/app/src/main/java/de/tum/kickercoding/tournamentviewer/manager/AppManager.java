@@ -80,7 +80,6 @@ public class AppManager {
 		}
 	}
 
-
 	/**
 	 * delete player with specified name;
 	 * to permanently save this action call {@link #commitPlayerList()}
@@ -123,7 +122,7 @@ public class AppManager {
 	 */
 	public Player getPlayer(int position) throws AppManagerException {
 		try {
-			return playerManager.getPlayerByPosition(position);
+			return playerManager.getPlayer(position).copy();
 		} catch (PlayerManagerException e) {
 			throw new AppManagerException(e.getMessage());
 		}

@@ -60,7 +60,7 @@
     <string name="header_player_games_lost">Losses</string>
     <string name="header_player_games_tied_short">T</string>
     <string name="header_player_games_tied">Ties</string>
-    <string name="header_player_win_rate">Score</string>
+    <string name="header_player_win_rate">Win Rate</string>
     <string name="header_player_mmr">Rating</string>
     <string name="button_player_details_back">Back</string>
 </resources>

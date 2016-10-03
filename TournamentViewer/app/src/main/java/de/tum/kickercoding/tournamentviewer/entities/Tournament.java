@@ -3,8 +3,6 @@ package de.tum.kickercoding.tournamentviewer.entities;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import de.tum.kickercoding.tournamentviewer.util.TournamentMode;
@@ -69,26 +67,14 @@ public class Tournament {
 
 	public void addPlayer(Player player) {
 		players.add(player);
-		sortPlayersByWinRate(players);
 	}
 
 	public boolean removePlayer(Player player) {
-		boolean removed = players.remove(player);
-		sortPlayersByWinRate(players);
-		return removed;
+		return players.remove(player);
 	}
 
 	public List<Player> getPlayers() {
-		sortPlayersByWinRate(players);
 		return players;
-	}
-
-	private void sortPlayersByWinRate(List<Player> list) {
-		Collections.sort(list, new Comparator<Player>() {
-			public int compare(Player p1, Player p2) {
-				return Double.compare(p2.getWinRateInTournament(), p1.getWinRateInTournament());
-			}
-		});
 	}
 
 	public void setMaxScore(int maxScore) {

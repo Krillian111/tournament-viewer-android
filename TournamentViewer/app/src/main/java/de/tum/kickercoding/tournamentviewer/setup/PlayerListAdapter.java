@@ -17,6 +17,7 @@ import de.tum.kickercoding.tournamentviewer.R;
 import de.tum.kickercoding.tournamentviewer.entities.Player;
 import de.tum.kickercoding.tournamentviewer.exceptions.AppManagerException;
 import de.tum.kickercoding.tournamentviewer.manager.AppManager;
+import de.tum.kickercoding.tournamentviewer.util.Utils;
 
 public class PlayerListAdapter extends BaseAdapter implements ListAdapter {
 
@@ -119,14 +120,6 @@ public class PlayerListAdapter extends BaseAdapter implements ListAdapter {
 		relativeLayout.setBackgroundColor(newBackgroundColor);
 	}
 
-	/**
-	 * Creates a dialog to display all information of a player. Can be reused in tournament view.
-	 *
-	 * @param context
-	 * @param viewItem
-	 * @param position
-	 * @return
-	 */
 	private Dialog createPlayerDialog(Context context, View viewItem, int position) {
 		final Dialog dialog = new Dialog(context);
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context
@@ -141,7 +134,7 @@ public class PlayerListAdapter extends BaseAdapter implements ListAdapter {
 		prepareTextView(dialog, R.id.player_details_won_games, "" + player.getWonGames());
 		prepareTextView(dialog, R.id.player_details_lost_games, "" + player.getLostGames());
 		prepareTextView(dialog, R.id.player_details_tied_games, "" + player.getTiedGames());
-		prepareTextView(dialog, R.id.player_details_win_rate, "" + player.getWinRate());
+		prepareTextView(dialog, R.id.player_details_win_rate, Utils.prepareWinRateForView(player.getWinRate()));
 		prepareTextView(dialog, R.id.player_details_mmr, "" + player.getMmr());
 
 		setupButtonListener(dialog);

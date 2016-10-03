@@ -1,20 +1,12 @@
 TODOs:
 
-1. add player detail view
-
-2. add button to commit tournament
-
-3. add entity Match to allow multiple modelling games
-
-- sort player list by name (while managing rank somehow)
-
-- divide start screen into "New Tournament" / "Load Tournament" section
+- add entity Match to allow modelling multiple games
 
 - implement fragment communication (no refresh/commit button)
 
-- implement adjusting scores
+- implement adjusting scores (remove committed game, add new one)
 
-- add mmr (matchmakingrating) for matchmaking, rankingscore is supposed to be used as ranking in a tournament
+- add mmr (match making rating) for matchmaking, win rate is supposed to be used as ranking in a tournament
 
 - check for at least 2 or 4 players when starting tournament
 
@@ -32,7 +24,7 @@ TODOs:
 
 
 minor features:
-- external ladder from start screen
+- external ladder from start screen (sorting based on rank; seperate sorted copy of list necessary?)
 - add tabbed view for tournament
 
 major features:
