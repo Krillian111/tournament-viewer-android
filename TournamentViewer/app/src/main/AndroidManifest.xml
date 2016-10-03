@@ -17,10 +17,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".setup.monsterdyp.MonsterDypBasicSetupActivity"/>
-        <activity android:name=".setup.monsterdyp.MonsterDypPlayerSetupActivity"/>
+        <activity
+            android:name=".setup.monsterdyp.MonsterDypPlayerSetupActivity"
+            android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".tournament.monsterdyp.MonsterDypTournamentActivity"/>
-        <activity android:name=".setup.monsterdyp.TestActivity">
-        </activity>
     </application>
 
 </manifest>

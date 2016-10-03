@@ -1,5 +1,6 @@
 package de.tum.kickercoding.tournamentviewer.tournament;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,7 +16,24 @@ import de.tum.kickercoding.tournamentviewer.manager.AppManager;
 
 public class TournamentGamesFragment extends Fragment {
 
+	OnGameChangeListener onGameChangeListener;
+
+	public interface OnGameChangeListener {
+		void onGameChanged();
+	}
+
 	public TournamentGamesFragment() {
+	}
+
+	@Override
+	public void onAttach(Context context) {
+		super.onAttach(context);
+		try {
+			onGameChangeListener = (OnGameChangeListener) context;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(context.toString()
+					+ " must implement OnHeadlineSelectedListener");
+		}
 	}
 
 	@Override
@@ -28,7 +46,7 @@ public class TournamentGamesFragment extends Fragment {
 	public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		ListView tournamentGames = (ListView) view.findViewById(R.id.list_view_tournament_games);
-		tournamentGames.setAdapter(new TournamentGamesAdapter(getActivity()));
+		tournamentGames.setAdapter(new TournamentGamesAdapter(getActivity(), onGameChangeListener));
 
 		Button addGameButton = (Button) view.findViewById(R.id.button_add_game_to_tournament);
 		addGameButton.setOnClickListener(new View.OnClickListener() {
@@ -66,19 +84,6 @@ public class TournamentGamesFragment extends Fragment {
 					notifyAdapter(view);
 				} catch (AppManagerException e) {
 					AppManager.getInstance().displayError(getActivity(), e.getMessage());
-				}
-			}
-		});
-
-		Button commitResultsButton = (Button) view.findViewById(R.id.button_commit_results);
-		commitResultsButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View buttonView) {
-				try {
-					AppManager.getInstance().commitGameResults();
-					notifyAdapter(view);
-				} catch (AppManagerException e) {
-					AppManager.getInstance().displayError(getContext(), e.toString());
 				}
 			}
 		});

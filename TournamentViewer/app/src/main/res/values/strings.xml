@@ -48,8 +48,6 @@
     <string name="title_edit_game">Set the scores:</string>
     <string name="button_edit_game_confirm">Confirm</string>
     <string name="button_edit_game_cancel">Cancel</string>
-    <string name="button_commit_results">Commit</string>
-    <string name="button_refresh">Refresh</string>
     <string name="button_generate_playoffs">PLAYOFFS</string>
     <string name="button_finish_tournament">FINISH</string>
 

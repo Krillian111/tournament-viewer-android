@@ -18,13 +18,16 @@ import de.tum.kickercoding.tournamentviewer.R;
 import de.tum.kickercoding.tournamentviewer.entities.Game;
 import de.tum.kickercoding.tournamentviewer.exceptions.AppManagerException;
 import de.tum.kickercoding.tournamentviewer.manager.AppManager;
+import de.tum.kickercoding.tournamentviewer.tournament.TournamentGamesFragment.OnGameChangeListener;
 
 public class TournamentGamesAdapter extends BaseAdapter implements ListAdapter {
 
 	Context context;
+	OnGameChangeListener onGameChangeListener;
 
-	public TournamentGamesAdapter(Context context) {
+	public TournamentGamesAdapter(Context context, OnGameChangeListener onGameChangeListener) {
 		this.context = context;
+		this.onGameChangeListener = onGameChangeListener;
 	}
 
 	@Override
@@ -134,7 +137,9 @@ public class TournamentGamesAdapter extends BaseAdapter implements ListAdapter {
 				try {
 					if (np1.getValue() == getMaxScore(context) || np2.getValue() == getMaxScore(context)) {
 						AppManager.getInstance().finalizeGame(position, np1.getValue(), np2.getValue());
+						AppManager.getInstance().commitGameResults();
 						notifyDataSetChanged();
+						onGameChangeListener.onGameChanged();
 						dialog.dismiss();
 					} else {
 						AppManager.getInstance().displayError(context, "At least one team needs to have maximum " +

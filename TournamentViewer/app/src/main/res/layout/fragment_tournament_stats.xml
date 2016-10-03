@@ -73,11 +73,4 @@
         android:divider="@color/divider_neutral"
         android:dividerHeight="0.1dp">
     </ListView>
-
-    <Button
-        android:id="@+id/button_refresh_tournamen_stats"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="@string/button_refresh"/>
 </RelativeLayout>

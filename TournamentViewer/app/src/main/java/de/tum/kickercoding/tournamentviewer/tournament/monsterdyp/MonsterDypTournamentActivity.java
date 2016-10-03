@@ -14,8 +14,11 @@ import de.tum.kickercoding.tournamentviewer.StartMenuActivity;
 import de.tum.kickercoding.tournamentviewer.exceptions.AppManagerException;
 import de.tum.kickercoding.tournamentviewer.manager.AppManager;
 import de.tum.kickercoding.tournamentviewer.setup.monsterdyp.TournamentPagerAdapter;
+import de.tum.kickercoding.tournamentviewer.tournament.TournamentGamesFragment.OnGameChangeListener;
 
-public class MonsterDypTournamentActivity extends AppCompatActivity {
+public class MonsterDypTournamentActivity extends AppCompatActivity implements OnGameChangeListener {
+
+	private TournamentPagerAdapter pagerAdapter;
 
 	private final String LOG_TAG = MonsterDypTournamentActivity.class.toString();
 
@@ -24,7 +27,7 @@ public class MonsterDypTournamentActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_monster_dyp_tournament);
 
-		TournamentPagerAdapter pagerAdapter = new TournamentPagerAdapter(getSupportFragmentManager());
+		pagerAdapter = new TournamentPagerAdapter(getSupportFragmentManager());
 
 		final ViewPager pager = (ViewPager) findViewById(R.id.tournament_pager);
 		pager.setAdapter(pagerAdapter);
@@ -71,5 +74,10 @@ public class MonsterDypTournamentActivity extends AppCompatActivity {
 	public void goToStartMenu() {
 		Intent intent = new Intent(this, StartMenuActivity.class);
 		startActivity(intent);
+	}
+
+	@Override
+	public void onGameChanged() {
+		pagerAdapter.onGameChanged();
 	}
 }

@@ -6,16 +6,19 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ListView;
 
 import de.tum.kickercoding.tournamentviewer.R;
+import de.tum.kickercoding.tournamentviewer.tournament.TournamentGamesFragment.OnGameChangeListener;
 
-public class TournamentStatsFragment extends Fragment {
+
+public class TournamentStatsFragment extends Fragment implements OnGameChangeListener {
+
+	TournamentStatsAdapter adapter;
 
 	public TournamentStatsFragment() {
 	}
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
@@ -26,18 +29,12 @@ public class TournamentStatsFragment extends Fragment {
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		final ListView tournamentStats = (ListView) view.findViewById(R.id.list_view_tournament_stats);
-		final TournamentStatsAdapter adapter = new TournamentStatsAdapter(getActivity());
+		adapter = new TournamentStatsAdapter(getActivity());
 		tournamentStats.setAdapter(adapter);
+	}
 
-		Button refreshButton = (Button) view.findViewById(R.id.button_refresh_tournamen_stats);
-		refreshButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View buttonView) {
-				View parentView = (View) buttonView.getParent();
-				ListView listViewToRefresh = (ListView) parentView.findViewById(R.id.list_view_tournament_stats);
-				TournamentStatsAdapter listAdapter = (TournamentStatsAdapter) listViewToRefresh.getAdapter();
-				listAdapter.notifyDataSetChanged();
-			}
-		});
+	@Override
+	public void onGameChanged() {
+		adapter.notifyDataSetChanged();
 	}
 }
