@@ -31,7 +31,7 @@
     <string name="message_newPlayerDefault">New Player</string>
     <string name="button_addplayer">Add</string>
     <string name="button_delete">DEL</string>
-    <string name="button_toggle_participation">Sign up</string>
+    <string name="button_delete_player">\?</string>
 
     <!-- ###################### -->
     <!-- Monster Dyp Tournament -->

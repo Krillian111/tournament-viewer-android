@@ -65,29 +65,6 @@ public class PlayerListAdapter extends BaseAdapter implements ListAdapter {
 		view.setClickable(true);
 		view.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick(View viewItem) {
-				Dialog dialog = createPlayerDialog(context, viewItem, position);
-				dialog.show();
-			}
-		});
-
-		Button deleteButton = (Button) view.findViewById(R.id.player_list_item_delete_button);
-		deleteButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View buttonView) {
-				try {
-					AppManager.getInstance().removePlayer(playerName);
-				} catch (AppManagerException e) {
-					AppManager.getInstance().displayError(context, e.getMessage());
-				}
-				notifyDataSetChanged();
-			}
-		});
-
-		Button toggleParticipationButton = (Button) view.findViewById(R.id
-				.player_list_item_toggle_participation_button);
-		toggleParticipationButton.setOnClickListener(new View.OnClickListener() {
-			@Override
 			public void onClick(View buttonView) {
 				try {
 					boolean signedUp = AppManager.getInstance().toggleParticipation((Player) getItem(position));
@@ -100,17 +77,40 @@ public class PlayerListAdapter extends BaseAdapter implements ListAdapter {
 			}
 		});
 
-		adjustBackgroundColor(AppManager.getInstance().isSignedUp(playerName), toggleParticipationButton);
+		Button deleteButton = (Button) view.findViewById(R.id.button_delete_player);
+		deleteButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View buttonView) {
+				try {
+					AppManager.getInstance().removePlayer(playerName);
+				} catch (AppManagerException e) {
+					AppManager.getInstance().displayError(context, e.getMessage());
+				}
+				notifyDataSetChanged();
+			}
+		});
+
+		Button playerDetailsButton = (Button) view.findViewById(R.id
+				.button_player_details);
+		playerDetailsButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View viewItem) {
+				Dialog dialog = createPlayerDialog(context, viewItem, position);
+				dialog.show();
+			}
+		});
+
+		adjustBackgroundColor(AppManager.getInstance().isSignedUp(playerName), view);
 		return view;
 	}
 
 	/**
 	 * adjusts the background color of list item to reflect tournament participation
 	 *
-	 * @param childViewOfItem: must be a child view element of the actual item (e.g. toggle button)
+	 * @param containerView: must be a the container view element of the actual item
 	 */
-	private void adjustBackgroundColor(boolean signedUp, View childViewOfItem) {
-		RelativeLayout relativeLayout = (RelativeLayout) childViewOfItem.getParent();
+	private void adjustBackgroundColor(boolean signedUp, View containerView) {
+		RelativeLayout relativeLayout = (RelativeLayout) containerView.findViewById(R.id.player_list_item_root);
 		int newBackgroundColor;
 		if (signedUp) {
 			newBackgroundColor = ContextCompat.getColor(context, R.color.player_signed_up);

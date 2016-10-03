@@ -3,27 +3,30 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/player_list_item_root"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content">
+
     <TextView
         android:id="@+id/player_list_item_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="8pt"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
         android:textColor="@color/text_standard"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true" />
+        android:textSize="8pt"/>
+
     <Button
-        android:id="@+id/player_list_item_delete_button"
+        android:id="@+id/button_delete_player"
         android:layout_width="25pt"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:text="@string/button_delete" />
+        android:layout_centerVertical="true"
+        android:text="@string/button_delete"/>
+
     <Button
-        android:id="@+id/player_list_item_toggle_participation_button"
+        android:id="@+id/button_player_details"
         android:layout_width="25pt"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toLeftOf="@id/player_list_item_delete_button"
-        android:text="@string/button_toggle_participation" />
+        android:layout_toLeftOf="@id/button_delete_player"
+        android:text="@string/button_delete_player"/>
 </RelativeLayout>

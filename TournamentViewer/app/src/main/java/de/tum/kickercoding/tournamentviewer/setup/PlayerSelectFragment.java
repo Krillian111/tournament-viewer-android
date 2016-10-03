@@ -5,13 +5,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
 import de.tum.kickercoding.tournamentviewer.R;
-import de.tum.kickercoding.tournamentviewer.entities.Player;
 import de.tum.kickercoding.tournamentviewer.exceptions.AppManagerException;
 import de.tum.kickercoding.tournamentviewer.manager.AppManager;
 
@@ -40,17 +38,6 @@ public class PlayerSelectFragment extends Fragment {
 	private void preparePlayerListView(View view) {
 		ListView playerListView = (ListView) view.findViewById(R.id.list_view_add_players);
 		playerListView.setAdapter(new PlayerListAdapter(getActivity()));
-
-		playerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			public void onItemClick(AdapterView<?> arg0, View view, int position, long arg3) {
-				try {
-					Player player = AppManager.getInstance().getPlayer(position);
-					AppManager.getInstance().displayError(getActivity(), player.toString());
-				} catch (AppManagerException e) {
-					AppManager.getInstance().displayError(getActivity(), "Error: Player not found");
-				}
-			}
-		});
 	}
 
 	private void attachButtonListener(View view) {
