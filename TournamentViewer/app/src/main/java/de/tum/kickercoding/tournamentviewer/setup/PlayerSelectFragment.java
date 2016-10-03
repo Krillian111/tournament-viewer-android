@@ -20,15 +20,15 @@ import de.tum.kickercoding.tournamentviewer.manager.AppManager;
  * <br>
  * Changes to list are only permanent if they are commited using {@link AppManager#commitPlayerList()} ()}
  */
-public class AddPlayersFragment extends Fragment {
+public class PlayerSelectFragment extends Fragment {
 
-	public AddPlayersFragment() {
+	public PlayerSelectFragment() {
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_add_players, container, false);
+		return inflater.inflate(R.layout.fragment_select_players, container, false);
 	}
 
 	@Override
