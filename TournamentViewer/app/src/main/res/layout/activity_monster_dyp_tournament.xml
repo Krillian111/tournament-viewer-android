@@ -14,7 +14,7 @@
         app:tabMode="fixed"/>
 
     <View
-        style="@style/Divider.Tiny"
+        style="@style/TvDivider.Tiny"
         android:layout_below="@+id/tournament_pager_tabs"
         android:background="@color/divider_neutral"/>
 
@@ -44,8 +44,7 @@
 
         <Button
             android:id="@+id/button_finish_tournament"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/TvButton"
             android:layout_alignParentEnd="true"
             android:onClick="finishTournament"
             android:text="@string/button_finish_tournament"/>

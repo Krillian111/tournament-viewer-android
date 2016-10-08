@@ -15,8 +15,7 @@
 
     <Button
         android:id="@+id/button_go_to_tournament"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/TvButton"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:onClick="goToTournament"

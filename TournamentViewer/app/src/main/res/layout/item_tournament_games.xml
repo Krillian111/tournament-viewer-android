@@ -2,36 +2,25 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/tournament_game_item_root"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    style="@style/TvRow">
 
     <TextView
         android:id="@+id/tournament_game_item_team_1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        style="@style/TvTextview.listitem"
         android:layout_weight="35"
-        android:maxLines="2"
-        android:textColor="@color/text_header"
-        android:textSize="@dimen/text_default_size"/>
+        android:maxLines="2"/>
 
     <TextView
         android:id="@+id/tournament_game_item_team_2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        style="@style/TvTextview.listitem"
         android:layout_weight="35"
-        android:maxLines="2"
-        android:textColor="@color/text_header"
-        android:textSize="@dimen/text_default_size"/>
+        android:maxLines="2"/>
 
     <TextView
         android:id="@+id/tournament_game_item_score"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        style="@style/TvTextview.listitem"
         android:layout_gravity="center"
         android:layout_weight="30"
-        android:textAlignment="center"
-        android:textColor="@color/text_header"
-        android:textSize="@dimen/text_default_size"/>
+        android:textAlignment="center"/>
 
 </LinearLayout>

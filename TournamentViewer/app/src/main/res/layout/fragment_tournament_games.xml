@@ -6,43 +6,35 @@
 
     <LinearLayout
         android:id="@+id/tournament_games_header_wrapper"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        style="@style/TvRow">
 
         <TextView
+            style="@style/TvTextview.listheader"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_weight="35"
             android:maxLines="2"
-            android:text="@string/header_team_1"
-            android:textColor="@color/text_header"
-            android:textSize="@dimen/text_default_size_big"/>
+            android:text="@string/header_team_1"/>
 
         <TextView
+            style="@style/TvTextview.listheader"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_weight="35"
             android:maxLines="2"
-            android:text="@string/header_team_2"
-            android:textColor="@color/text_header"
-            android:textSize="@dimen/text_default_size_big"/>
+            android:text="@string/header_team_2"/>
 
         <TextView
+            style="@style/TvTextview.listheader"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_weight="30"
             android:maxLines="1"
             android:text="@string/header_game_score"
-            android:textAlignment="center"
-            android:textColor="@color/text_header"
-            android:textSize="@dimen/text_default_size_big"/>
+            android:textAlignment="center"/>
 
     </LinearLayout>
 
     <View
         android:id="@+id/tournament_games_header_divider"
-        style="@style/Divider.Tiny"
+        style="@style/TvDivider.Tiny"
         android:layout_below="@+id/tournament_games_header_wrapper"
         android:background="@color/divider_neutral"/>
 
@@ -52,45 +44,40 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/tournament_games_divider_buttons_top"
         android:layout_below="@+id/tournament_games_header_divider"
-        android:divider="@color/text_standard"
+        android:divider="@color/text_default"
         android:dividerHeight="0.1dp">
     </ListView>
 
     <View
         android:id="@+id/tournament_games_divider_buttons_top"
-        style="@style/Divider.Small"
+        style="@style/TvDivider.Small"
         android:layout_above="@+id/tournament_games_button_wrapper"/>
 
     <LinearLayout
         android:id="@+id/tournament_games_button_wrapper"
+        style="@style/TvRow"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/tournament_games_divider_buttons_bottom"
-        android:orientation="horizontal"
-        >
+        android:layout_above="@+id/tournament_games_divider_buttons_bottom">
 
         <Button
             android:id="@+id/button_add_game_to_tournament"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/TvButton"
             android:text="@string/button_add_game"/>
 
         <Button
             android:id="@+id/button_add_round_to_tournament"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/TvButton"
             android:text="@string/button_add_round"/>
 
         <Button
             android:id="@+id/button_delete_last_game_from_tournament"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/TvButton"
             android:text="@string/button_remove_last_game"/>
     </LinearLayout>
 
     <View
         android:id="@+id/tournament_games_divider_buttons_bottom"
-        style="@style/Divider.Small"
+        style="@style/TvDivider.Small"
         android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>

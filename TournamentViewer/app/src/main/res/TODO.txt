@@ -24,6 +24,7 @@ TODOs:
 
 - add players during tournament
 
+- add title messages to each activity (instead of 'TournmanetViewer')
 
 minor features:
 - external ladder from start screen (sorting based on rank; seperate sorted copy of list necessary?)

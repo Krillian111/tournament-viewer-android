@@ -12,82 +12,73 @@
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/TvTextview"
             android:text="@string/header_maxscore"
-            android:textSize="@dimen/header_default_size_big"/>
+            android:textSize="@dimen/header_default_big"/>
 
-        <View style="@style/Divider"/>
+        <View style="@style/TvDivider"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingBottom="@dimen/padding_large_bottom">
+            style="@style/TvRow"
+            android:layout_marginBottom="@dimen/margin_large_bottom">
 
             <Button
                 android:id="@+id/button_setup_decrement_score"
+                style="@style/TvButton"
                 android:layout_width="@dimen/button_width_no_text"
-                android:layout_height="wrap_content"
                 android:text="@string/button_minus"/>
 
             <TextView
                 android:id="@+id/var_max_score"
+                style="@style/TvTextview.large"
                 android:layout_width="@dimen/text_single_double_digit"
-                android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@string/message_defaultmaxscore"
-                android:textSize="@dimen/text_default_size_big"/>
+                android:text="@string/message_defaultmaxscore"/>
 
             <Button
                 android:id="@+id/button_setup_increment_score"
+                style="@style/TvButton"
                 android:layout_width="@dimen/button_width_no_text"
-                android:layout_height="wrap_content"
                 android:text="@string/button_plus"/>
         </LinearLayout>
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/TvTextview"
             android:text="@string/header_numberofgames"
-            android:textSize="@dimen/header_default_size_big"/>
+            android:textSize="@dimen/header_default_big"/>
 
-        <View style="@style/Divider"/>
+        <View style="@style/TvDivider"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingBottom="@dimen/padding_large_bottom">
+            style="@style/TvRow"
+            android:layout_marginBottom="@dimen/margin_large_bottom">
 
             <Button
                 android:id="@+id/button_setup_decrement_games"
+                style="@style/TvButton"
                 android:layout_width="45dp"
-                android:layout_height="wrap_content"
                 android:text="@string/button_minus"/>
 
             <TextView
                 android:id="@+id/var_number_games"
+                style="@style/TvTextview.large"
                 android:layout_width="@dimen/text_single_double_digit"
-                android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@string/message_defaultnumberofgames"
-                android:textSize="@dimen/text_default_size_big"/>
+                android:text="@string/message_defaultnumberofgames"/>
 
             <Button
                 android:id="@+id/button_setup_increment_games"
+                style="@style/TvButton"
                 android:layout_width="@dimen/button_width_no_text"
-                android:layout_height="wrap_content"
                 android:text="@string/button_plus"/>
         </LinearLayout>
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/TvTextview"
             android:text="@string/header_other_options"
-            android:textSize="@dimen/header_default_size_big"/>
+            android:textSize="@dimen/header_default_big"/>
 
-        <View style="@style/Divider"/>
+        <View style="@style/TvDivider"/>
 
         <CheckBox
             android:id="@+id/checkbox_one_on_one"

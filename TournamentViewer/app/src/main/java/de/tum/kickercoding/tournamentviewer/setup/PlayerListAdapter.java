@@ -54,7 +54,7 @@ public class PlayerListAdapter extends BaseAdapter implements ListAdapter {
 		View view = convertView;
 		if (view == null) {
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			view = inflater.inflate(R.layout.item_player_list, null);
+			view = inflater.inflate(R.layout.item_select_players, null);
 		}
 
 		//Handle TextView and display player name

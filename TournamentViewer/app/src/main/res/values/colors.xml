@@ -3,7 +3,7 @@
     <color name="colorPrimary">#3ba4ef</color>
     <color name="colorPrimaryDark">#203ea0</color>
     <color name="colorAccent">#5daf7b</color>
-    <color name="text_standard">#000000</color>
+    <color name="text_default">#000000</color>
     <color name="text_header">@color/colorPrimaryDark</color>
     <color name="player_signed_up">@color/colorAccent</color>
     <color name="player_not_signed_up">#ffffff</color>

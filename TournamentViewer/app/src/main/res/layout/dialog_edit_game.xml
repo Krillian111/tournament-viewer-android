@@ -4,39 +4,38 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     >
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+
+    <LinearLayout style="@style/TvRow">
+
         <LinearLayout
-            android:layout_width="wrap_content"
+            style="@style/TvColumn"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_weight="50">
+
             <TextView
+                style="@style/TvTextview.large"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="10pt"
                 android:text="@string/header_team_1"
-                android:layout_weight="50"
                 android:textAlignment="center"/>
+
             <NumberPicker
                 android:id="@+id/edit_game_number_picker_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:descendantFocusability="blocksDescendants" />
+                android:descendantFocusability="blocksDescendants"/>
         </LinearLayout>
+
         <LinearLayout
-            android:layout_width="wrap_content"
+            style="@style/TvColumn"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_weight="50">
+
             <TextView
+                style="@style/TvTextview.large"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="10pt"
                 android:text="@string/header_team_2"
                 android:textAlignment="center"/>
+
             <NumberPicker
                 android:id="@+id/edit_game_number_picker_2"
                 android:layout_width="match_parent"
@@ -45,21 +44,19 @@
                 />
         </LinearLayout>
     </LinearLayout>
-    <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
+
+    <LinearLayout style="@style/TvRow">
+
         <Button
             android:id="@+id/button_edit_game_cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/button_edit_game_cancel"
-            android:layout_weight="50"/>
+            style="@style/TvButton"
+            android:layout_weight="50"
+            android:text="@string/button_edit_game_cancel"/>
+
         <Button
             android:id="@+id/button_edit_game_confirm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/button_edit_game_confirm"
-            android:layout_weight="50"/>
+            style="@style/TvButton"
+            android:layout_weight="50"
+            android:text="@string/button_edit_game_confirm"/>
     </LinearLayout>
 </LinearLayout>

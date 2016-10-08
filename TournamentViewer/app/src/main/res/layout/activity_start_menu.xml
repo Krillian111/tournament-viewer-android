@@ -6,45 +6,34 @@
     android:orientation="vertical"
     android:padding="@dimen/padding_global">
 
-    <LinearLayout
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/padding_large_bottom">
+        android:text="@string/header_new_tournament"
+        android:textSize="@dimen/header_default_big"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/header_new_tournament"
-            android:textSize="@dimen/header_default_size_big"/>
+    <View style="@style/TvDivider"/>
 
-        <View style="@style/Divider"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_large_bottom"
+        android:onClick="monsterDypSetup"
+        android:text="@string/button_monsterdyp"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="monsterDypSetup"
-            android:text="@string/button_monsterdyp"/>
-    </LinearLayout>
 
-    <LinearLayout
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:text="@string/header_load_tournament"
+        android:textSize="@dimen/header_default_big"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/header_load_tournament"
-            android:textSize="@dimen/header_default_size_big"/>
+    <View style="@style/TvDivider"/>
 
-        <View style="@style/Divider"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="loadLastTournament"
+        android:text="@string/button_load_tournament"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="loadLastTournament"
-            android:text="@string/button_load_tournament"/>
-
-    </LinearLayout>
 </LinearLayout>

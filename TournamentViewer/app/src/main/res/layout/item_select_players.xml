@@ -7,25 +7,22 @@
 
     <TextView
         android:id="@+id/player_list_item_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/TvTextview.listitem"
         android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:textColor="@color/text_standard"
-        android:textSize="8pt"/>
+        android:layout_centerVertical="true"/>
 
     <Button
         android:id="@+id/button_delete_player"
-        android:layout_width="25pt"
-        android:layout_height="wrap_content"
+        style="@style/TvButton"
+        android:layout_width="50dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:text="@string/button_delete"/>
 
     <Button
         android:id="@+id/button_player_details"
-        android:layout_width="25pt"
-        android:layout_height="wrap_content"
+        style="@style/TvButton"
+        android:layout_width="50dp"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@id/button_delete_player"
         android:text="@string/button_delete_player"/>

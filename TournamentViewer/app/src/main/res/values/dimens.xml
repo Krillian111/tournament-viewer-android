@@ -7,18 +7,23 @@
     <dimen name="text_margin">16dp</dimen>
 
     <!-- text sizes -->
-    <dimen name="header_default_size_big">20sp</dimen>
-    <dimen name="text_default_size_big">18sp</dimen>
-    <dimen name="button_default_text_size">14sp</dimen>
-    <dimen name="text_default_size">14sp</dimen>
+    <dimen name="header_default_big">20sp</dimen>
+    <dimen name="text_default_large">18sp</dimen>
+    <dimen name="button_text_default">14sp</dimen>
+    <dimen name="text_default">14sp</dimen>
+    <dimen name="text_list_header">14sp</dimen>
+    <dimen name="text_list_item">12sp</dimen>
 
-    <!-- padding -->
+    <!-- padding / margins -->
     <dimen name="padding_left_right_global">2dp</dimen>
     <dimen name="padding_top_bot_global">2dp</dimen>
     <dimen name="padding_global">2dp</dimen>
-    <dimen name="padding_large_bottom">30dp</dimen>
+    <dimen name="margin_large_bottom">30dp</dimen>
 
     <!-- element sizes -->
     <dimen name="button_width_no_text">45dp</dimen>
     <dimen name="text_single_double_digit">40dp</dimen>
+
+    <!-- divider heights -->
+    <dimen name="divider_list">0.1dp</dimen>
 </resources>

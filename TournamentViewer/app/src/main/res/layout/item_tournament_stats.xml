@@ -2,51 +2,34 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/tournament_stats_item_root"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    style="@style/TvRow">
 
     <TextView
         android:id="@+id/tournament_stats_item_rank"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="5"
-        android:textColor="@color/text_standard"
-        android:textSize="@dimen/text_default_size"/>
+        style="@style/TvTextview.listitem.weightedhorizontal"
+        android:layout_weight="5"/>
 
     <TextView
         android:id="@+id/tournament_stats_item_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        style="@style/TvTextview.listitem.weightedhorizontal"
         android:layout_weight="45"
-        android:textAlignment="viewStart"
-        android:textColor="@color/text_standard"
-        android:textSize="@dimen/text_default_size"/>
+        android:textAlignment="viewStart"/>
 
     <TextView
         android:id="@+id/tournament_stats_item_games_played"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        style="@style/TvTextview.listitem.weightedhorizontal"
         android:layout_weight="15"
-        android:textAlignment="center"
-        android:textColor="@color/text_standard"
-        android:textSize="@dimen/text_default_size"/>
+        android:textAlignment="center"/>
 
     <TextView
         android:id="@+id/tournament_stats_item_games_won"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        style="@style/TvTextview.listitem.weightedhorizontal"
         android:layout_weight="15"
-        android:textAlignment="center"
-        android:textColor="@color/text_standard"
-        android:textSize="@dimen/text_default_size"/>
+        android:textAlignment="center"/>
 
     <TextView
         android:id="@+id/tournament_stats_item_win_rate"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        style="@style/TvTextview.listitem.weightedhorizontal"
         android:layout_weight="20"
-        android:textAlignment="center"
-        android:textColor="@color/text_standard"
-        android:textSize="@dimen/text_default_size"/>
+        android:textAlignment="center"/>
 </LinearLayout>
