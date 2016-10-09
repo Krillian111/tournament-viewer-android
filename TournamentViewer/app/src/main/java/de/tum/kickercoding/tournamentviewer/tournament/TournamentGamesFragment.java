@@ -56,7 +56,7 @@ public class TournamentGamesFragment extends Fragment {
 					AppManager.getInstance().generateGame();
 					notifyAdapter(view);
 				} catch (AppManagerException e) {
-					AppManager.getInstance().displayError(getActivity(), e.getMessage());
+					AppManager.getInstance().displayMessage(getActivity(), e.getMessage());
 				}
 
 			}
@@ -70,7 +70,7 @@ public class TournamentGamesFragment extends Fragment {
 					AppManager.getInstance().generateRound();
 					notifyAdapter(view);
 				} catch (AppManagerException e) {
-					AppManager.getInstance().displayError(getActivity(), e.getMessage());
+					AppManager.getInstance().displayMessage(getActivity(), e.getMessage());
 				}
 			}
 		});
@@ -83,7 +83,7 @@ public class TournamentGamesFragment extends Fragment {
 					AppManager.getInstance().removeLastGame();
 					notifyAdapter(view);
 				} catch (AppManagerException e) {
-					AppManager.getInstance().displayError(getActivity(), e.getMessage());
+					AppManager.getInstance().displayMessage(getActivity(), e.getMessage());
 				}
 			}
 		});

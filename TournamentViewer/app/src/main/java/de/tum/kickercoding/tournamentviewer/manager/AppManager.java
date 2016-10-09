@@ -300,6 +300,13 @@ public class AppManager {
 		}
 	}
 
+	public void revertGame(int position) throws AppManagerException {
+		try {
+			tournamentManager.revertGame(position);
+		} catch (TournamentManagerException e) {
+			throw new AppManagerException(e.getMessage());
+		}
+	}
 
 	/**
 	 * checks if player is already signed up (i.e. in the list of players for the current tournament)
@@ -380,7 +387,7 @@ public class AppManager {
 	 * @param context
 	 * @param message
 	 */
-	public void displayError(Context context, String message) {
+	public void displayMessage(Context context, String message) {
 		Toast.makeText(context, message, Toast.LENGTH_LONG).show();
 	}
 

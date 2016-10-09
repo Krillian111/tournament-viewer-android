@@ -6,7 +6,7 @@ TODOs:
 
 - add mmr (match making rating) for matchmaking, win rate is supposed to be used as ranking in a tournament
 
-- change sign up to onItemClick, details as button
+- accumulate goals
 
 - unit tests (entities)
 

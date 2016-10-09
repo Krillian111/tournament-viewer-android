@@ -43,7 +43,7 @@ public class StartMenuActivity extends AppCompatActivity {
 			Intent intent = new Intent(this, MonsterDypTournamentActivity.class);
 			startActivity(intent);
 		} catch (AppManagerException e) {
-			AppManager.getInstance().displayError(this, e.getMessage());
+			AppManager.getInstance().displayMessage(this, e.getMessage());
 		}
 	}
 }

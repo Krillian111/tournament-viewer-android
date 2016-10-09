@@ -111,7 +111,6 @@ public class TournamentGamesAdapter extends BaseAdapter implements ListAdapter {
 		return AppManager.getInstance().getMaxScoreFromTournament();
 	}
 
-
 	private NumberPicker setupNumberPicker(NumberPicker numberPicker, int currentValue, int maxScore) {
 		numberPicker.setMaxValue(maxScore);
 		numberPicker.setMinValue(0);
@@ -130,6 +129,24 @@ public class TournamentGamesAdapter extends BaseAdapter implements ListAdapter {
 				dialog.dismiss();
 			}
 		});
+
+		Button adjustButton = (Button) dialog.findViewById(R.id.button_edit_game_adjust);
+		adjustButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				try {
+					AppManager.getInstance().revertGame(position);
+					((NumberPicker) dialog.findViewById(R.id.edit_game_number_picker_1)).setValue(0);
+					((NumberPicker) dialog.findViewById(R.id.edit_game_number_picker_2)).setValue(0);
+					notifyDataSetChanged();
+					onGameChangeListener.onGameChanged();
+					AppManager.getInstance().displayMessage(context, "Game reverted, adjust score and confirm!");
+				} catch (AppManagerException e) {
+					AppManager.getInstance().displayMessage(context, "Game could not be reverted: " + e.getMessage());
+				}
+			}
+		});
+
 		Button confirmButton = (Button) dialog.findViewById(R.id.button_edit_game_confirm);
 		confirmButton.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -142,13 +159,15 @@ public class TournamentGamesAdapter extends BaseAdapter implements ListAdapter {
 						onGameChangeListener.onGameChanged();
 						dialog.dismiss();
 					} else {
-						AppManager.getInstance().displayError(context, "At least one team needs to have maximum " +
+						AppManager.getInstance().displayMessage(context, "At least one team needs to have maximum " +
 								"score!");
 					}
 				} catch (AppManagerException e) {
-					Log.e(TournamentGamesAdapter.class.toString(), String.format("couldnt finalize game, " +
+					String errorMsg = String.format("couldnt finalize game, " +
 							"invalid input: position:%d, score1:%d, score2:%d", position, np1.getValue(), np2.getValue
-							()));
+							());
+					Log.e(TournamentGamesAdapter.class.toString(), errorMsg);
+					AppManager.getInstance().displayMessage(context, errorMsg);
 				}
 			}
 		});

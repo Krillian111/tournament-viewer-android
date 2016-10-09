@@ -47,6 +47,7 @@
     <string name="header_game_score">Score</string>
     <string name="title_edit_game">Set the scores:</string>
     <string name="button_edit_game_confirm">Confirm</string>
+    <string name="button_edit_game_adjust">Adjust</string>
     <string name="button_edit_game_cancel">Cancel</string>
     <string name="button_generate_playoffs">PLAYOFFS</string>
     <string name="button_finish_tournament">FINISH</string>

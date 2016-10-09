@@ -159,17 +159,14 @@ class TournamentManager {
 		int scoreTeam2 = game.getScoreTeam2();
 		List<String> team2 = game.getTeam2PlayerNames();
 		if (scoreTeam1 == scoreTeam2) {
-			// add a tied game to both teams
 			addTiedGame(team1);
 			addTiedGame(team2);
 			// TODO: update ranking score of all players
 		} else if (scoreTeam1 > scoreTeam2) {
-			// add a won game to team 1, a lost game to team 2
 			addWonGame(team1);
 			addLostGame(team2);
 			// TODO: update ranking score of all players
 		} else {
-			// add a won game to team 2, a lost game to team 1
 			addWonGame(team2);
 			addLostGame(team1);
 			// TODO: update ranking score of all players
@@ -183,7 +180,6 @@ class TournamentManager {
 							"team2(%s,%s) was commited with result (%d:%d)",
 					team1.get(0), team1.get(1), team2.get(0), team2.get(1), scoreTeam1, scoreTeam2));
 		}
-
 	}
 
 	private List<Game> getGamesToCommit() {
@@ -194,6 +190,67 @@ class TournamentManager {
 			}
 		}
 		return gamesToCommit;
+	}
+
+	/**
+	 * revert a game after it being permanently committed
+	 *
+	 * @param position: position of the game in the list
+	 * @throws TournamentManagerException
+	 */
+	void revertGame(int position) throws TournamentManagerException {
+		if (currentTournament.isFinished()) {
+			throw new TournamentManagerException("Can't revert game: Tournament finished");
+		}
+		if (position >= getGames().size()) {
+			throw new IndexOutOfBoundsException("game with position " + position + " does not exist");
+		}
+		Game game = currentTournament.getGame(position);
+		if (!game.isResultCommitted()) {
+			throw new TournamentManagerException("Error reverting: game was not committed");
+		}
+		if (!game.isFinished()) {
+			throw new TournamentManagerException("Cannot revert unfinished game");
+		}
+
+		// TODO: calculate ranking score (change) for all players
+		int scoreTeam1 = game.getScoreTeam1();
+		List<String> team1 = game.getTeam1PlayerNames();
+		int scoreTeam2 = game.getScoreTeam2();
+		List<String> team2 = game.getTeam2PlayerNames();
+		if (scoreTeam1 == scoreTeam2) {
+			removeTiedGame(team1);
+			removeTiedGame(team2);
+			// TODO: update ranking score of all players
+		} else if (scoreTeam1 > scoreTeam2) {
+			removeWonGame(team1);
+			removeLostGame(team2);
+			// TODO: update ranking score of all players
+		} else {
+			removeWonGame(team2);
+			removeLostGame(team1);
+			// TODO: update ranking score of all players
+		}
+		game.setScoreTeam1(0);
+		game.setScoreTeam2(0);
+		game.setResultCommitted(false);
+		if (isOneOnOne()) {
+			Log.d(LOG_TAG, String.format("revertGame: game %s vs %s was reverted" +
+					", result was (%d:%d)", team1.get(0), team2.get(0), scoreTeam1, scoreTeam2));
+		} else {
+			Log.d(LOG_TAG, String.format("revertGame: game with team1(%s,%s) vs " +
+							"team2(%s,%s) was reverted, result was (%d:%d)",
+					team1.get(0), team1.get(1), team2.get(0), team2.get(1), scoreTeam1, scoreTeam2));
+		}
+	}
+
+	private void removeTiedGame(List<String> playersToUpdate) throws TournamentManagerException {
+		Player playerToUpdate;
+		for (String playerName : playersToUpdate) {
+			playerToUpdate = getPlayerByName(playerName);
+			playerToUpdate.setTiedGamesInTournament(playerToUpdate.getTiedGamesInTournament() - 1);
+			playerToUpdate.setTiedGames(playerToUpdate.getTiedGames() - 1);
+		}
 	}
 
 	/**
@@ -224,6 +281,15 @@ class TournamentManager {
 		}
 	}
 
+	private void removeWonGame(List<String> playersToUpdate) throws TournamentManagerException {
+		Player playerToUpdate;
+		for (String playerName : playersToUpdate) {
+			playerToUpdate = getPlayerByName(playerName);
+			playerToUpdate.setWonGamesInTournament(playerToUpdate.getWonGamesInTournament() - 1);
+			playerToUpdate.setWonGames(playerToUpdate.getWonGames() - 1);
+		}
+	}
+
 	/**
 	 * Add a played and a lost game to players.
 	 *
@@ -235,6 +301,15 @@ class TournamentManager {
 			playerToUpdate = getPlayerByName(playerName);
 			playerToUpdate.setLostGamesInTournament(playerToUpdate.getLostGamesInTournament() + 1);
 			playerToUpdate.setLostGames(playerToUpdate.getLostGames() + 1);
+		}
+	}
+
+	private void removeLostGame(List<String> playersToUpdate) throws TournamentManagerException {
+		Player playerToUpdate;
+		for (String playerName : playersToUpdate) {
+			playerToUpdate = getPlayerByName(playerName);
+			playerToUpdate.setLostGamesInTournament(playerToUpdate.getLostGamesInTournament() - 1);
+			playerToUpdate.setLostGames(playerToUpdate.getLostGames() - 1);
 		}
 	}
 
@@ -277,18 +352,18 @@ class TournamentManager {
 		int maxScore = currentTournament.getMaxScore();
 		if (position >= getGames().size()) {
 			throw new IndexOutOfBoundsException("game with position " + position + " does not exist");
-		} else if (scoreTeam1 > maxScore || scoreTeam2 > maxScore || scoreTeam1 < 0 || scoreTeam2 < 0) {
+		}
+		if (scoreTeam1 > maxScore || scoreTeam2 > maxScore || scoreTeam1 < 0 || scoreTeam2 < 0) {
 			throw new TournamentManagerException(String.format("one of the entered scores is invalid: team1:%d, " +
 					"team2:%d", scoreTeam1, scoreTeam2));
-		} else {
-			Game gameToBeFinalized = currentTournament.getGame(position);
-			if (gameToBeFinalized.isResultCommitted()) {
-				throw new TournamentManagerException("Game was already committed, can't alter results");
-			}
-			gameToBeFinalized.setScoreTeam1(scoreTeam1);
-			gameToBeFinalized.setScoreTeam2(scoreTeam2);
-			gameToBeFinalized.setFinished(true);
 		}
+		Game gameToBeFinalized = currentTournament.getGame(position);
+		if (gameToBeFinalized.isResultCommitted()) {
+			throw new TournamentManagerException("Game was already committed, can't alter results");
+		}
+		gameToBeFinalized.setScoreTeam1(scoreTeam1);
+		gameToBeFinalized.setScoreTeam2(scoreTeam2);
+		gameToBeFinalized.setFinished(true);
 	}
 
 	void addPlayer(Player player) {

@@ -71,7 +71,7 @@ public class PlayerListAdapter extends BaseAdapter implements ListAdapter {
 					adjustBackgroundColor(signedUp, buttonView);
 					notifyDataSetChanged();
 				} catch (AppManagerException e) {
-					AppManager.getInstance().displayError(context, e.getMessage());
+					AppManager.getInstance().displayMessage(context, e.getMessage());
 				}
 
 			}
@@ -84,7 +84,7 @@ public class PlayerListAdapter extends BaseAdapter implements ListAdapter {
 				try {
 					AppManager.getInstance().removePlayer(playerName);
 				} catch (AppManagerException e) {
-					AppManager.getInstance().displayError(context, e.getMessage());
+					AppManager.getInstance().displayMessage(context, e.getMessage());
 				}
 				notifyDataSetChanged();
 			}

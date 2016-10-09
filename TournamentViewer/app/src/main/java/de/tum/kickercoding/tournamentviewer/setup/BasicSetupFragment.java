@@ -42,7 +42,7 @@ public class BasicSetupFragment extends Fragment {
 			((TextView) view.findViewById(R.id.var_max_score)).setText(maxScore);
 			((TextView) view.findViewById(R.id.var_number_games)).setText(numberOfGames);
 		} catch (AppManagerException e) {
-			AppManager.getInstance().displayError(getActivity(), "could not load settings, default values used");
+			AppManager.getInstance().displayMessage(getActivity(), "could not load settings, default values used");
 			Log.e(BasicSetupFragment.class.toString(), "setInitialSetupValues: " + e.getMessage());
 			((TextView) view.findViewById(R.id.var_max_score)).setText(Constants.DEFAULT_MAX_SCORE.toString());
 			((TextView) view.findViewById(R.id.var_number_games)).setText(Constants.DEFAULT_NUMBER_OF_GAMES

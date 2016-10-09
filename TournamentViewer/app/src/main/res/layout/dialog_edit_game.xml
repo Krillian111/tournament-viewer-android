@@ -50,13 +50,19 @@
         <Button
             android:id="@+id/button_edit_game_cancel"
             style="@style/TvButton"
-            android:layout_weight="50"
+            android:layout_weight="1"
             android:text="@string/button_edit_game_cancel"/>
+
+        <Button
+            android:id="@+id/button_edit_game_adjust"
+            style="@style/TvButton"
+            android:layout_weight="1"
+            android:text="@string/button_edit_game_adjust"/>
 
         <Button
             android:id="@+id/button_edit_game_confirm"
             style="@style/TvButton"
-            android:layout_weight="50"
+            android:layout_weight="1"
             android:text="@string/button_edit_game_confirm"/>
     </LinearLayout>
 </LinearLayout>

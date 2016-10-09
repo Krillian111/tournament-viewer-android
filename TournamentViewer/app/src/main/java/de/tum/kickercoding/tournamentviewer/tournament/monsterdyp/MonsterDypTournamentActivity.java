@@ -62,7 +62,7 @@ public class MonsterDypTournamentActivity extends AppCompatActivity implements O
 					AppManager.getInstance().finishTournament();
 					goToStartMenu();
 				} catch (AppManagerException e) {
-					AppManager.getInstance().displayError(MonsterDypTournamentActivity.this, e.getMessage());
+					AppManager.getInstance().displayMessage(MonsterDypTournamentActivity.this, e.getMessage());
 					dialog.cancel();
 				}
 			}

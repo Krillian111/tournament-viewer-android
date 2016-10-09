@@ -57,7 +57,7 @@ public class PlayerSelectFragment extends Fragment {
 		try {
 			AppManager.getInstance().addNewPlayer(newPlayer);
 		} catch (AppManagerException e) {
-			AppManager.getInstance().displayError(buttonView.getContext(), e.getMessage());
+			AppManager.getInstance().displayMessage(buttonView.getContext(), e.getMessage());
 			return;
 		}
 		ListView listView = (ListView) rootView.findViewById(R.id.list_view_add_players);
