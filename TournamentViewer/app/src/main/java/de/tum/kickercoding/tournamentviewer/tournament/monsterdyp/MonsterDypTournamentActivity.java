@@ -14,6 +14,7 @@ import de.tum.kickercoding.tournamentviewer.R;
 import de.tum.kickercoding.tournamentviewer.StartMenuActivity;
 import de.tum.kickercoding.tournamentviewer.exceptions.AppManagerException;
 import de.tum.kickercoding.tournamentviewer.manager.AppManager;
+import de.tum.kickercoding.tournamentviewer.setup.monsterdyp.MonsterDypPlayerSetupActivity;
 import de.tum.kickercoding.tournamentviewer.setup.monsterdyp.TournamentPagerAdapter;
 import de.tum.kickercoding.tournamentviewer.tournament.TournamentGamesFragment.OnGameChangeListener;
 
@@ -48,7 +49,7 @@ public class MonsterDypTournamentActivity extends AppCompatActivity implements O
 	}
 
 	public void generatePlayoffs(View view) {
-		//TODO: generate playoff games
+		AppManager.getInstance().displayMessage(this, "Sorry, this feature has not been implemented yet");
 	}
 
 	public void finishTournament(View view) {
@@ -78,6 +79,30 @@ public class MonsterDypTournamentActivity extends AppCompatActivity implements O
 	public void goToStartMenu() {
 		Intent intent = new Intent(this, StartMenuActivity.class);
 		startActivity(intent);
+	}
+
+	public void goToPlayerSelection() {
+		Intent intent = new Intent(this, MonsterDypPlayerSetupActivity.class);
+		startActivity(intent);
+	}
+
+	public void goToPlayerSetup(View view) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Delete or add player?");
+		builder.setPositiveButton("CONFIRM", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+				goToPlayerSelection();
+			}
+		});
+		builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		});
+		builder.show();
 	}
 
 	@Override

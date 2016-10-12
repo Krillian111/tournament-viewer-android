@@ -273,6 +273,14 @@ public class AppManager {
 	}
 
 	/**
+	 * Checks wether tournament is in progress. This is determined by checking whether the list of games in a
+	 * tournament is greater than zero.
+	 */
+	public boolean isTournamentInProgress() {
+		return tournamentManager.isTournamentInProgress();
+	}
+
+	/**
 	 * adds player to tournament or removes player if already signed up
 	 *
 	 * @param player

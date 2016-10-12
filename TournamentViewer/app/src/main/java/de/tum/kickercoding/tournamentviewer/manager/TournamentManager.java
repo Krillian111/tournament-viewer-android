@@ -91,11 +91,24 @@ class TournamentManager {
 		currentTournament.setFinished(true);
 	}
 
+	boolean isTournamentInProgress() {
+		return currentTournament.getGames().size() > 0;
+	}
+
 	boolean toggleParticipation(Player player) throws TournamentManagerException {
 		if (currentTournament.isFinished()) {
 			throw new TournamentManagerException("Can't toggle player participation: Tournament finished");
 		}
 		if (currentTournament.getPlayers().contains(player)) {
+			// delete unfinished games of player
+			List<Game> games = getGames();
+			List<Game> gamesToDelete = new ArrayList<>();
+			for (Game game : games) {
+				if (!game.isResultCommitted()) {
+					gamesToDelete.add(game);
+				}
+			}
+			games.removeAll(gamesToDelete);
 			removePlayer(player);
 			return false;
 		} else {

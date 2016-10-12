@@ -8,12 +8,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
-import android.widget.TextView;
 
 import de.tum.kickercoding.tournamentviewer.R;
 import de.tum.kickercoding.tournamentviewer.entities.Player;
 import de.tum.kickercoding.tournamentviewer.manager.AppManager;
 import de.tum.kickercoding.tournamentviewer.util.Utils;
+
+import static de.tum.kickercoding.tournamentviewer.util.Utils.prepareTextView;
 
 public class TournamentStatsAdapter extends BaseAdapter implements ListAdapter {
 
@@ -86,16 +87,6 @@ public class TournamentStatsAdapter extends BaseAdapter implements ListAdapter {
 
 		setupButtonListener(dialog);
 		return dialog;
-	}
-
-	private void prepareTextView(View view, int id, String text) {
-		TextView textView = (TextView) view.findViewById(id);
-		textView.setText(text);
-	}
-
-	private void prepareTextView(Dialog dialog, int id, String text) {
-		TextView textView = (TextView) dialog.findViewById(id);
-		textView.setText(text);
 	}
 
 	private void setupButtonListener(final Dialog dialog) {

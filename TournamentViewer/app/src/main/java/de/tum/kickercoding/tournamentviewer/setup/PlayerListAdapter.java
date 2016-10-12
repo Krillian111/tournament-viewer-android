@@ -1,7 +1,9 @@
 package de.tum.kickercoding.tournamentviewer.setup;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +20,8 @@ import de.tum.kickercoding.tournamentviewer.entities.Player;
 import de.tum.kickercoding.tournamentviewer.exceptions.AppManagerException;
 import de.tum.kickercoding.tournamentviewer.manager.AppManager;
 import de.tum.kickercoding.tournamentviewer.util.Utils;
+
+import static de.tum.kickercoding.tournamentviewer.util.Utils.prepareTextView;
 
 public class PlayerListAdapter extends BaseAdapter implements ListAdapter {
 
@@ -66,14 +70,13 @@ public class PlayerListAdapter extends BaseAdapter implements ListAdapter {
 		view.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View buttonView) {
-				try {
-					boolean signedUp = AppManager.getInstance().toggleParticipation((Player) getItem(position));
-					adjustBackgroundColor(signedUp, buttonView);
-					notifyDataSetChanged();
-				} catch (AppManagerException e) {
-					AppManager.getInstance().displayMessage(context, e.getMessage());
+				Player player = (Player) getItem(position);
+				if (AppManager.getInstance().isTournamentInProgress()) {
+					Dialog dialog = createConfirmToggleDialog(player, buttonView);
+					dialog.show();
+				} else {
+					toggleAndNotify(buttonView, player);
 				}
-
 			}
 		});
 
@@ -102,6 +105,40 @@ public class PlayerListAdapter extends BaseAdapter implements ListAdapter {
 
 		adjustBackgroundColor(AppManager.getInstance().isSignedUp(playerName), view);
 		return view;
+	}
+
+	private Dialog createConfirmToggleDialog(final Player player, final View buttonView) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		boolean currentlySignedUp = AppManager.getInstance().isSignedUp((player.getName()));
+		builder.setTitle(currentlySignedUp ? "Remove player?" : "Add player?");
+		if (currentlySignedUp) {
+			builder.setMessage("Tournament is currently running: Removing player does not affect games already " +
+					"finished!");
+		}
+		builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		});
+		builder.setPositiveButton("CONFIRM", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				toggleAndNotify(buttonView, player);
+			}
+		});
+		return builder.create();
+	}
+
+	private void toggleAndNotify(View buttonView, Player player) {
+		boolean signedUpAfterToggle = false;
+		try {
+			signedUpAfterToggle = AppManager.getInstance().toggleParticipation(player);
+			adjustBackgroundColor(signedUpAfterToggle, buttonView);
+			notifyDataSetChanged();
+		} catch (AppManagerException e) {
+			AppManager.getInstance().displayMessage(context, e.getMessage());
+		}
 	}
 
 	/**
@@ -140,11 +177,6 @@ public class PlayerListAdapter extends BaseAdapter implements ListAdapter {
 
 		setupButtonListener(dialog);
 		return dialog;
-	}
-
-	private void prepareTextView(Dialog dialog, int id, String text) {
-		TextView textView = (TextView) dialog.findViewById(id);
-		textView.setText(text);
 	}
 
 	private void setupButtonListener(final Dialog dialog) {

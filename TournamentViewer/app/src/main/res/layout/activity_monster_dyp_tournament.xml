@@ -49,7 +49,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
-            android:onClick="addPlayerInTournament"
+            android:onClick="goToPlayerSetup"
             android:text="@string/button_add_player_in_tournament"/>
 
         <Button

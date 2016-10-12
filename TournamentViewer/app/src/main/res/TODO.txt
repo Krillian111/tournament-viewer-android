@@ -4,13 +4,13 @@ TODOs:
 
 - add mmr (match making rating) for matchmaking, win rate is supposed to be used as ranking in a tournament
 
-- accumulate goals
-
 - unit tests (entities)
 
 - move "-GAME" button to game detail view
 
 - switch button texts for proper icons (add, delete, signup etc.)
+
+- remove goals when deleting game
 
 - add custom launcher icon
 

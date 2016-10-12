@@ -29,7 +29,7 @@
     <!-- Monster Dyp Player Setup-->
     <!-- ###################### -->
     <string name="message_newPlayerDefault">New Player</string>
-    <string name="button_addplayer">Add</string>
+    <string name="button_add_player">Add</string>
     <string name="button_delete">DEL</string>
     <string name="button_delete_player">\?</string>
 
@@ -45,13 +45,28 @@
     <string name="header_team_1">Team 1</string>
     <string name="header_team_2">Team 2</string>
     <string name="header_game_score">Score</string>
-    <string name="title_edit_game">Set the scores:</string>
-    <string name="button_edit_game_confirm">Confirm</string>
-    <string name="button_edit_game_adjust">Adjust</string>
-    <string name="button_edit_game_cancel">Cancel</string>
+
+    <!-- Activity buttons -->
     <string name="button_generate_playoffs">PLAYOFFS</string>
     <string name="button_finish_tournament">FINISH</string>
+    <string name="button_add_player_in_tournament">PLAYERS</string>
 
+    <!-- ###################### -->
+    <!-- Dialogs -->
+    <!-- ###################### -->
+
+    <!-- General -->
+    <string name="button_confirm">Confirm</string>
+    <string name="button_adjust">Adjust</string>
+    <string name="button_cancel">Cancel</string>
+
+    <!-- Edit player-->
+    <string name="title_edit_game">Set the scores:</string>
+
+    <!-- Add player in tournament-->
+    <string name="title_add_player_in_tournament">Add new player:</string>
+
+    <!-- Player details dialog -->
     <string name="title_player_details">Player details</string>
     <string name="header_player_rank_short">#</string>
     <string name="header_player_rank">Rank</string>
