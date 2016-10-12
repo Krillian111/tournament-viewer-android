@@ -159,16 +159,16 @@ class TournamentManager {
 		int scoreTeam2 = game.getScoreTeam2();
 		List<String> team2 = game.getTeam2PlayerNames();
 		if (scoreTeam1 == scoreTeam2) {
-			addTiedGame(team1);
-			addTiedGame(team2);
+			addTiedGame(team1, scoreTeam1);
+			addTiedGame(team2, scoreTeam1);
 			// TODO: update ranking score of all players
 		} else if (scoreTeam1 > scoreTeam2) {
-			addWonGame(team1);
-			addLostGame(team2);
+			addWonGame(team1, scoreTeam1, scoreTeam2);
+			addLostGame(team2, scoreTeam1, scoreTeam2);
 			// TODO: update ranking score of all players
 		} else {
-			addWonGame(team2);
-			addLostGame(team1);
+			addWonGame(team2, scoreTeam2, scoreTeam1);
+			addLostGame(team1, scoreTeam2, scoreTeam1);
 			// TODO: update ranking score of all players
 		}
 		game.setResultCommitted(true);
@@ -219,16 +219,16 @@ class TournamentManager {
 		int scoreTeam2 = game.getScoreTeam2();
 		List<String> team2 = game.getTeam2PlayerNames();
 		if (scoreTeam1 == scoreTeam2) {
-			removeTiedGame(team1);
-			removeTiedGame(team2);
+			removeTiedGame(team1, scoreTeam1);
+			removeTiedGame(team2, scoreTeam2);
 			// TODO: update ranking score of all players
 		} else if (scoreTeam1 > scoreTeam2) {
-			removeWonGame(team1);
-			removeLostGame(team2);
+			removeWonGame(team1, scoreTeam1, scoreTeam2);
+			removeLostGame(team2, scoreTeam1, scoreTeam2);
 			// TODO: update ranking score of all players
 		} else {
-			removeWonGame(team2);
-			removeLostGame(team1);
+			removeWonGame(team2, scoreTeam2, scoreTeam1);
+			removeLostGame(team1, scoreTeam2, scoreTeam1);
 			// TODO: update ranking score of all players
 		}
 		game.setScoreTeam1(0);
@@ -244,26 +244,35 @@ class TournamentManager {
 		}
 	}
 
-	private void removeTiedGame(List<String> playersToUpdate) throws TournamentManagerException {
-		Player playerToUpdate;
-		for (String playerName : playersToUpdate) {
-			playerToUpdate = getPlayerByName(playerName);
-			playerToUpdate.setTiedGamesInTournament(playerToUpdate.getTiedGamesInTournament() - 1);
-			playerToUpdate.setTiedGames(playerToUpdate.getTiedGames() - 1);
-		}
-	}
-
 	/**
 	 * Add a played and a tied game to players.
 	 *
 	 * @param playersToUpdate The players that should be updated.
 	 */
-	private void addTiedGame(List<String> playersToUpdate) throws TournamentManagerException {
+	private void addTiedGame(List<String> playersToUpdate, int score) throws TournamentManagerException {
 		Player playerToUpdate;
 		for (String playerName : playersToUpdate) {
 			playerToUpdate = getPlayerByName(playerName);
 			playerToUpdate.setTiedGamesInTournament(playerToUpdate.getTiedGamesInTournament() + 1);
 			playerToUpdate.setTiedGames(playerToUpdate.getTiedGames() + 1);
+			playerToUpdate.setGoalsShot(playerToUpdate.getGoalsShot() + score);
+			playerToUpdate.setGoalsShotInTournament(playerToUpdate.getGoalsShotInTournament() + score);
+			playerToUpdate.setGoalsReceived(playerToUpdate.getGoalsReceived() + score);
+			playerToUpdate.setGoalsReceivedInTournament(playerToUpdate.getGoalsReceivedInTournament() + score);
+		}
+	}
+
+	private void removeTiedGame(List<String> playersToUpdate, int score) throws
+			TournamentManagerException {
+		Player playerToUpdate;
+		for (String playerName : playersToUpdate) {
+			playerToUpdate = getPlayerByName(playerName);
+			playerToUpdate.setTiedGamesInTournament(playerToUpdate.getTiedGamesInTournament() - 1);
+			playerToUpdate.setTiedGames(playerToUpdate.getTiedGames() - 1);
+			playerToUpdate.setGoalsShot(playerToUpdate.getGoalsShot() - score);
+			playerToUpdate.setGoalsShotInTournament(playerToUpdate.getGoalsShotInTournament() - score);
+			playerToUpdate.setGoalsReceived(playerToUpdate.getGoalsReceived() - score);
+			playerToUpdate.setGoalsReceivedInTournament(playerToUpdate.getGoalsReceivedInTournament() - score);
 		}
 	}
 
@@ -272,21 +281,31 @@ class TournamentManager {
 	 *
 	 * @param playersToUpdate The players that should be updated.
 	 */
-	private void addWonGame(List<String> playersToUpdate) throws TournamentManagerException {
+	private void addWonGame(List<String> playersToUpdate, int scoreWinner, int scoreLoser) throws
+			TournamentManagerException {
 		Player playerToUpdate;
 		for (String playerName : playersToUpdate) {
 			playerToUpdate = getPlayerByName(playerName);
 			playerToUpdate.setWonGamesInTournament(playerToUpdate.getWonGamesInTournament() + 1);
 			playerToUpdate.setWonGames(playerToUpdate.getWonGames() + 1);
+			playerToUpdate.setGoalsShot(playerToUpdate.getGoalsShot() + scoreWinner);
+			playerToUpdate.setGoalsShotInTournament(playerToUpdate.getGoalsShotInTournament() + scoreWinner);
+			playerToUpdate.setGoalsReceived(playerToUpdate.getGoalsReceived() + scoreLoser);
+			playerToUpdate.setGoalsReceivedInTournament(playerToUpdate.getGoalsReceivedInTournament() + scoreLoser);
 		}
 	}
 
-	private void removeWonGame(List<String> playersToUpdate) throws TournamentManagerException {
+	private void removeWonGame(List<String> playersToUpdate, int scoreWinner, int scoreLoser) throws
+			TournamentManagerException {
 		Player playerToUpdate;
 		for (String playerName : playersToUpdate) {
 			playerToUpdate = getPlayerByName(playerName);
 			playerToUpdate.setWonGamesInTournament(playerToUpdate.getWonGamesInTournament() - 1);
 			playerToUpdate.setWonGames(playerToUpdate.getWonGames() - 1);
+			playerToUpdate.setGoalsShot(playerToUpdate.getGoalsShot() - scoreWinner);
+			playerToUpdate.setGoalsShotInTournament(playerToUpdate.getGoalsShotInTournament() - scoreWinner);
+			playerToUpdate.setGoalsReceived(playerToUpdate.getGoalsReceived() - scoreLoser);
+			playerToUpdate.setGoalsReceivedInTournament(playerToUpdate.getGoalsReceivedInTournament() - scoreLoser);
 		}
 	}
 
@@ -295,21 +314,31 @@ class TournamentManager {
 	 *
 	 * @param playersToUpdate The players that should be updated.
 	 */
-	private void addLostGame(List<String> playersToUpdate) throws TournamentManagerException {
+	private void addLostGame(List<String> playersToUpdate, int scoreWinner, int scoreLoser) throws
+			TournamentManagerException {
 		Player playerToUpdate;
 		for (String playerName : playersToUpdate) {
 			playerToUpdate = getPlayerByName(playerName);
 			playerToUpdate.setLostGamesInTournament(playerToUpdate.getLostGamesInTournament() + 1);
 			playerToUpdate.setLostGames(playerToUpdate.getLostGames() + 1);
+			playerToUpdate.setGoalsShot(playerToUpdate.getGoalsShot() + scoreLoser);
+			playerToUpdate.setGoalsShotInTournament(playerToUpdate.getGoalsShotInTournament() + scoreLoser);
+			playerToUpdate.setGoalsReceived(playerToUpdate.getGoalsReceived() + scoreWinner);
+			playerToUpdate.setGoalsReceivedInTournament(playerToUpdate.getGoalsReceivedInTournament() + scoreWinner);
 		}
 	}
 
-	private void removeLostGame(List<String> playersToUpdate) throws TournamentManagerException {
+	private void removeLostGame(List<String> playersToUpdate, int scoreWinner, int scoreLoser) throws
+			TournamentManagerException {
 		Player playerToUpdate;
 		for (String playerName : playersToUpdate) {
 			playerToUpdate = getPlayerByName(playerName);
 			playerToUpdate.setLostGamesInTournament(playerToUpdate.getLostGamesInTournament() - 1);
 			playerToUpdate.setLostGames(playerToUpdate.getLostGames() - 1);
+			playerToUpdate.setGoalsShot(playerToUpdate.getGoalsShot() - scoreLoser);
+			playerToUpdate.setGoalsShotInTournament(playerToUpdate.getGoalsShotInTournament() - scoreLoser);
+			playerToUpdate.setGoalsReceived(playerToUpdate.getGoalsReceived() - scoreWinner);
+			playerToUpdate.setGoalsReceivedInTournament(playerToUpdate.getGoalsReceivedInTournament() - scoreWinner);
 		}
 	}
 

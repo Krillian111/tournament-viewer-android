@@ -11,13 +11,13 @@
         <TextView
             style="@style/TvTextview.listheader"
             android:layout_width="0dp"
-            android:layout_weight="5"
+            android:layout_weight="3"
             android:text="@string/header_player_rank_short"/>
 
         <TextView
             style="@style/TvTextview.listheader"
             android:layout_width="0dp"
-            android:layout_weight="45"
+            android:layout_weight="42"
             android:maxLines="1"
             android:text="@string/header_player_name"
             android:textAlignment="viewStart"/>
@@ -25,7 +25,7 @@
         <TextView
             style="@style/TvTextview.listheader"
             android:layout_width="0dp"
-            android:layout_weight="15"
+            android:layout_weight="10"
             android:maxLines="1"
             android:text="@string/header_player_games_total_short"
             android:textAlignment="center"/>
@@ -33,9 +33,17 @@
         <TextView
             style="@style/TvTextview.listheader"
             android:layout_width="0dp"
-            android:layout_weight="15"
+            android:layout_weight="10"
             android:maxLines="1"
             android:text="@string/header_player_games_won_short"
+            android:textAlignment="center"/>
+
+        <TextView
+            style="@style/TvTextview.listheader"
+            android:layout_width="0dp"
+            android:layout_weight="15"
+            android:maxLines="1"
+            android:text="@string/header_player_goal_difference"
             android:textAlignment="center"/>
 
         <TextView

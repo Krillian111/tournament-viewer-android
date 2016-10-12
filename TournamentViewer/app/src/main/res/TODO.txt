@@ -2,8 +2,6 @@ TODOs:
 
 - add entity Match to allow modelling multiple games
 
-- implement adjusting scores (remove committed game, add new one)
-
 - add mmr (match making rating) for matchmaking, win rate is supposed to be used as ranking in a tournament
 
 - accumulate goals

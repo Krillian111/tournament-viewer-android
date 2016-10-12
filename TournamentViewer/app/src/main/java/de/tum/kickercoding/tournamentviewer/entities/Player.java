@@ -18,6 +18,10 @@ public class Player implements Comparable<Player> {
 	private int wonGamesInTournament;
 	private int lostGamesInTournament;
 	private int tiedGamesInTournament;
+	private int goalsShot;
+	private int goalsReceived;
+	private int goalsShotInTournament;
+	private int goalsReceivedInTournament;
 	private double mmr;
 
 	public Player(String name) {
@@ -28,6 +32,10 @@ public class Player implements Comparable<Player> {
 		wonGamesInTournament = 0;
 		lostGamesInTournament = 0;
 		tiedGamesInTournament = 0;
+		goalsShot = 0;
+		goalsShotInTournament = 0;
+		goalsReceived = 0;
+		goalsReceivedInTournament = 0;
 		mmr = 0.0;
 
 	}
@@ -46,8 +54,8 @@ public class Player implements Comparable<Player> {
 	 * @param mmr
 	 */
 	public Player(String name, int wonGames, int lostGames, int tiedGames, int wonGamesInTournament, int
-			lostGamesInTournament, int tiedGamesInTournament,
-				  double mmr) {
+			lostGamesInTournament, int tiedGamesInTournament, int goalsShot, int goalsShotInTournament,
+				  int goalsReceived, int goalsReceivedInTournament, double mmr) {
 		this.name = name;
 		this.wonGames = wonGames;
 		this.lostGames = lostGames;
@@ -55,6 +63,10 @@ public class Player implements Comparable<Player> {
 		this.wonGamesInTournament = wonGamesInTournament;
 		this.lostGamesInTournament = lostGamesInTournament;
 		this.tiedGamesInTournament = tiedGamesInTournament;
+		this.goalsShot = goalsShot;
+		this.goalsShotInTournament = goalsShotInTournament;
+		this.goalsReceived = goalsReceived;
+		this.goalsReceivedInTournament = goalsReceivedInTournament;
 		this.mmr = mmr;
 
 	}
@@ -111,6 +123,46 @@ public class Player implements Comparable<Player> {
 		this.tiedGamesInTournament = tiedGamesInTournament;
 	}
 
+	public int getGoalsShot() {
+		return goalsShot;
+	}
+
+	public void setGoalsShot(int goalsShot) {
+		this.goalsShot = goalsShot;
+	}
+
+	public int getGoalsReceived() {
+		return goalsReceived;
+	}
+
+	public void setGoalsReceived(int goalsReceived) {
+		this.goalsReceived = goalsReceived;
+	}
+
+	public int getGoalsShotInTournament() {
+		return goalsShotInTournament;
+	}
+
+	public void setGoalsShotInTournament(int goalsShotInTournament) {
+		this.goalsShotInTournament = goalsShotInTournament;
+	}
+
+	public int getGoalsReceivedInTournament() {
+		return goalsReceivedInTournament;
+	}
+
+	public void setGoalsReceivedInTournament(int goalsReceivedInTournament) {
+		this.goalsReceivedInTournament = goalsReceivedInTournament;
+	}
+
+	public int getGoalDifference() {
+		return getGoalsShot() - getGoalsReceived();
+	}
+
+	public int getGoalDifferenceInTournament() {
+		return getGoalsShotInTournament() - getGoalsReceivedInTournament();
+	}
+
 	/**
 	 * rounds to 4 digits after comma before calling setter
 	 *
@@ -160,7 +212,8 @@ public class Player implements Comparable<Player> {
 
 	public Player copy() {
 		return new Player(name, wonGames, lostGames, tiedGames,
-				wonGamesInTournament, lostGamesInTournament, tiedGamesInTournament, mmr);
+				wonGamesInTournament, lostGamesInTournament, tiedGamesInTournament, goalsShot, goalsShotInTournament,
+				goalsReceived, goalsReceivedInTournament, mmr);
 	}
 
 	@Override

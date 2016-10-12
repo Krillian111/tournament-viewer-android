@@ -54,6 +54,7 @@ public class TournamentStatsAdapter extends BaseAdapter implements ListAdapter {
 		prepareTextView(view, R.id.tournament_stats_item_games_won, "" + player.getWonGamesInTournament());
 		prepareTextView(view, R.id.tournament_stats_item_win_rate, Utils.prepareWinRateForView(player
 				.getWinRateInTournament()));
+		prepareTextView(view, R.id.tournament_stats_item_goal_difference, "" + player.getGoalDifferenceInTournament());
 
 		view.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -79,6 +80,7 @@ public class TournamentStatsAdapter extends BaseAdapter implements ListAdapter {
 		prepareTextView(dialog, R.id.player_details_won_games, "" + player.getWonGames());
 		prepareTextView(dialog, R.id.player_details_lost_games, "" + player.getLostGames());
 		prepareTextView(dialog, R.id.player_details_tied_games, "" + player.getTiedGames());
+		prepareTextView(dialog, R.id.player_details_goal_difference, "" + player.getGoalDifference());
 		prepareTextView(dialog, R.id.player_details_win_rate, Utils.prepareWinRateForView(player.getWinRate()));
 		prepareTextView(dialog, R.id.player_details_mmr, "" + player.getMmr());
 

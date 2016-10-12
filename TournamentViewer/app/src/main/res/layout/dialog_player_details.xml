@@ -138,6 +138,22 @@
                 android:text="@string/header_player_mmr"/>
 
             <TextView
+                android:id="@+id/player_details_goal_difference"
+                style="@style/TvTextview.listitem.weightedhorizontal"
+                android:layout_weight="50"/>
+
+        </LinearLayout>
+
+        <View style="@style/TvDivider.Tiny"/>
+
+        <LinearLayout style="@style/TvRow">
+
+            <TextView
+                style="@style/TvTextview.listitem.weightedhorizontal"
+                android:layout_weight="50"
+                android:text="@string/header_player_mmr"/>
+
+            <TextView
                 android:id="@+id/player_details_mmr"
                 style="@style/TvTextview.listitem.weightedhorizontal"
                 android:layout_weight="50"/>
