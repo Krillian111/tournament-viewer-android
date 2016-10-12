@@ -43,11 +43,20 @@
             android:text="@string/button_generate_playoffs"/>
 
         <Button
+            android:id="@+id/button_add_player_in_tournament"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:onClick="addPlayerInTournament"
+            android:text="@string/button_add_player_in_tournament"/>
+
+        <Button
             android:id="@+id/button_finish_tournament"
             style="@style/TvButton"
             android:layout_alignParentEnd="true"
             android:onClick="finishTournament"
             android:text="@string/button_finish_tournament"/>
-
     </RelativeLayout>
 </RelativeLayout>

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -51,18 +52,18 @@
             android:id="@+id/button_edit_game_cancel"
             style="@style/TvButton"
             android:layout_weight="1"
-            android:text="@string/button_edit_game_cancel"/>
+            android:text="@string/button_cancel"/>
 
         <Button
             android:id="@+id/button_edit_game_adjust"
             style="@style/TvButton"
             android:layout_weight="1"
-            android:text="@string/button_edit_game_adjust"/>
+            android:text="@string/button_adjust"/>
 
         <Button
             android:id="@+id/button_edit_game_confirm"
             style="@style/TvButton"
             android:layout_weight="1"
-            android:text="@string/button_edit_game_confirm"/>
+            android:text="@string/button_confirm"/>
     </LinearLayout>
 </LinearLayout>

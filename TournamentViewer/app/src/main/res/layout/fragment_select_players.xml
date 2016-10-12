@@ -23,7 +23,7 @@
             android:layout_width="70dp"
             android:layout_alignParentRight="true"
             android:onClick="addPlayerToList"
-            android:text="@string/button_addplayer"/>
+            android:text="@string/button_add_player"/>
     </RelativeLayout>
 
     <ListView
