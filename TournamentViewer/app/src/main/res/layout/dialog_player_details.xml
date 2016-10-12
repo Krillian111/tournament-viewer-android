@@ -135,7 +135,7 @@
             <TextView
                 style="@style/TvTextview.listitem.weightedhorizontal"
                 android:layout_weight="50"
-                android:text="@string/header_player_mmr"/>
+                android:text="@string/header_player_goal_difference"/>
 
             <TextView
                 android:id="@+id/player_details_goal_difference"

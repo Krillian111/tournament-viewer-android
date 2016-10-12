@@ -29,7 +29,7 @@ public class TournamentGamesFragment extends Fragment {
 	public void onAttach(Context context) {
 		super.onAttach(context);
 		try {
-			onGameChangeListener = (OnGameChangeListener) context;
+			onGameChangeListener = (OnGameChangeListener) getActivity();
 		} catch (ClassCastException e) {
 			throw new ClassCastException(context.toString()
 					+ " must implement OnHeadlineSelectedListener");

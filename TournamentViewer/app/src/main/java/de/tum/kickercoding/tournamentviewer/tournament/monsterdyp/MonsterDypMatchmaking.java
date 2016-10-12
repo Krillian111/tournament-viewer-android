@@ -38,7 +38,7 @@ public class MonsterDypMatchmaking implements Matchmaking {
 	@Override
 	public List<Game> generateRound(List<Player> players, boolean oneOnOne) {
 		List<Player> playersToMatch = selectPlayers(players, oneOnOne, false);
-		int gamesToGenerate = players.size() / 4;
+		int gamesToGenerate = oneOnOne ? players.size() / 2 : players.size() / 4;
 
 		List<Game> generatedGames = new ArrayList<>();
 		for (int i = 0;i < gamesToGenerate;i++) {

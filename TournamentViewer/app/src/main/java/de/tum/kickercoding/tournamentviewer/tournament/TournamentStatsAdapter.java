@@ -80,8 +80,8 @@ public class TournamentStatsAdapter extends BaseAdapter implements ListAdapter {
 		prepareTextView(dialog, R.id.player_details_won_games, "" + player.getWonGames());
 		prepareTextView(dialog, R.id.player_details_lost_games, "" + player.getLostGames());
 		prepareTextView(dialog, R.id.player_details_tied_games, "" + player.getTiedGames());
-		prepareTextView(dialog, R.id.player_details_goal_difference, "" + player.getGoalDifference());
 		prepareTextView(dialog, R.id.player_details_win_rate, Utils.prepareWinRateForView(player.getWinRate()));
+		prepareTextView(dialog, R.id.player_details_goal_difference, "" + player.getGoalDifference());
 		prepareTextView(dialog, R.id.player_details_mmr, "" + player.getMmr());
 
 		setupButtonListener(dialog);

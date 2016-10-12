@@ -400,6 +400,8 @@ class TournamentManager {
 		player.setWonGamesInTournament(0);
 		player.setLostGamesInTournament(0);
 		player.setTiedGamesInTournament(0);
+		player.setGoalsShotInTournament(0);
+		player.setGoalsReceivedInTournament(0);
 		currentTournament.addPlayer(player);
 		// sort list after adding player
 		List<Player> players = currentTournament.getPlayers();

@@ -8,7 +8,7 @@ public class PlayerUnitTest {
 
 	@Test
 	public void testBasicToAndFromJson() {
-		Player p = new Player("name3", 2, 6, 8, 0, 0, 0, 12.3456);
+		Player p = new Player("name3", 2, 6, 8, 0, 0, 0, 0, 0, 0, 0, 12.3456);
 		String pAsJson = p.toJson();
 		Player pFromJson = Player.fromJson(pAsJson);
 		assertEquals(p.getName(), pFromJson.getName());

@@ -19,7 +19,7 @@ public class TournamentUnitTest {
 		t.setFinished(true);
 		t.setMode(TournamentMode.MONSTERDYP);
 		Player p1 = new Player("p1");
-		Player p2 = new Player("p2", 1, 2, 3, 0, 0, 0, 4.0);
+		Player p2 = new Player("p2", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 4.0);
 		Player p3 = new Player("p3");
 		Player p4 = new Player("p4");
 		t.addPlayer(p1);
@@ -45,6 +45,10 @@ public class TournamentUnitTest {
 		assertEquals(p2FromJson.getWonGamesInTournament(), p2Original.getWonGamesInTournament());
 		assertEquals(p2FromJson.getLostGamesInTournament(), p2Original.getLostGamesInTournament());
 		assertEquals(p2FromJson.getTiedGamesInTournament(), p2Original.getTiedGamesInTournament());
+		assertEquals(p2FromJson.getGoalsReceived(), p2Original.getGoalsReceived());
+		assertEquals(p2FromJson.getGoalsReceivedInTournament(), p2Original.getGoalsReceivedInTournament());
+		assertEquals(p2FromJson.getGoalsShot(), p2Original.getGoalsShot());
+		assertEquals(p2FromJson.getGoalsShotInTournament(), p2Original.getGoalsShotInTournament());
 		assertEquals(p2FromJson.getMmr(), p2Original.getMmr(), 0.001);
 	}
 }
