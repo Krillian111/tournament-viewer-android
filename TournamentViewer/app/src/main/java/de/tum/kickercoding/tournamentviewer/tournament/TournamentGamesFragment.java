@@ -32,7 +32,7 @@ public class TournamentGamesFragment extends Fragment {
 			onGameChangeListener = (OnGameChangeListener) getActivity();
 		} catch (ClassCastException e) {
 			throw new ClassCastException(context.toString()
-					+ " must implement OnHeadlineSelectedListener");
+					+ " must implement OnGameChangeListener");
 		}
 	}
 
@@ -58,7 +58,6 @@ public class TournamentGamesFragment extends Fragment {
 				} catch (AppManagerException e) {
 					AppManager.getInstance().displayMessage(getActivity(), e.getMessage());
 				}
-
 			}
 		});
 

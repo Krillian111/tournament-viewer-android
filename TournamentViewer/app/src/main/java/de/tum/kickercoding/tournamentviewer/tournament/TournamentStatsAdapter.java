@@ -18,10 +18,7 @@ import static de.tum.kickercoding.tournamentviewer.util.Utils.prepareTextView;
 
 public class TournamentStatsAdapter extends BaseAdapter implements ListAdapter {
 
-	Context context;
-
-	public TournamentStatsAdapter(Context context) {
-		this.context = context;
+	public TournamentStatsAdapter() {
 	}
 
 	@Override
@@ -42,9 +39,11 @@ public class TournamentStatsAdapter extends BaseAdapter implements ListAdapter {
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 
+		final Context context = parent.getContext();
 		View view = convertView;
 		if (view == null) {
-			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context
+					.LAYOUT_INFLATER_SERVICE);
 			view = inflater.inflate(R.layout.item_tournament_stats, null);
 		}
 
