@@ -3,8 +3,6 @@ package de.tum.kickercoding.tournamentviewer.manager;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import de.tum.kickercoding.tournamentviewer.entities.Game;
@@ -15,6 +13,7 @@ import de.tum.kickercoding.tournamentviewer.exceptions.TournamentManagerExceptio
 import de.tum.kickercoding.tournamentviewer.tournament.Matchmaking;
 import de.tum.kickercoding.tournamentviewer.tournament.monsterdyp.MonsterDypMatchmaking;
 import de.tum.kickercoding.tournamentviewer.util.TournamentMode;
+import de.tum.kickercoding.tournamentviewer.util.Utils;
 
 // TODO: write unit tests
 class TournamentManager {
@@ -418,22 +417,14 @@ class TournamentManager {
 		currentTournament.addPlayer(player);
 		// sort list after adding player
 		List<Player> players = currentTournament.getPlayers();
-		sortPlayersByWinRate(players);
+		Utils.sortPlayersByWinRate(players);
 	}
 
 	List<Player> getPlayers() {
 		List<Player> players = currentTournament.getPlayers();
 		// sort list as win rates change
-		sortPlayersByWinRate(players);
+		Utils.sortPlayersByWinRate(players);
 		return players;
-	}
-
-	private void sortPlayersByWinRate(List<Player> list) {
-		Collections.sort(list, new Comparator<Player>() {
-			public int compare(Player p1, Player p2) {
-				return Double.compare(p2.getWinRateInTournament(), p1.getWinRateInTournament());
-			}
-		});
 	}
 
 	private boolean removePlayer(Player player) {

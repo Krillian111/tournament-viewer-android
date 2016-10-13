@@ -1,6 +1,7 @@
 package de.tum.kickercoding.tournamentviewer.tournament.monsterdyp;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.Random;
 import de.tum.kickercoding.tournamentviewer.entities.Game;
 import de.tum.kickercoding.tournamentviewer.entities.Player;
 import de.tum.kickercoding.tournamentviewer.tournament.Matchmaking;
+import de.tum.kickercoding.tournamentviewer.util.Utils;
 
 // TODO: incorporate ranking
 public class MonsterDypMatchmaking implements Matchmaking {
@@ -82,12 +84,47 @@ public class MonsterDypMatchmaking implements Matchmaking {
 
 	private Game generateRandomGame(List<Player> players, boolean oneOnOne) {
 		int playerToSelect = oneOnOne ? 2 : 4;
-		Random random = new Random();
 		List<Player> playersForGame = new ArrayList<>();
-		for (int i = 0;i < playerToSelect;i++) {
-			int playerPosition = random.nextInt(players.size());
-			playersForGame.add(players.remove(playerPosition));
+		if (oneOnOne) {
+			// TODO: build more sophisticated 1v1 matching
+			Random random = new Random();
+			for (int i = 0;i < playerToSelect;i++) {
+				int playerPosition = random.nextInt(players.size());
+				playersForGame.add(players.remove(playerPosition));
+			}
+		} else {
+			List<Player> team1 = generateTeam(players);
+			players.removeAll(team1);
+			List<Player> team2 = generateTeam(players);
+			players.removeAll(team2);
+			playersForGame.addAll(team1);
+			playersForGame.addAll(team2);
 		}
 		return new Game(playersForGame);
 	}
+
+	private List<Player> generateTeam(List<Player> players) {
+		Utils.sortPlayersForMatching(players);
+		// select random player
+		Random random = new Random();
+		int playerPosition = random.nextInt(players.size());
+		Player playerToMatch = players.get(playerPosition);
+		// generate parameters for gaussian distribution to draw partner
+		int countPlayers = players.size();
+		// std was determined by some basic sampling test; not set in stone
+		double std = countPlayers * 0.3;
+		double avg = countPlayers - playerPosition;
+		Player partner = null;
+		while (partner == null) {
+			int partnerPosition = (int) (random.nextGaussian() * std + avg);
+			if (partnerPosition < 0 || partnerPosition >= countPlayers || partnerPosition == playerPosition) {
+				// resample until valid value occurs
+				continue;
+			}
+			partner = players.get(partnerPosition);
+		}
+		return new ArrayList<>(Arrays.asList(playerToMatch, partner));
+	}
+
+
 }

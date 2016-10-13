@@ -7,7 +7,12 @@ import android.widget.TextView;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Locale;
+
+import de.tum.kickercoding.tournamentviewer.entities.Player;
 
 public class Utils {
 
@@ -24,6 +29,23 @@ public class Utils {
 	public static void prepareTextView(Dialog dialog, int id, String text) {
 		TextView textView = (TextView) dialog.findViewById(id);
 		textView.setText(text);
+	}
+
+	public static void sortPlayersByWinRate(List<Player> list) {
+		Collections.sort(list, new Comparator<Player>() {
+			public int compare(Player p1, Player p2) {
+				return Double.compare(p2.getWinRateInTournament(), p1.getWinRateInTournament());
+			}
+		});
+	}
+
+	//TODO: implement ranking by mmr
+	public static void sortPlayersForMatching(List<Player> list) {
+		Collections.sort(list, new Comparator<Player>() {
+			public int compare(Player p1, Player p2) {
+				return Double.compare(p2.getWinRateInTournament(), p1.getWinRateInTournament());
+			}
+		});
 	}
 
 }

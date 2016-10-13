@@ -20,8 +20,6 @@ TODOs:
 
 - prevent negative input in basic setup
 
-- add players during tournament
-
 - add title messages to each activity (instead of 'TournmanetViewer')
 
 minor features:
@@ -30,3 +28,13 @@ minor features:
 major features:
 - add more sophisticated rating (e.g. elo)
 - add mode for mixed teams
+
+########################
+System for matchmaking
+########################
+Assuming a list of ranked players, for each game and each team do the following:
+1. Pick a random player
+2. Pick his partner using a gaussian distribution, centering it at the complementary position in the ladder
+(i.e. a top player picks his partner from a gaussian distribution over all player with the peak of the g.d. being at
+the worst player, a mediocre player player picks his partner from a g.d. over all players with the peak being in the
+middle)
