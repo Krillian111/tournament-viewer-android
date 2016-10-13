@@ -8,12 +8,14 @@
         android:id="@+id/tournament_game_item_team_1"
         style="@style/TvTextview.listitem"
         android:layout_weight="35"
+        android:width="0dp"
         android:maxLines="2"/>
 
     <TextView
         android:id="@+id/tournament_game_item_team_2"
         style="@style/TvTextview.listitem"
         android:layout_weight="35"
+        android:width="0dp"
         android:maxLines="2"/>
 
     <TextView
@@ -21,6 +23,7 @@
         style="@style/TvTextview.listitem"
         android:layout_gravity="center"
         android:layout_weight="30"
+        android:width="0dp"
         android:textAlignment="center"/>
 
 </LinearLayout>

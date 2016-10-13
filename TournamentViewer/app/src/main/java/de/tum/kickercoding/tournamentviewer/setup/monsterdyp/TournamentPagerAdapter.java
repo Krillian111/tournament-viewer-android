@@ -5,21 +5,17 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import de.tum.kickercoding.tournamentviewer.tournament.TournamentGamesFragment;
-import de.tum.kickercoding.tournamentviewer.tournament.TournamentGamesFragment.OnGameChangeListener;
 import de.tum.kickercoding.tournamentviewer.tournament.TournamentStatsFragment;
 
-public class TournamentPagerAdapter extends FragmentPagerAdapter implements OnGameChangeListener {
+public class TournamentPagerAdapter extends FragmentPagerAdapter {
 
 	private final static int NUM_PAGES = 2;
 
-	private final static int PAGE_STATS = 0;
-	private final static int PAGE_GAMES = 1;
+	public final static int PAGE_STATS = 0;
+	public final static int PAGE_GAMES = 1;
 
 	public final static String PAGER_HEADER_STATS = "Stats";
 	public final static String PAGER_HEADER_GAMES = "Games";
-
-	private TournamentStatsFragment tab_stats;
-
 
 	public TournamentPagerAdapter(FragmentManager fm) {
 		super(fm);
@@ -38,8 +34,7 @@ public class TournamentPagerAdapter extends FragmentPagerAdapter implements OnGa
 			}
 			case PAGE_STATS:
 			default: {
-				tab_stats = new TournamentStatsFragment();
-				return tab_stats;
+				return new TournamentStatsFragment();
 			}
 		}
 	}
@@ -55,10 +50,5 @@ public class TournamentPagerAdapter extends FragmentPagerAdapter implements OnGa
 				return PAGER_HEADER_STATS;
 			}
 		}
-	}
-
-
-	public void onGameChanged() {
-		tab_stats.onGameChanged();
 	}
 }

@@ -127,7 +127,7 @@ class TournamentManager {
 		if (matchmaking == null) {
 			initMatchmaking();
 		}
-		List<Game> newGames = matchmaking.generateRound(getPlayers(), isOneOnOne());
+		List<Game> newGames = matchmaking.generateRound(getPlayers(), isOneOnOne(), getGames());
 		for (Game game : newGames) {
 			addGame(game);
 		}
@@ -140,7 +140,7 @@ class TournamentManager {
 		if (matchmaking == null) {
 			initMatchmaking();
 		}
-		Game game = matchmaking.generateGame(getPlayers(), isOneOnOne());
+		Game game = matchmaking.generateGame(getPlayers(), isOneOnOne(), getGames());
 		addGame(game);
 	}
 

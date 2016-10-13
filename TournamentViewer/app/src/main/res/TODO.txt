@@ -27,7 +27,8 @@ minor features:
 
 major features:
 - add more sophisticated rating (e.g. elo)
-- add mode for mixed teams
+- add mode dyp
+- add mode fixed teams
 
 ########################
 System for matchmaking
@@ -38,3 +39,5 @@ Assuming a list of ranked players, for each game and each team do the following:
 (i.e. a top player picks his partner from a gaussian distribution over all player with the peak of the g.d. being at
 the worst player, a mediocre player player picks his partner from a g.d. over all players with the peak being in the
 middle)
+3. special case: player already played with selected partner -> redraw partner unless partner was already drawn
+several times (therefore it is not impossible for same team to occur, just less likely)

@@ -107,6 +107,6 @@ public class MonsterDypTournamentActivity extends AppCompatActivity implements O
 
 	@Override
 	public void onGameChanged() {
-		pagerAdapter.onGameChanged();
+		((OnGameChangeListener) pagerAdapter.getItem(TournamentPagerAdapter.PAGE_STATS)).onGameChanged();
 	}
 }

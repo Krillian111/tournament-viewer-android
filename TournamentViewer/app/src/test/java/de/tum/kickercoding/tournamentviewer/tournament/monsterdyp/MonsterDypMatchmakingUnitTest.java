@@ -38,7 +38,7 @@ public class MonsterDypMatchmakingUnitTest {
 		players.add(p7);
 		players.add(p8);
 		players.add(p9);
-		List<Game> games = MonsterDypMatchmaking.getInstance().generateRound(players, false);
+		List<Game> games = MonsterDypMatchmaking.getInstance().generateRound(players, false, new ArrayList<Game>());
 		for (Game game : games) {
 			for (Player p : game.getTeam1()) {
 				players.remove(p);
@@ -65,7 +65,7 @@ public class MonsterDypMatchmakingUnitTest {
 		players.add(p3);
 		players.add(p4);
 		players.add(p5);
-		List<Game> games = MonsterDypMatchmaking.getInstance().generateRound(players, true);
+		List<Game> games = MonsterDypMatchmaking.getInstance().generateRound(players, true, new ArrayList<Game>());
 		for (Game game : games) {
 			for (Player p : game.getTeam1()) {
 				players.remove(p);
