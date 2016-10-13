@@ -37,4 +37,9 @@ public class Constants {
 
 	public static final String VAR_CURRENT_TOURNAMENT = "currentTournament";
 
+	/**
+	 * Determines how often the matchmaking algorithm retries to find a team when a team is drawn which already
+	 * played in the current tournament
+	 */
+	public static final int SAME_TEAM_SKIP_THRESHOLD = 10;
 }

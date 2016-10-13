@@ -10,6 +10,7 @@ import java.util.Random;
 import de.tum.kickercoding.tournamentviewer.entities.Game;
 import de.tum.kickercoding.tournamentviewer.entities.Player;
 import de.tum.kickercoding.tournamentviewer.tournament.Matchmaking;
+import de.tum.kickercoding.tournamentviewer.util.Constants;
 import de.tum.kickercoding.tournamentviewer.util.Utils;
 
 // TODO: incorporate ranking
@@ -43,7 +44,6 @@ public class MonsterDypMatchmaking implements Matchmaking {
 	private List<Game> generateGames(List<Player> players, boolean oneOnOne, List<Game> pastGames, boolean
 			singleGame) {
 		List<Player> playersToMatch = selectPlayers(players, oneOnOne, singleGame);
-		int[][] partnerFrequencies = calculatePartnerFrequencies(players, oneOnOne, pastGames);
 		int gamesToGenerate = 1;
 		if (!singleGame) {
 			gamesToGenerate = oneOnOne ? players.size() / 2 : players.size() / 4;
@@ -51,50 +51,9 @@ public class MonsterDypMatchmaking implements Matchmaking {
 
 		List<Game> generatedGames = new ArrayList<>();
 		for (int i = 0;i < gamesToGenerate;i++) {
-			generatedGames.add(generateRandomGame(playersToMatch, oneOnOne, partnerFrequencies));
+			generatedGames.add(generateRandomGame(playersToMatch, oneOnOne, pastGames));
 		}
 		return generatedGames;
-	}
-
-	private int[][] calculatePartnerFrequencies(List<Player> players, boolean oneOnOne, List<Game> pastGames) {
-		if (oneOnOne) {
-			return new int[0][0];
-		}
-		int playerSize = players.size();
-		int[][] frequencies = new int[playerSize][playerSize];
-		for (Game game : pastGames) {
-			Player p1 = game.getTeam1().get(0);
-			Player p2 = game.getTeam1().get(1);
-			Player p3 = game.getTeam2().get(0);
-			Player p4 = game.getTeam2().get(1);
-			int positionP1 = players.indexOf(p1);
-			int positionP2 = players.indexOf(p2);
-			int positionP3 = players.indexOf(p3);
-			int positionP4 = players.indexOf(p4);
-			frequencies[positionP1][positionP2]++;
-			frequencies[positionP2][positionP1]++;
-			frequencies[positionP3][positionP4]++;
-			frequencies[positionP4][positionP3]++;
-		}
-		// make sure every row has a 0 entry by shifting it down by its minimum
-		for (int i = 0;i < playerSize;i++) {
-			int min = Integer.MAX_VALUE;
-			// get row minimum
-			for (int j = 0;j < playerSize;j++) {
-				if (i != j && frequencies[i][j] < min) {
-					min = frequencies[i][j];
-				}
-			}
-			// adjust row s.th. at least one value == 0
-			if (min > 0) {
-				for (int j = 0;j < playerSize;j++) {
-					if (i != j) {
-						frequencies[i][j] -= min;
-					}
-				}
-			}
-		}
-		return frequencies;
 	}
 
 	private List<Player> selectPlayers(List<Player> players, boolean oneOnOne, boolean singleGame) {
@@ -131,7 +90,7 @@ public class MonsterDypMatchmaking implements Matchmaking {
 		return selectedPlayers;
 	}
 
-	private Game generateRandomGame(List<Player> players, boolean oneOnOne, int[][] pastGameFrequencies) {
+	private Game generateRandomGame(List<Player> players, boolean oneOnOne, List<Game> pastGames) {
 		List<Player> playersForGame = new ArrayList<>();
 		if (oneOnOne) {
 			// TODO: build more sophisticated 1v1 matching
@@ -142,7 +101,7 @@ public class MonsterDypMatchmaking implements Matchmaking {
 			}
 		} else {
 			for (int i = 0;i < 2;i++) {
-				List<Player> team = generateTeam(players, pastGameFrequencies);
+				List<Player> team = generateTeam(players, pastGames);
 				players.removeAll(team);
 				playersForGame.addAll(team);
 			}
@@ -150,7 +109,8 @@ public class MonsterDypMatchmaking implements Matchmaking {
 		return new Game(playersForGame);
 	}
 
-	private List<Player> generateTeam(List<Player> players, int[][] pastGameFrequencies) {
+	private List<Player> generateTeam(List<Player> players, List<Game> pastGames) {
+		int[][] pastGameFrequencies = calculatePartnerFrequencies(players, pastGames);
 		int playersSize = players.size();
 		// select random player
 		Random random = new Random();
@@ -168,17 +128,59 @@ public class MonsterDypMatchmaking implements Matchmaking {
 				// resample until valid value occurs
 				continue;
 			}
-			// if already matched before and not yet drawn this round, skip SAME_TEAM_THRESHOLD times (adjustable if
+			// if already matched before and not yet drawn this round, skip SAME_TEAM_SKIP_THRESHOLD times
+			// (adjustable if
 			// results not satisfactory)
-			int SAME_TEAM_THRESHOLD = 3;
 			if (pastGameFrequencies[playerPosition][partnerPosition] > 0
-					&& partnerDrawCount[partnerPosition] < SAME_TEAM_THRESHOLD) {
+					&& partnerDrawCount[partnerPosition] < Constants.SAME_TEAM_SKIP_THRESHOLD) {
 				partnerDrawCount[partnerPosition]++;
 				continue;
 			}
 			partner = players.get(partnerPosition);
 		}
 		return new ArrayList<>(Arrays.asList(playerToMatch, partner));
+	}
+
+	private int[][] calculatePartnerFrequencies(List<Player> players, List<Game> pastGames) {
+		int playerSize = players.size();
+		int[][] frequencies = new int[playerSize][playerSize];
+		for (Game game : pastGames) {
+			Player p1 = game.getTeam1().get(0);
+			Player p2 = game.getTeam1().get(1);
+			Player p3 = game.getTeam2().get(0);
+			Player p4 = game.getTeam2().get(1);
+			int positionP1 = players.indexOf(p1);
+			int positionP2 = players.indexOf(p2);
+			int positionP3 = players.indexOf(p3);
+			int positionP4 = players.indexOf(p4);
+			if (positionP1 != -1 && positionP2 != -1) {
+				frequencies[positionP1][positionP2]++;
+				frequencies[positionP2][positionP1]++;
+			}
+			if (positionP3 != -1 && positionP4 != -1) {
+				frequencies[positionP3][positionP4]++;
+				frequencies[positionP4][positionP3]++;
+			}
+		}
+		// make sure every row has a 0 entry by shifting it down by its minimum
+		for (int i = 0;i < playerSize;i++) {
+			int min = Integer.MAX_VALUE;
+			// get row minimum
+			for (int j = 0;j < playerSize;j++) {
+				if (i != j && frequencies[i][j] < min) {
+					min = frequencies[i][j];
+				}
+			}
+			// adjust row s.th. at least one value == 0
+			if (min > 0) {
+				for (int j = 0;j < playerSize;j++) {
+					if (i != j) {
+						frequencies[i][j] -= min;
+					}
+				}
+			}
+		}
+		return frequencies;
 	}
 
 
