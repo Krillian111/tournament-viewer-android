@@ -16,11 +16,16 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".setup.monsterdyp.MonsterDypBasicSetupActivity"/>
+        <activity
+            android:name=".setup.monsterdyp.MonsterDypBasicSetupActivity"
+            android:label="@string/label_monsterdyp_basic_setup"/>
         <activity
             android:name=".setup.monsterdyp.MonsterDypPlayerSetupActivity"
+            android:label="@string/label_monsterdyp_player_setup"
             android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".tournament.monsterdyp.MonsterDypTournamentActivity"/>
+        <activity
+            android:name=".tournament.monsterdyp.MonsterDypTournamentActivity"
+            android:label="@string/label_monsterdyp_tournament"/>
     </application>
 
 </manifest>

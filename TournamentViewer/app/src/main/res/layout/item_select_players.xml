@@ -17,7 +17,7 @@
         android:layout_width="50dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:text="@string/button_delete"/>
+        android:text="@string/button_delete_short"/>
 
     <Button
         android:id="@+id/button_player_details"
@@ -25,5 +25,5 @@
         android:layout_width="50dp"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@id/button_delete_player"
-        android:text="@string/button_delete_player"/>
+        android:text="@string/button_player_details"/>
 </RelativeLayout>

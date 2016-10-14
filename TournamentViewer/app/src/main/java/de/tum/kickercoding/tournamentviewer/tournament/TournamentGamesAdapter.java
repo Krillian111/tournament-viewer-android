@@ -1,7 +1,9 @@
 package de.tum.kickercoding.tournamentviewer.tournament;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,6 +67,16 @@ public class TournamentGamesAdapter extends BaseAdapter implements ListAdapter {
 				dialog.show();
 			}
 		});
+
+		view.setOnLongClickListener(new View.OnLongClickListener() {
+			@Override
+			public boolean onLongClick(View viewItem) {
+				Dialog dialog = createDeleteGameDialog(context, position);
+				dialog.show();
+				return true;
+			}
+		});
+
 		return view;
 	}
 
@@ -130,7 +142,7 @@ public class TournamentGamesAdapter extends BaseAdapter implements ListAdapter {
 			}
 		});
 
-		Button adjustButton = (Button) dialog.findViewById(R.id.button_edit_game_adjust);
+		Button adjustButton = (Button) dialog.findViewById(R.id.button_edit_game_reset);
 		adjustButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -171,5 +183,30 @@ public class TournamentGamesAdapter extends BaseAdapter implements ListAdapter {
 				}
 			}
 		});
+	}
+
+	private Dialog createDeleteGameDialog(final Context context, final int position) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setTitle("Permanently delete game?");
+		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(final DialogInterface dialog, final int which) {
+				dialog.cancel();
+			}
+		});
+		builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(final DialogInterface dialog, final int which) {
+				try {
+					AppManager.getInstance().removeGame(position);
+					notifyDataSetChanged();
+					onGameChangeListener.onGameChanged();
+				} catch (AppManagerException e) {
+					AppManager.getInstance().displayMessage(context, e.getMessage());
+				}
+				dialog.cancel();
+			}
+		});
+		return builder.create();
 	}
 }
