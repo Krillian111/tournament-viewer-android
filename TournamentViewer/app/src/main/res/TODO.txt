@@ -7,6 +7,8 @@ TODOs:
 - unit tests (entities)
 
 - switch button texts for proper icons (add, delete, signup etc.)
+-- replace Button with ImageButton so that highlighting on click works properly
+-- replace remaining buttons
 
 - add custom launcher icon
 
@@ -15,6 +17,8 @@ TODOs:
 - add number of selected players at bottom (player selection)
 
 - prevent negative input in basic setup
+
+
 
 minor features:
 - external ladder from start screen (sorting based on rank; seperate sorted copy of list necessary?)

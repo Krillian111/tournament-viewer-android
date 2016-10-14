@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white_pure"
     android:padding="@dimen/padding_global">
 
     <fragment
@@ -15,9 +16,12 @@
 
     <Button
         android:id="@+id/button_go_to_tournament"
-        style="@style/TvButton"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:drawableStart="@drawable/ic_check_box_grey"
         android:onClick="goToTournament"
-        android:text="@string/button_next"/>
+        android:paddingStart="20dp"/>
 </RelativeLayout>

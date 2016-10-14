@@ -2,12 +2,14 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white_pure">
 
     <RelativeLayout
         android:id="@+id/rel_layout_add_player"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/white_pure">
 
         <EditText
             android:id="@+id/editable_new_player"
@@ -19,18 +21,27 @@
 
         <Button
             android:id="@+id/button_add_player"
-            style="@style/TvButton"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="70dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:background="@color/white_pure"
+            android:drawableStart="@drawable/ic_add_box_green_36dp"
             android:onClick="addPlayerToList"
-            android:text="@string/button_add_player"/>
+            android:paddingStart="20dp"/>
     </RelativeLayout>
+
+    <View
+        android:id="@+id/select_players_divider"
+        style="@style/TvDivider.Tiny"
+        android:layout_below="@+id/rel_layout_add_player"
+        android:background="@color/black_pure"/>
 
     <ListView
         android:id="@+id/list_view_add_players"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/rel_layout_add_player"
+        android:layout_below="@+id/select_players_divider"
         android:divider="@color/text_default"
         android:dividerHeight="0.1dp">
     </ListView>

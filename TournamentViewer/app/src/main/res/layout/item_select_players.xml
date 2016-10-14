@@ -3,27 +3,34 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/player_list_item_root"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/white_pure">
 
     <TextView
         android:id="@+id/player_list_item_text_view"
         style="@style/TvTextview.listitem"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_centerVertical="true"/>
 
     <Button
         android:id="@+id/button_delete_player"
-        style="@style/TvButton"
+        style="?android:attr/borderlessButtonStyle"
         android:layout_width="50dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:text="@string/button_delete_short"/>
+        android:background="@color/white_pure"
+        android:drawableStart="@drawable/ic_cancel_red_24dp"
+        android:paddingLeft="10dp"/>
 
     <Button
         android:id="@+id/button_player_details"
-        style="@style/TvButton"
+        style="?android:attr/borderlessButtonStyle"
         android:layout_width="50dp"
+        android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@id/button_delete_player"
-        android:text="@string/button_player_details"/>
+        android:background="@color/white_pure"
+        android:drawableStart="@drawable/ic_menu_black_24dp"
+        android:paddingLeft="12dp"/>
 </RelativeLayout>

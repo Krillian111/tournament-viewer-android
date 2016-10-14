@@ -17,7 +17,6 @@
     <!-- Monster Dyp Setup Basic Setup-->
     <!-- ###################### -->
     <string name="label_monsterdyp_basic_setup">Basic Settings</string>
-    <string name="button_next">Next</string>
     <string name="header_maxscore">Max Score</string>
     <string name="message_defaultmaxscore">7</string>
     <string name="header_numberofgames">Number of games (not yet implemented)</string>
@@ -31,9 +30,6 @@
     <!-- ###################### -->
     <string name="label_monsterdyp_player_setup">Player selection</string>
     <string name="message_newPlayerDefault">New Player</string>
-    <string name="button_add_player">Add</string>
-    <string name="button_delete_short">DEL</string>
-    <string name="button_player_details">\?</string>
 
     <!-- ###################### -->
     <!-- Monster Dyp Tournament -->
