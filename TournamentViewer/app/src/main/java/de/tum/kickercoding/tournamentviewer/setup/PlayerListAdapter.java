@@ -84,11 +84,8 @@ public class PlayerListAdapter extends BaseAdapter implements ListAdapter {
 		deleteButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View buttonView) {
-				try {
-					AppManager.getInstance().removePlayer(playerName);
-				} catch (AppManagerException e) {
-					AppManager.getInstance().displayMessage(context, e.getMessage());
-				}
+				Dialog dialog = createDeleteDialog(context, playerName);
+				dialog.show();
 				notifyDataSetChanged();
 			}
 		});
@@ -105,6 +102,29 @@ public class PlayerListAdapter extends BaseAdapter implements ListAdapter {
 
 		adjustBackgroundColor(AppManager.getInstance().isSignedUp(playerName), view);
 		return view;
+	}
+
+	private Dialog createDeleteDialog(final Context context, final String playerName) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setTitle("Delete player?");
+		builder.setMessage("Caution: It is not possible to restore details about a deleted player!");
+		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(final DialogInterface dialog, final int which) {
+				dialog.cancel();
+			}
+		});
+		builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(final DialogInterface dialog, final int which) {
+				try {
+					AppManager.getInstance().removePlayer(playerName);
+				} catch (AppManagerException e) {
+					AppManager.getInstance().displayMessage(context, e.getMessage());
+				}
+			}
+		});
+		return builder.create();
 	}
 
 	private Dialog createConfirmToggleDialog(final Player player, final View buttonView) {

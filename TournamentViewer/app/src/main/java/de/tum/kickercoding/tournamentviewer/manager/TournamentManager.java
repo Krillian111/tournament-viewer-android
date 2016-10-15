@@ -380,6 +380,19 @@ class TournamentManager {
 		return currentTournament.removeLastGame();
 	}
 
+	void removeGame(int position) throws TournamentManagerException {
+		if (currentTournament.isFinished()) {
+			throw new TournamentManagerException("Can't delete game: Tournament finished");
+		}
+		try {
+			revertGame(position);
+		} catch (TournamentManagerException e) {
+			// swallow exception as it only indicates error when game is supposed to be reset;
+			// method is just reused to reset a potentially committed game
+		}
+		currentTournament.getGames().remove(position);
+	}
+
 	List<Game> getGames() {
 		return currentTournament.getGames();
 	}

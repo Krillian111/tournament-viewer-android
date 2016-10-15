@@ -316,6 +316,14 @@ public class AppManager {
 		}
 	}
 
+	public void removeGame(int position) throws AppManagerException {
+		try {
+			tournamentManager.removeGame(position);
+		} catch (TournamentManagerException e) {
+			throw new AppManagerException("Failed to remove game:" + e.getMessage());
+		}
+	}
+
 	/**
 	 * checks if player is already signed up (i.e. in the list of players for the current tournament)
 	 *

@@ -25,9 +25,10 @@
 
             <Button
                 android:id="@+id/button_setup_decrement_score"
-                style="@style/TvButton"
-                android:layout_width="@dimen/button_width_no_text"
-                android:text="@string/button_minus"/>
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="45dp"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_remove_circle_grey"/>
 
             <TextView
                 android:id="@+id/var_max_score"
@@ -38,9 +39,10 @@
 
             <Button
                 android:id="@+id/button_setup_increment_score"
-                style="@style/TvButton"
-                android:layout_width="@dimen/button_width_no_text"
-                android:text="@string/button_plus"/>
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="45dp"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_add_circle_grey"/>
         </LinearLayout>
 
         <TextView
@@ -56,9 +58,10 @@
 
             <Button
                 android:id="@+id/button_setup_decrement_games"
-                style="@style/TvButton"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="45dp"
-                android:text="@string/button_minus"/>
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_remove_circle_grey"/>
 
             <TextView
                 android:id="@+id/var_number_games"
@@ -69,9 +72,10 @@
 
             <Button
                 android:id="@+id/button_setup_increment_games"
-                style="@style/TvButton"
-                android:layout_width="@dimen/button_width_no_text"
-                android:text="@string/button_plus"/>
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="45dp"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_add_circle_grey"/>
         </LinearLayout>
 
         <TextView

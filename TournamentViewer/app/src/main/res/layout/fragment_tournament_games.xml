@@ -70,10 +70,6 @@
             style="@style/TvButton"
             android:text="@string/button_add_round"/>
 
-        <Button
-            android:id="@+id/button_delete_last_game_from_tournament"
-            style="@style/TvButton"
-            android:text="@string/button_remove_last_game"/>
     </LinearLayout>
 
     <View

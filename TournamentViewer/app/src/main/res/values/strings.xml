@@ -16,7 +16,7 @@
     <!-- ###################### -->
     <!-- Monster Dyp Setup Basic Setup-->
     <!-- ###################### -->
-    <string name="button_next">Next</string>
+    <string name="label_monsterdyp_basic_setup">Basic Settings</string>
     <string name="header_maxscore">Max Score</string>
     <string name="message_defaultmaxscore">7</string>
     <string name="header_numberofgames">Number of games (not yet implemented)</string>
@@ -28,20 +28,18 @@
     <!-- ###################### -->
     <!-- Monster Dyp Player Setup-->
     <!-- ###################### -->
+    <string name="label_monsterdyp_player_setup">Player selection</string>
     <string name="message_newPlayerDefault">New Player</string>
-    <string name="button_add_player">Add</string>
-    <string name="button_delete">DEL</string>
-    <string name="button_delete_player">\?</string>
 
     <!-- ###################### -->
     <!-- Monster Dyp Tournament -->
     <!-- ###################### -->
+    <string name="label_monsterdyp_tournament">Tournament</string>
     <string name="pager_header_stats">Stats</string>
     <string name="pager_header_games">Games</string>
 
     <string name="button_add_game">+Game</string>
     <string name="button_add_round">+Round</string>
-    <string name="button_remove_last_game">-Game</string>
     <string name="header_team_1">Team 1</string>
     <string name="header_team_2">Team 2</string>
     <string name="header_game_score">Score</string>
@@ -57,8 +55,9 @@
 
     <!-- General -->
     <string name="button_confirm">Confirm</string>
-    <string name="button_adjust">Adjust</string>
+    <string name="button_adjust">Reset</string>
     <string name="button_cancel">Cancel</string>
+    <string name="button_delete">Delete</string>
 
     <!-- Edit player-->
     <string name="title_edit_game">Set the scores:</string>

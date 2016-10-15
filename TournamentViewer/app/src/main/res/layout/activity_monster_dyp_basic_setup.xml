@@ -12,9 +12,12 @@
         android:layout_height="wrap_content"/>
 
     <Button
-        style="@style/TvButton"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:drawableStart="@drawable/ic_check_box_grey"
         android:onClick="goToPlayerSetup"
-        android:text="@string/button_next"/>
+        android:paddingStart="20dp"/>
 </RelativeLayout>

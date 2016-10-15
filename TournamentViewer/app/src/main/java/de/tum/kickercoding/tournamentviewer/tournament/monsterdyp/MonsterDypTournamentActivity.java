@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -22,6 +23,8 @@ public class MonsterDypTournamentActivity extends AppCompatActivity implements O
 
 	private TournamentPagerAdapter pagerAdapter;
 
+	private ViewPager viewPager;
+
 	private final String LOG_TAG = MonsterDypTournamentActivity.class.toString();
 
 	@Override
@@ -29,12 +32,12 @@ public class MonsterDypTournamentActivity extends AppCompatActivity implements O
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_monster_dyp_tournament);
 
-		ViewPager pager = (ViewPager) findViewById(R.id.tournament_pager);
+		viewPager = (ViewPager) findViewById(R.id.tournament_pager);
 		TabLayout tabs = (TabLayout) findViewById(R.id.tournament_pager_tabs);
-		pagerAdapter = new TournamentPagerAdapter(getSupportFragmentManager());
+		pagerAdapter = new TournamentPagerAdapter(getSupportFragmentManager(), viewPager);
 
-		pager.setAdapter(pagerAdapter);
-		tabs.setupWithViewPager(pager);
+		viewPager.setAdapter(pagerAdapter);
+		tabs.setupWithViewPager(viewPager);
 
 	}
 
@@ -107,6 +110,9 @@ public class MonsterDypTournamentActivity extends AppCompatActivity implements O
 
 	@Override
 	public void onGameChanged() {
-		((OnGameChangeListener) pagerAdapter.getItem(TournamentPagerAdapter.PAGE_STATS)).onGameChanged();
+		Fragment statsFragment = pagerAdapter.getFragmentForPosition(TournamentPagerAdapter.PAGE_STATS);
+		if (statsFragment != null) {
+			((OnGameChangeListener) statsFragment).onGameChanged();
+		}
 	}
 }

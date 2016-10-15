@@ -32,7 +32,7 @@ public class TournamentGamesFragment extends Fragment {
 			onGameChangeListener = (OnGameChangeListener) getActivity();
 		} catch (ClassCastException e) {
 			throw new ClassCastException(context.toString()
-					+ " must implement OnHeadlineSelectedListener");
+					+ " must implement OnGameChangeListener");
 		}
 	}
 
@@ -58,7 +58,6 @@ public class TournamentGamesFragment extends Fragment {
 				} catch (AppManagerException e) {
 					AppManager.getInstance().displayMessage(getActivity(), e.getMessage());
 				}
-
 			}
 		});
 
@@ -68,19 +67,6 @@ public class TournamentGamesFragment extends Fragment {
 			public void onClick(View buttonView) {
 				try {
 					AppManager.getInstance().generateRound();
-					notifyAdapter(view);
-				} catch (AppManagerException e) {
-					AppManager.getInstance().displayMessage(getActivity(), e.getMessage());
-				}
-			}
-		});
-
-		Button deleteLastGameButton = (Button) view.findViewById(R.id.button_delete_last_game_from_tournament);
-		deleteLastGameButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View buttonView) {
-				try {
-					AppManager.getInstance().removeLastGame();
 					notifyAdapter(view);
 				} catch (AppManagerException e) {
 					AppManager.getInstance().displayMessage(getActivity(), e.getMessage());

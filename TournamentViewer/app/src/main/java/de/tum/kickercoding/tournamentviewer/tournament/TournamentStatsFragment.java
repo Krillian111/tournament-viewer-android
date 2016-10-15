@@ -14,7 +14,7 @@ import de.tum.kickercoding.tournamentviewer.tournament.TournamentGamesFragment.O
 
 public class TournamentStatsFragment extends Fragment implements OnGameChangeListener {
 
-	TournamentStatsAdapter adapter;
+	TournamentStatsAdapter adapter = new TournamentStatsAdapter();
 
 	public TournamentStatsFragment() {
 	}
@@ -29,7 +29,6 @@ public class TournamentStatsFragment extends Fragment implements OnGameChangeLis
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		final ListView tournamentStats = (ListView) view.findViewById(R.id.list_view_tournament_stats);
-		adapter = new TournamentStatsAdapter(getActivity());
 		tournamentStats.setAdapter(adapter);
 	}
 

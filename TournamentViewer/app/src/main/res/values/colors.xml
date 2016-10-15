@@ -3,10 +3,14 @@
     <color name="colorPrimary">#3ba4ef</color>
     <color name="colorPrimaryDark">#203ea0</color>
     <color name="colorAccent">#5daf7b</color>
-    <color name="text_default">#000000</color>
+    <color name="white_pure">#FFFFFF</color>
+    <color name="black_pure">#000000</color>
+    <color name="text_default">@color/black_pure</color>
     <color name="text_header">@color/colorPrimaryDark</color>
     <color name="player_signed_up">@color/colorAccent</color>
     <color name="player_not_signed_up">#ffffff</color>
     <color name="divider">@color/colorPrimary</color>
-    <color name="divider_neutral">#c1c1c1</color>
+    <color name="divider_neutral">@color/neutral_grey</color>
+    <color name="neutral_grey">#c1c1c1</color>
+    <color name="background_default">#fff3f3f3</color>
 </resources>

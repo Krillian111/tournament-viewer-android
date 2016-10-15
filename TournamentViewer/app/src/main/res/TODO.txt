@@ -4,11 +4,9 @@ TODOs:
 
 - unit tests (entities)
 
-- move "-GAME" button to game detail view
-
 - switch button texts for proper icons (add, delete, signup etc.)
-
-- remove goals when deleting game
+-- replace Button with ImageButton so that highlighting on click works properly
+-- replace remaining buttons
 
 - add custom launcher icon
 
@@ -18,7 +16,7 @@ TODOs:
 
 - prevent negative input in basic setup
 
-- add title messages to each activity (instead of 'TournmanetViewer')
+
 
 - move all activity buttons in tournament to "drop down menu" at title bar
 
