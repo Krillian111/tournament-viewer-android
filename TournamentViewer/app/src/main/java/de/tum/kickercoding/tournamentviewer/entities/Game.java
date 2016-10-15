@@ -18,6 +18,11 @@ public class Game {
 	private boolean resultCommitted;
 
 
+	/**
+	 * Creates a new game, mode (1v1 or 2v2) is inferred from the amount of players
+	 *
+	 * @param participants
+	 */
 	public Game(List<Player> participants) {
 		this.participants = participants;
 		this.scoreTeam1 = 0;
@@ -84,7 +89,6 @@ public class Game {
 		return playerNames;
 	}
 
-	// TODO: validate score in GameManager (0 <= score <= max_score)
 	public int getScoreTeam2() {
 		return scoreTeam2;
 	}
@@ -97,7 +101,6 @@ public class Game {
 		return oneOnOne;
 	}
 
-	// TODO: validate score in GameManager (0 <= score <= max_score)
 	public void setScoreTeam1(int scoreTeam1) {
 		this.scoreTeam1 = scoreTeam1;
 	}

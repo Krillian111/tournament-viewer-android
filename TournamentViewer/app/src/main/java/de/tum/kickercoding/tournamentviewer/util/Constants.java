@@ -29,7 +29,7 @@ public class Constants {
 
 	public static final String ERROR_DETECTED_SAVE_YOUR_RESULTS = "Error detected, do not proceed, save your results!";
 
-	/**
+	/*
 	 * TOURNAMENT DATA
 	 */
 
@@ -37,9 +37,43 @@ public class Constants {
 
 	public static final String VAR_CURRENT_TOURNAMENT = "currentTournament";
 
+	/*
+	 * Constants for Matchmaking
+	 */
+
 	/**
 	 * Determines how often the matchmaking algorithm retries to find a team when a team is drawn which already
 	 * played in the current tournament
 	 */
 	public static final int SAME_TEAM_SKIP_THRESHOLD = 10;
+
+	public static final double GAUSSIAN_STD_IN_PERCENTAGE_OF_PLAYERS = 0.3;
+
+	/*
+	 * Constants for Elo computation
+	 */
+	/**
+	 * K factor for players with less than K_FACTOR_GAME_THRESHOLD games
+	 */
+	public static final int K_FACTOR_NEW = 40;
+
+	/**
+	 * K factor for players with more than K_FACTOR_GAME_THRESHOLD games
+	 */
+	public static final int K_FACTOR_ESTABLISHED = 15;
+
+	/**
+	 * after this amount of games rating changes slower by using a low k-factor
+	 */
+	public static final int K_FACTOR_GAME_THRESHOLD = 30;
+
+	/**
+	 * every FACTOR_TEN_THRESHOLD amount of rating expected score is ten times higher than opponent's
+	 */
+	public static final int FACTOR_TEN_THRESHOLD = 400;
+
+	/**
+	 * Default value for elo rating
+	 */
+	public static final double ELO_DEFAULT = 1500;
 }

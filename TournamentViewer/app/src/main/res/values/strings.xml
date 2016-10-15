@@ -81,6 +81,6 @@
     <string name="header_player_games_tied">Ties</string>
     <string name="header_player_goal_difference">&#177;</string>
     <string name="header_player_win_rate">&#216;</string>
-    <string name="header_player_mmr">Rating</string>
+    <string name="header_player_elo">Rating</string>
     <string name="button_player_details_back">Back</string>
 </resources>

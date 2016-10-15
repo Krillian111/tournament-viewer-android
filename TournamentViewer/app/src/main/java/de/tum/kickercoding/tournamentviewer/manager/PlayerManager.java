@@ -8,12 +8,10 @@ import de.tum.kickercoding.tournamentviewer.entities.Player;
 import de.tum.kickercoding.tournamentviewer.exceptions.PlayerManagerException;
 import de.tum.kickercoding.tournamentviewer.exceptions.PreferenceFileManagerException;
 
-
-// TODO: add comments to methods/class
 class PlayerManager {
 
 	private static PlayerManager instance = new PlayerManager();
-	private List<Player> players = new ArrayList<Player>();
+	private List<Player> players = new ArrayList<>();
 
 	private PlayerManager() {
 	}

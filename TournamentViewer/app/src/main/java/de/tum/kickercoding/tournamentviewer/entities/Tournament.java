@@ -7,7 +7,6 @@ import java.util.List;
 
 import de.tum.kickercoding.tournamentviewer.util.TournamentMode;
 
-// TODO: write unit tests
 public class Tournament {
 
 	private List<Player> players = new ArrayList<>();

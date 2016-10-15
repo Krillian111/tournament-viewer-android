@@ -15,8 +15,6 @@ import de.tum.kickercoding.tournamentviewer.util.TournamentMode;
  * Activity is called when app is opened, responsible for initializing basic infrastructure
  * Presents the user with a screen of basic options
  */
-// TODO: add possibility to load pending tournament (click on monsterdyp calls initialization of TournamentManager
-// which resets the Tournament
 public class StartMenuActivity extends AppCompatActivity {
 
 	@Override

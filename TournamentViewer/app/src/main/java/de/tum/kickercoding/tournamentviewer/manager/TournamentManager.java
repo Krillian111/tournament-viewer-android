@@ -15,7 +15,6 @@ import de.tum.kickercoding.tournamentviewer.tournament.monsterdyp.MonsterDypMatc
 import de.tum.kickercoding.tournamentviewer.util.TournamentMode;
 import de.tum.kickercoding.tournamentviewer.util.Utils;
 
-// TODO: write unit tests
 class TournamentManager {
 
 	private final String LOG_TAG = TournamentManager.class.toString();
@@ -165,7 +164,6 @@ class TournamentManager {
 			throw new TournamentManagerException("Cannot commit unfinished game");
 		}
 
-		// TODO: calculate ranking score (change) for all players
 		int scoreTeam1 = game.getScoreTeam1();
 		List<String> team1 = game.getTeam1PlayerNames();
 		int scoreTeam2 = game.getScoreTeam2();
@@ -173,19 +171,17 @@ class TournamentManager {
 		if (scoreTeam1 == scoreTeam2) {
 			addTiedGame(team1, scoreTeam1);
 			addTiedGame(team2, scoreTeam1);
-			// TODO: update ranking score of all players
 		} else if (scoreTeam1 > scoreTeam2) {
 			addWonGame(team1, scoreTeam1, scoreTeam2);
 			addLostGame(team2, scoreTeam1, scoreTeam2);
-			// TODO: update ranking score of all players
 		} else {
 			addWonGame(team2, scoreTeam2, scoreTeam1);
 			addLostGame(team1, scoreTeam2, scoreTeam1);
-			// TODO: update ranking score of all players
 		}
+		Utils.updateElo(game);
 		game.setResultCommitted(true);
 		if (isOneOnOne()) {
-			Log.d(LOG_TAG, String.format("commitGame: game %s vs %s was commited " +
+			Log.d(LOG_TAG, String.format("commitGame: game %s vs %s was committed " +
 					"with result (%d:%d)", team1.get(0), team2.get(0), scoreTeam1, scoreTeam2));
 		} else {
 			Log.d(LOG_TAG, String.format("commitGame: game with team1(%s,%s) vs " +
@@ -225,7 +221,6 @@ class TournamentManager {
 			throw new TournamentManagerException("Cannot revert unfinished game");
 		}
 
-		// TODO: calculate ranking score (change) for all players
 		int scoreTeam1 = game.getScoreTeam1();
 		List<String> team1 = game.getTeam1PlayerNames();
 		int scoreTeam2 = game.getScoreTeam2();
@@ -233,16 +228,14 @@ class TournamentManager {
 		if (scoreTeam1 == scoreTeam2) {
 			removeTiedGame(team1, scoreTeam1);
 			removeTiedGame(team2, scoreTeam2);
-			// TODO: update ranking score of all players
 		} else if (scoreTeam1 > scoreTeam2) {
 			removeWonGame(team1, scoreTeam1, scoreTeam2);
 			removeLostGame(team2, scoreTeam1, scoreTeam2);
-			// TODO: update ranking score of all players
 		} else {
 			removeWonGame(team2, scoreTeam2, scoreTeam1);
 			removeLostGame(team1, scoreTeam2, scoreTeam1);
-			// TODO: update ranking score of all players
 		}
+
 		game.setScoreTeam1(0);
 		game.setScoreTeam2(0);
 		game.setResultCommitted(false);
@@ -274,10 +267,10 @@ class TournamentManager {
 		}
 	}
 
-	private void removeTiedGame(List<String> playersToUpdate, int score) throws
+	private void removeTiedGame(List<String> playersToRevert, int score) throws
 			TournamentManagerException {
 		Player playerToUpdate;
-		for (String playerName : playersToUpdate) {
+		for (String playerName : playersToRevert) {
 			playerToUpdate = getPlayerByName(playerName);
 			playerToUpdate.setTiedGamesInTournament(playerToUpdate.getTiedGamesInTournament() - 1);
 			playerToUpdate.setTiedGames(playerToUpdate.getTiedGames() - 1);
@@ -285,6 +278,8 @@ class TournamentManager {
 			playerToUpdate.setGoalsShotInTournament(playerToUpdate.getGoalsShotInTournament() - score);
 			playerToUpdate.setGoalsReceived(playerToUpdate.getGoalsReceived() - score);
 			playerToUpdate.setGoalsReceivedInTournament(playerToUpdate.getGoalsReceivedInTournament() - score);
+			playerToUpdate.setElo(playerToUpdate.getElo() - playerToUpdate.getEloChangeFromLastGame());
+			playerToUpdate.setEloChangeFromLastGame(0.0);
 		}
 	}
 
@@ -307,10 +302,10 @@ class TournamentManager {
 		}
 	}
 
-	private void removeWonGame(List<String> playersToUpdate, int scoreWinner, int scoreLoser) throws
+	private void removeWonGame(List<String> playersToRevert, int scoreWinner, int scoreLoser) throws
 			TournamentManagerException {
 		Player playerToUpdate;
-		for (String playerName : playersToUpdate) {
+		for (String playerName : playersToRevert) {
 			playerToUpdate = getPlayerByName(playerName);
 			playerToUpdate.setWonGamesInTournament(playerToUpdate.getWonGamesInTournament() - 1);
 			playerToUpdate.setWonGames(playerToUpdate.getWonGames() - 1);
@@ -318,6 +313,8 @@ class TournamentManager {
 			playerToUpdate.setGoalsShotInTournament(playerToUpdate.getGoalsShotInTournament() - scoreWinner);
 			playerToUpdate.setGoalsReceived(playerToUpdate.getGoalsReceived() - scoreLoser);
 			playerToUpdate.setGoalsReceivedInTournament(playerToUpdate.getGoalsReceivedInTournament() - scoreLoser);
+			playerToUpdate.setElo(playerToUpdate.getElo() - playerToUpdate.getEloChangeFromLastGame());
+			playerToUpdate.setEloChangeFromLastGame(0.0);
 		}
 	}
 
@@ -340,10 +337,10 @@ class TournamentManager {
 		}
 	}
 
-	private void removeLostGame(List<String> playersToUpdate, int scoreWinner, int scoreLoser) throws
+	private void removeLostGame(List<String> playersToRevert, int scoreWinner, int scoreLoser) throws
 			TournamentManagerException {
 		Player playerToUpdate;
-		for (String playerName : playersToUpdate) {
+		for (String playerName : playersToRevert) {
 			playerToUpdate = getPlayerByName(playerName);
 			playerToUpdate.setLostGamesInTournament(playerToUpdate.getLostGamesInTournament() - 1);
 			playerToUpdate.setLostGames(playerToUpdate.getLostGames() - 1);
@@ -351,6 +348,8 @@ class TournamentManager {
 			playerToUpdate.setGoalsShotInTournament(playerToUpdate.getGoalsShotInTournament() - scoreLoser);
 			playerToUpdate.setGoalsReceived(playerToUpdate.getGoalsReceived() - scoreWinner);
 			playerToUpdate.setGoalsReceivedInTournament(playerToUpdate.getGoalsReceivedInTournament() - scoreWinner);
+			playerToUpdate.setElo(playerToUpdate.getElo() - playerToUpdate.getEloChangeFromLastGame());
+			playerToUpdate.setEloChangeFromLastGame(0.0);
 		}
 	}
 
@@ -385,7 +384,6 @@ class TournamentManager {
 		return currentTournament.getGames();
 	}
 
-	//TODO: handle editing finished game (how do we allow "admin edit" or just extra confirm?)
 	void finalizeGame(int position, int scoreTeam1, int scoreTeam2) throws TournamentManagerException {
 		if (currentTournament.isFinished()) {
 			throw new TournamentManagerException("Can't finalize game: Tournament finished");
@@ -407,7 +405,7 @@ class TournamentManager {
 		gameToBeFinalized.setFinished(true);
 	}
 
-	void addPlayer(Player player) {
+	private void addPlayer(Player player) {
 		// reset stats for tournament
 		player.setWonGamesInTournament(0);
 		player.setLostGamesInTournament(0);

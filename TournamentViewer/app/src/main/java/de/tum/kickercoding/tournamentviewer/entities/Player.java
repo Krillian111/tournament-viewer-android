@@ -6,6 +6,8 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
+import de.tum.kickercoding.tournamentviewer.util.Constants;
+
 
 public class Player implements Comparable<Player> {
 
@@ -22,7 +24,9 @@ public class Player implements Comparable<Player> {
 	private int goalsReceived;
 	private int goalsShotInTournament;
 	private int goalsReceivedInTournament;
-	private double mmr;
+	private double elo;
+	// allows to adjust elo when reverting a game (only one game reset in a row)
+	private double eloChangeFromLastGame;
 
 	public Player(String name) {
 		this.name = name;
@@ -36,26 +40,18 @@ public class Player implements Comparable<Player> {
 		goalsShotInTournament = 0;
 		goalsReceived = 0;
 		goalsReceivedInTournament = 0;
-		mmr = 0.0;
+		elo = Constants.ELO_DEFAULT;
+		eloChangeFromLastGame = 0.0;
 
 	}
 
 	/**
-	 * utitliy constructor, used for unittest and copying objects (to prevent references to lists
-	 * of singletons)
-	 *
-	 * @param name
-	 * @param wonGames
-	 * @param lostGames
-	 * @param tiedGames
-	 * @param wonGamesInTournament
-	 * @param lostGamesInTournament
-	 * @param tiedGamesInTournament
-	 * @param mmr
+	 * utitliy constructor, used for unit test and copying objects
+	 * (to prevent object references to player list of PlayerManager)
 	 */
 	public Player(String name, int wonGames, int lostGames, int tiedGames, int wonGamesInTournament, int
 			lostGamesInTournament, int tiedGamesInTournament, int goalsShot, int goalsShotInTournament,
-				  int goalsReceived, int goalsReceivedInTournament, double mmr) {
+				  int goalsReceived, int goalsReceivedInTournament, double elo, double eloChangeFromLastGame) {
 		this.name = name;
 		this.wonGames = wonGames;
 		this.lostGames = lostGames;
@@ -67,7 +63,8 @@ public class Player implements Comparable<Player> {
 		this.goalsShotInTournament = goalsShotInTournament;
 		this.goalsReceived = goalsReceived;
 		this.goalsReceivedInTournament = goalsReceivedInTournament;
-		this.mmr = mmr;
+		this.elo = elo;
+		this.eloChangeFromLastGame = eloChangeFromLastGame;
 
 	}
 
@@ -166,15 +163,22 @@ public class Player implements Comparable<Player> {
 	/**
 	 * rounds to 4 digits after comma before calling setter
 	 *
-	 * @param mmr
+	 * @param elo
 	 */
-	public void setMmr(double mmr) {
-		this.mmr = roundDouble(mmr);
+	public void setElo(double elo) {
+		this.elo = roundDouble(elo);
 	}
 
-	public double getMmr() {
+	public double getElo() {
+		return elo;
+	}
 
-		return mmr;
+	public double getEloChangeFromLastGame() {
+		return eloChangeFromLastGame;
+	}
+
+	public void setEloChangeFromLastGame(double eloChangeFromLastGame) {
+		this.eloChangeFromLastGame = eloChangeFromLastGame;
 	}
 
 	public int getPlayedGames() {
@@ -213,7 +217,7 @@ public class Player implements Comparable<Player> {
 	public Player copy() {
 		return new Player(name, wonGames, lostGames, tiedGames,
 				wonGamesInTournament, lostGamesInTournament, tiedGamesInTournament, goalsShot, goalsShotInTournament,
-				goalsReceived, goalsReceivedInTournament, mmr);
+				goalsReceived, goalsReceivedInTournament, elo, eloChangeFromLastGame);
 	}
 
 	@Override

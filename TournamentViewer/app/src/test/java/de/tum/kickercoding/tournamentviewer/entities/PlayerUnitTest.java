@@ -8,7 +8,7 @@ public class PlayerUnitTest {
 
 	@Test
 	public void testBasicToAndFromJson() {
-		Player p = new Player("name3", 2, 6, 8, 0, 0, 0, 0, 0, 0, 0, 12.3456);
+		Player p = new Player("name3", 2, 6, 8, 0, 0, 0, 0, 0, 0, 0, 12.3456, 0.0);
 		String pAsJson = p.toJson();
 		Player pFromJson = Player.fromJson(pAsJson);
 		assertEquals(p.getName(), pFromJson.getName());
@@ -18,6 +18,6 @@ public class PlayerUnitTest {
 		assertEquals(p.getWonGamesInTournament(), pFromJson.getWonGamesInTournament());
 		assertEquals(p.getLostGamesInTournament(), pFromJson.getLostGamesInTournament());
 		assertEquals(p.getTiedGamesInTournament(), pFromJson.getTiedGamesInTournament());
-		assertEquals(p.getMmr(), pFromJson.getMmr(), 0.001);
+		assertEquals(p.getElo(), pFromJson.getElo(), 0.001);
 	}
 }

@@ -13,7 +13,6 @@ import de.tum.kickercoding.tournamentviewer.tournament.Matchmaking;
 import de.tum.kickercoding.tournamentviewer.util.Constants;
 import de.tum.kickercoding.tournamentviewer.util.Utils;
 
-// TODO: incorporate ranking
 public class MonsterDypMatchmaking implements Matchmaking {
 
 
@@ -109,7 +108,7 @@ public class MonsterDypMatchmaking implements Matchmaking {
 		return new Game(playersForGame);
 	}
 
-	private List<Player> generateTeam(List<Player> players, List<Game> pastGames) {
+	List<Player> generateTeam(List<Player> players, List<Game> pastGames) {
 		int[][] pastGameFrequencies = calculatePartnerFrequencies(players, pastGames);
 		int playersSize = players.size();
 		// select random player
@@ -118,7 +117,7 @@ public class MonsterDypMatchmaking implements Matchmaking {
 		Player playerToMatch = players.get(playerPosition);
 		// generate parameters for gaussian distribution to draw partner
 		// std was determined by some basic sampling test; not set in stone
-		double std = playersSize * 0.3;
+		double std = playersSize * Constants.GAUSSIAN_STD_IN_PERCENTAGE_OF_PLAYERS;
 		double avg = playersSize - playerPosition;
 		Player partner = null;
 		int[] partnerDrawCount = new int[playersSize];

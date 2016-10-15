@@ -152,10 +152,10 @@
             <TextView
                 style="@style/TvTextview.listitem.weightedhorizontal"
                 android:layout_weight="50"
-                android:text="@string/header_player_mmr"/>
+                android:text="@string/header_player_elo"/>
 
             <TextView
-                android:id="@+id/player_details_mmr"
+                android:id="@+id/player_details_elo"
                 style="@style/TvTextview.listitem.weightedhorizontal"
                 android:layout_weight="50"/>
 

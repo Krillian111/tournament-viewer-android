@@ -16,7 +16,7 @@ import de.tum.kickercoding.tournamentviewer.util.Constants;
  * Handles all communication with permanent storage (SharedPreferences)
  * Has multiple methods for adding, removing, updating a player
  */
-// TODO: write logging for succesful commits
+// TODO: write logging for successful commits
 class PreferenceFileManager {
 
 	private static PreferenceFileManager instance = new PreferenceFileManager();
