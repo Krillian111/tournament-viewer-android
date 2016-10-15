@@ -16,8 +16,6 @@ TODOs:
 
 - prevent negative input in basic setup
 
-
-
 - move all activity buttons in tournament to "drop down menu" at title bar
 
 - write help for tournament view

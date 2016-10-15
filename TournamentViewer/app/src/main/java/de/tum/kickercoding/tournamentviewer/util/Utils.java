@@ -2,7 +2,10 @@ package de.tum.kickercoding.tournamentviewer.util;
 
 
 import android.app.Dialog;
+import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
@@ -14,6 +17,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
+import de.tum.kickercoding.tournamentviewer.R;
 import de.tum.kickercoding.tournamentviewer.entities.Game;
 import de.tum.kickercoding.tournamentviewer.entities.Player;
 
@@ -22,6 +26,11 @@ public class Utils {
 	public static String prepareWinRateForView(double winrate) {
 		DecimalFormat df = new DecimalFormat("#0%", new DecimalFormatSymbols(Locale.US));
 		return df.format(winrate);
+	}
+
+	public static String prepareEloForView(double elo) {
+		int eloForDisplay = (int) Math.round(elo);
+		return "" + eloForDisplay;
 	}
 
 	public static void prepareTextView(View view, int id, String text) {
@@ -54,24 +63,31 @@ public class Utils {
 	 * Update Elo rating of all players based on a games outcome and the current ratings
 	 *
 	 * @param game
+	 * @return List of players with updated elo (used as a simple container as the caller needs to commit the actual
+	 * changes)
 	 */
-	public static void updateElo(Game game) {
+	public static List<Player> calculateEloAfterGame(Game game) {
 		List<Player> team1 = game.getTeam1();
 		List<Player> team2 = game.getTeam2();
 		boolean oneOnOne = team1.size() == 1;
 		List<Double> expectedScores = calculateExpectedScore(team1, team2, oneOnOne);
 		double expectedScoresTeam1 = expectedScores.get(0);
 		double expectedScoresTeam2 = expectedScores.get(1);
+		List<Player> updatedTeam1;
+		List<Player> updatedTeam2;
 		if (game.getScoreTeam1() == game.getScoreTeam2()) {
-			updateElo(team1, expectedScoresTeam1, 0.5);
-			updateElo(team2, expectedScoresTeam2, 0.5);
+			updatedTeam1 = updateElo(team1, expectedScoresTeam1, 0.5);
+			updatedTeam2 = updateElo(team2, expectedScoresTeam2, 0.5);
 		} else if (game.getScoreTeam1() > game.getScoreTeam2()) {
-			updateElo(team1, expectedScoresTeam1, 1.0);
-			updateElo(team2, expectedScoresTeam2, 0.0);
+			updatedTeam1 = updateElo(team1, expectedScoresTeam1, 1.0);
+			updatedTeam2 = updateElo(team2, expectedScoresTeam2, 0.0);
 		} else {
-			updateElo(team2, expectedScoresTeam2, 1.0);
-			updateElo(team1, expectedScoresTeam1, 0.0);
+			updatedTeam2 = updateElo(team2, expectedScoresTeam2, 1.0);
+			updatedTeam1 = updateElo(team1, expectedScoresTeam1, 0.0);
 		}
+		List<Player> players = new ArrayList<>(updatedTeam1);
+		players.addAll(updatedTeam2);
+		return players;
 	}
 
 	// using formula from wikipedia
@@ -90,13 +106,17 @@ public class Utils {
 	}
 
 
-	private static void updateElo(List<Player> team, double expectedScore, double actualScore) {
+	private static List<Player> updateElo(List<Player> team, double expectedScore, double actualScore) {
 		for (Player player : team) {
 			int kFactor = calculateKFactor(player);
-			double updatedElo = calculateUpdatedElo(player.getElo(), kFactor, actualScore, expectedScore);
+			System.out.println("---------START--------");
+			System.out.println(player.toJson());
+			System.out.println(player.getName());
+			double updatedElo = calculateElo(player.getElo(), kFactor, actualScore, expectedScore);
 			player.setEloChangeFromLastGame(updatedElo - player.getElo());
 			player.setElo(updatedElo);
 		}
+		return team;
 	}
 
 	private static int calculateKFactor(Player player) {
@@ -108,10 +128,46 @@ public class Utils {
 	}
 
 	// using formula from wikipedia
-	private static double calculateUpdatedElo(double oldRating, int kFactor, double actualScore, double
+	private static double calculateElo(double oldRating, int kFactor, double actualScore, double
 			expectedScore) {
+		System.out.println("oldrating:" + oldRating);
+		System.out.println("kfactor:" + kFactor);
+		System.out.println("actual:" + actualScore);
+		System.out.println("expectedScore:" + expectedScore);
+		System.out.println("result:" + (oldRating + kFactor * (actualScore - expectedScore)));
 		return oldRating + kFactor * (actualScore - expectedScore);
 	}
 
+
+	public static Dialog createPlayerDialog(Context context, Player player) {
+		final Dialog dialog = new Dialog(context);
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context
+				.LAYOUT_INFLATER_SERVICE);
+		dialog.setContentView(inflater.inflate(R.layout.dialog_player_details, null));
+		dialog.setTitle(R.string.title_player_details);
+
+		prepareTextView(dialog, R.id.player_details_name, player.getName());
+		prepareTextView(dialog, R.id.player_details_rank_global, "?");
+		prepareTextView(dialog, R.id.player_details_played_games, "" + player.getPlayedGames());
+		prepareTextView(dialog, R.id.player_details_won_games, "" + player.getWonGames());
+		prepareTextView(dialog, R.id.player_details_lost_games, "" + player.getLostGames());
+		prepareTextView(dialog, R.id.player_details_tied_games, "" + player.getTiedGames());
+		prepareTextView(dialog, R.id.player_details_win_rate, Utils.prepareWinRateForView(player.getWinRate()));
+		prepareTextView(dialog, R.id.player_details_goal_difference, "" + player.getGoalDifference());
+		prepareTextView(dialog, R.id.player_details_elo, "" + Utils.prepareEloForView(player.getElo()));
+
+		setupButtonListener(dialog);
+		return dialog;
+	}
+
+	private static void setupButtonListener(final Dialog dialog) {
+		Button backButton = (Button) dialog.findViewById(R.id.button_player_details_back);
+		backButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+	}
 
 }

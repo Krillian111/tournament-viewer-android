@@ -156,6 +156,16 @@ class TournamentManager {
 		}
 	}
 
+	private List<Game> getGamesToCommit() {
+		List<Game> gamesToCommit = new ArrayList<>();
+		for (Game game : currentTournament.getGames()) {
+			if (game.isFinished() && !game.isResultCommitted()) {
+				gamesToCommit.add(game);
+			}
+		}
+		return gamesToCommit;
+	}
+
 	private void commitGame(Game game) throws TournamentManagerException {
 		if (game.isResultCommitted()) {
 			throw new TournamentManagerException("Error: game was already committed");
@@ -178,7 +188,9 @@ class TournamentManager {
 			addWonGame(team2, scoreTeam2, scoreTeam1);
 			addLostGame(team1, scoreTeam2, scoreTeam1);
 		}
-		Utils.updateElo(game);
+		List<Player> eloUpdatedPlayers = Utils.calculateEloAfterGame(game);
+		commitEloUpdates(eloUpdatedPlayers);
+
 		game.setResultCommitted(true);
 		if (isOneOnOne()) {
 			Log.d(LOG_TAG, String.format("commitGame: game %s vs %s was committed " +
@@ -188,16 +200,6 @@ class TournamentManager {
 							"team2(%s,%s) was commited with result (%d:%d)",
 					team1.get(0), team1.get(1), team2.get(0), team2.get(1), scoreTeam1, scoreTeam2));
 		}
-	}
-
-	private List<Game> getGamesToCommit() {
-		List<Game> gamesToCommit = new ArrayList<>();
-		for (Game game : currentTournament.getGames()) {
-			if (game.isFinished() && !game.isResultCommitted()) {
-				gamesToCommit.add(game);
-			}
-		}
-		return gamesToCommit;
 	}
 
 	/**
@@ -235,7 +237,8 @@ class TournamentManager {
 			removeWonGame(team2, scoreTeam2, scoreTeam1);
 			removeLostGame(team1, scoreTeam2, scoreTeam1);
 		}
-
+		revertEloUpdates(team1);
+		revertEloUpdates(team2);
 		game.setScoreTeam1(0);
 		game.setScoreTeam2(0);
 		game.setResultCommitted(false);
@@ -278,8 +281,6 @@ class TournamentManager {
 			playerToUpdate.setGoalsShotInTournament(playerToUpdate.getGoalsShotInTournament() - score);
 			playerToUpdate.setGoalsReceived(playerToUpdate.getGoalsReceived() - score);
 			playerToUpdate.setGoalsReceivedInTournament(playerToUpdate.getGoalsReceivedInTournament() - score);
-			playerToUpdate.setElo(playerToUpdate.getElo() - playerToUpdate.getEloChangeFromLastGame());
-			playerToUpdate.setEloChangeFromLastGame(0.0);
 		}
 	}
 
@@ -313,8 +314,6 @@ class TournamentManager {
 			playerToUpdate.setGoalsShotInTournament(playerToUpdate.getGoalsShotInTournament() - scoreWinner);
 			playerToUpdate.setGoalsReceived(playerToUpdate.getGoalsReceived() - scoreLoser);
 			playerToUpdate.setGoalsReceivedInTournament(playerToUpdate.getGoalsReceivedInTournament() - scoreLoser);
-			playerToUpdate.setElo(playerToUpdate.getElo() - playerToUpdate.getEloChangeFromLastGame());
-			playerToUpdate.setEloChangeFromLastGame(0.0);
 		}
 	}
 
@@ -348,7 +347,22 @@ class TournamentManager {
 			playerToUpdate.setGoalsShotInTournament(playerToUpdate.getGoalsShotInTournament() - scoreLoser);
 			playerToUpdate.setGoalsReceived(playerToUpdate.getGoalsReceived() - scoreWinner);
 			playerToUpdate.setGoalsReceivedInTournament(playerToUpdate.getGoalsReceivedInTournament() - scoreWinner);
+		}
+	}
+
+	private void commitEloUpdates(final List<Player> eloUpdatedPlayers) throws TournamentManagerException {
+		for (Player eloUpdatedPlayer : eloUpdatedPlayers) {
+			Player playerToUpdate = getPlayerByName(eloUpdatedPlayer.getName());
+			playerToUpdate.setElo(eloUpdatedPlayer.getElo());
+			playerToUpdate.setEloChangeFromLastGame(eloUpdatedPlayer.getEloChangeFromLastGame());
+		}
+	}
+
+	private void revertEloUpdates(final List<String> playerNames) throws TournamentManagerException {
+		for (String playerName : playerNames) {
+			Player playerToUpdate = getPlayerByName(playerName);
 			playerToUpdate.setElo(playerToUpdate.getElo() - playerToUpdate.getEloChangeFromLastGame());
+			// prevent unwanted effects from reverting multiple games in a row
 			playerToUpdate.setEloChangeFromLastGame(0.0);
 		}
 	}
