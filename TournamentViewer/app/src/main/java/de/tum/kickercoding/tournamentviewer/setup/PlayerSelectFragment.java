@@ -62,5 +62,6 @@ public class PlayerSelectFragment extends Fragment {
 		}
 		ListView listView = (ListView) rootView.findViewById(R.id.list_view_add_players);
 		((PlayerListAdapter) listView.getAdapter()).notifyDataSetChanged();
+		editableNewPlayer.setText("");
 	}
 }
