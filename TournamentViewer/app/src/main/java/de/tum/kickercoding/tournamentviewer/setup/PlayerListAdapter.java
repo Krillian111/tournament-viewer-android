@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,37 +12,38 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
+
+import java.util.List;
 
 import de.tum.kickercoding.tournamentviewer.R;
 import de.tum.kickercoding.tournamentviewer.entities.Player;
 import de.tum.kickercoding.tournamentviewer.exceptions.AppManagerException;
 import de.tum.kickercoding.tournamentviewer.manager.AppManager;
+import de.tum.kickercoding.tournamentviewer.util.Utils;
 
 import static de.tum.kickercoding.tournamentviewer.util.Utils.createPlayerDialog;
+import static de.tum.kickercoding.tournamentviewer.util.Utils.prepareTextView;
 
 class PlayerListAdapter extends BaseAdapter implements ListAdapter {
 
 	private Context context;
 
-	PlayerListAdapter(Context context) {
+	private List<Player> playerList;
+
+	PlayerListAdapter(Context context, List<Player> playerList) {
 		this.context = context;
+		Utils.sortPlayersByName(playerList);
+		this.playerList = playerList;
 	}
 
 	@Override
 	public int getCount() {
-		return AppManager.getInstance().getAllPlayers().size();
+		return playerList.size();
 	}
 
 	@Override
 	public Object getItem(int pos) {
-		try {
-			return AppManager.getInstance().getPlayer(pos);
-		} catch (AppManagerException e) {
-			Log.e(PlayerListAdapter.class.toString(), "fatal error: getItem() failed", e);
-			// fake player to allow user to write down results
-			return new Player("FATAL ERROR");
-		}
+		return playerList.get(pos);
 	}
 
 	@Override
@@ -60,21 +60,19 @@ class PlayerListAdapter extends BaseAdapter implements ListAdapter {
 			view = inflater.inflate(R.layout.item_select_players, null);
 		}
 
+		final Player player = (Player) getItem(position);
 		//Handle TextView and display player name
-		TextView listItemText = (TextView) view.findViewById(R.id.player_list_item_text_view);
-		final String playerName = ((Player) getItem(position)).getName();
-		listItemText.setText(playerName);
+		prepareTextView(view, R.id.player_list_item_text_view, player.getName());
 
 		view.setClickable(true);
 		view.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View buttonView) {
-				Player player = (Player) getItem(position);
 				if (AppManager.getInstance().isTournamentInProgress()) {
 					Dialog dialog = createConfirmToggleDialog(player, buttonView);
 					dialog.show();
 				} else {
-					toggleAndNotify(buttonView, player);
+					toggleParticipation(buttonView, player);
 				}
 			}
 		});
@@ -83,9 +81,9 @@ class PlayerListAdapter extends BaseAdapter implements ListAdapter {
 		deleteButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View buttonView) {
-				Dialog dialog = createDeleteDialog(context, playerName);
+				Dialog dialog = createDeleteDialog(context, player.getName());
 				dialog.show();
-				notifyDataSetChanged();
+				updateInternalList();
 			}
 		});
 
@@ -94,12 +92,12 @@ class PlayerListAdapter extends BaseAdapter implements ListAdapter {
 		playerDetailsButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View viewItem) {
-				Dialog dialog = createPlayerDialog(context, (Player) getItem(position));
+				Dialog dialog = createPlayerDialog(context, player);
 				dialog.show();
 			}
 		});
 
-		adjustBackgroundColor(AppManager.getInstance().isSignedUp(playerName), view);
+		adjustBackgroundColor(AppManager.getInstance().isSignedUp(player.getName()), view);
 		return view;
 	}
 
@@ -118,7 +116,7 @@ class PlayerListAdapter extends BaseAdapter implements ListAdapter {
 			public void onClick(final DialogInterface dialog, final int which) {
 				try {
 					AppManager.getInstance().removePlayer(playerName);
-					notifyDataSetChanged();
+					updateInternalList();
 				} catch (AppManagerException e) {
 					AppManager.getInstance().displayMessage(context, e.getMessage());
 				}
@@ -144,18 +142,18 @@ class PlayerListAdapter extends BaseAdapter implements ListAdapter {
 		builder.setPositiveButton("CONFIRM", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				toggleAndNotify(buttonView, player);
+				toggleParticipation(buttonView, player);
 			}
 		});
 		return builder.create();
 	}
 
-	private void toggleAndNotify(View buttonView, Player player) {
+	private void toggleParticipation(View buttonView, Player player) {
 		boolean signedUpAfterToggle = false;
 		try {
 			signedUpAfterToggle = AppManager.getInstance().toggleParticipation(player);
 			adjustBackgroundColor(signedUpAfterToggle, buttonView);
-			notifyDataSetChanged();
+			updateInternalList();
 		} catch (AppManagerException e) {
 			AppManager.getInstance().displayMessage(context, e.getMessage());
 		}
@@ -175,5 +173,12 @@ class PlayerListAdapter extends BaseAdapter implements ListAdapter {
 			newBackgroundColor = ContextCompat.getColor(context, R.color.player_not_signed_up);
 		}
 		relativeLayout.setBackgroundColor(newBackgroundColor);
+	}
+
+	void updateInternalList() {
+		List<Player> playerList = AppManager.getInstance().getAllPlayers();
+		Utils.sortPlayersByName(playerList);
+		this.playerList = playerList;
+		notifyDataSetChanged();
 	}
 }

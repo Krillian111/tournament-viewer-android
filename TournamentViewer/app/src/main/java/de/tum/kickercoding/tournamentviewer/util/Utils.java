@@ -63,6 +63,10 @@ public class Utils {
 		});
 	}
 
+	public static void sortPlayersByName(final List<Player> playerList) {
+		Collections.sort(playerList);
+	}
+
 	/**
 	 * Update Elo rating of all players based on a games outcome and the current ratings
 	 *

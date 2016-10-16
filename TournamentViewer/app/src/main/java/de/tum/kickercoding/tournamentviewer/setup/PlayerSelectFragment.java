@@ -37,7 +37,7 @@ public class PlayerSelectFragment extends Fragment {
 
 	private void preparePlayerListView(View view) {
 		ListView playerListView = (ListView) view.findViewById(R.id.list_view_add_players);
-		playerListView.setAdapter(new PlayerListAdapter(getActivity()));
+		playerListView.setAdapter(new PlayerListAdapter(getActivity(), AppManager.getInstance().getAllPlayers()));
 	}
 
 	private void attachButtonListener(View view) {
@@ -61,7 +61,7 @@ public class PlayerSelectFragment extends Fragment {
 			return;
 		}
 		ListView listView = (ListView) rootView.findViewById(R.id.list_view_add_players);
-		((PlayerListAdapter) listView.getAdapter()).notifyDataSetChanged();
+		((PlayerListAdapter) listView.getAdapter()).updateInternalList();
 		editableNewPlayer.setText("");
 	}
 }
