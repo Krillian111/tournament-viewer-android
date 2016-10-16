@@ -407,6 +407,10 @@ public class AppManager {
 		Toast.makeText(context, message, Toast.LENGTH_LONG).show();
 	}
 
+	public void displayMessageShort(Context context, String message) {
+		Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+	}
+
 	/**
 	 * method to display an error message as a Toast which tells the user to save the results because the app
 	 * encountered an error which is most likely going to crash the app if ignored

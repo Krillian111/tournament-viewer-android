@@ -154,6 +154,9 @@ class PlayerListAdapter extends BaseAdapter implements ListAdapter {
 			signedUpAfterToggle = AppManager.getInstance().toggleParticipation(player);
 			adjustBackgroundColor(signedUpAfterToggle, buttonView);
 			updateInternalList();
+			int playersSelected = AppManager.getInstance().getPlayersForTournament().size();
+
+			AppManager.getInstance().displayMessageShort(context, "Selected players: " + playersSelected);
 		} catch (AppManagerException e) {
 			AppManager.getInstance().displayMessage(context, e.getMessage());
 		}
