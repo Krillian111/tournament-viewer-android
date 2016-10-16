@@ -97,6 +97,10 @@ public class AppManager {
 		}
 	}
 
+	public void manuallyAdjustElo(String name, double elo) {
+		playerManager.manuallyAdjustElo(name, elo);
+	}
+
 	/**
 	 * retrieve the list of all players available
 	 *

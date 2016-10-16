@@ -112,4 +112,14 @@ class PlayerManager {
 			throw new PlayerManagerException(String.format("IndexOutOfBounds: No player at position %d", position));
 		}
 	}
+
+	void manuallyAdjustElo(String name, double elo) {
+		Player playerToFind = new Player(name);
+		for (Player playerToUpdate : players) {
+			if (playerToFind.equals(playerToUpdate)) {
+				playerToUpdate.setElo(elo);
+				playerToUpdate.setEloChangeFromLastGame(0);
+			}
+		}
+	}
 }

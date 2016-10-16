@@ -7,6 +7,7 @@ import android.view.View;
 
 import de.tum.kickercoding.tournamentviewer.exceptions.AppManagerException;
 import de.tum.kickercoding.tournamentviewer.manager.AppManager;
+import de.tum.kickercoding.tournamentviewer.modes.ladder.LadderActivity;
 import de.tum.kickercoding.tournamentviewer.setup.monsterdyp.MonsterDypBasicSetupActivity;
 import de.tum.kickercoding.tournamentviewer.tournament.monsterdyp.MonsterDypTournamentActivity;
 import de.tum.kickercoding.tournamentviewer.util.TournamentMode;
@@ -43,5 +44,15 @@ public class StartMenuActivity extends AppCompatActivity {
 		} catch (AppManagerException e) {
 			AppManager.getInstance().displayMessage(this, e.getMessage());
 		}
+	}
+
+	/**
+	 * called when user clicks the ladder button
+	 *
+	 * @param view
+	 */
+	public void loadLadder(View view) {
+		Intent intent = new Intent(this, LadderActivity.class);
+		startActivity(intent);
 	}
 }

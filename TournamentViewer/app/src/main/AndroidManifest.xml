@@ -26,6 +26,9 @@
         <activity
             android:name=".tournament.monsterdyp.MonsterDypTournamentActivity"
             android:label="@string/label_monsterdyp_tournament"/>
+        <activity android:name=".modes.ladder.LadderActivity"
+                  android:label="@string/label_monsterdyp_ladder">
+        </activity>
     </application>
 
 </manifest>

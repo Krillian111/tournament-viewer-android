@@ -12,6 +12,7 @@
     <string name="button_monsterdyp">MonsterDYP</string>
     <string name="header_load_tournament">Load Tournament</string>
     <string name="button_load_tournament">LOAD</string>
+    <string name="button_load_ladder">Ladder</string>
 
     <!-- ###################### -->
     <!-- Monster Dyp Setup Basic Setup-->
@@ -82,4 +83,16 @@
     <string name="header_player_win_rate">&#216;</string>
     <string name="header_player_elo">Rating</string>
     <string name="button_player_details_back">Back</string>
+
+
+    <!-- ###################### -->
+    <!-- Ladder -->
+    <!-- ###################### -->
+    <string name="label_monsterdyp_ladder">Ladder</string>
+    <string name="header_ladder_rank">Rank</string>
+    <string name="header_ladder_name">Name</string>
+    <string name="header_ladder_elo">Elo</string>
+    <string name="dialog_edit_elo_message">This has a major impact on matchmaking and the ladder. This feature should
+        usually only be used to speed up the initial ranking process.</string>
+    <string name="dialog_edit_elo_edit_text_hint">1500</string>
 </resources>

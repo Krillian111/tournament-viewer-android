@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/player_ladder_item_root"
+    style="@style/TvRow">
+
+    <TextView
+        android:id="@+id/player_ladder_item_rank"
+        style="@style/TvTextview.listitem"
+        android:layout_width="0dp"
+        android:layout_weight="15"/>
+
+    <TextView
+        android:id="@+id/player_ladder_item_name"
+        style="@style/TvTextview.listitem"
+        android:layout_width="0dp"
+        android:layout_weight="65"/>
+
+    <TextView
+        android:id="@+id/player_ladder_item_elo"
+        style="@style/TvTextview.listitem"
+        android:layout_width="0dp"
+        android:layout_weight="20"/>
+</LinearLayout>

@@ -22,11 +22,11 @@ import de.tum.kickercoding.tournamentviewer.manager.AppManager;
 
 import static de.tum.kickercoding.tournamentviewer.util.Utils.createPlayerDialog;
 
-public class PlayerListAdapter extends BaseAdapter implements ListAdapter {
+class PlayerListAdapter extends BaseAdapter implements ListAdapter {
 
-	Context context;
+	private Context context;
 
-	public PlayerListAdapter(Context context) {
+	PlayerListAdapter(Context context) {
 		this.context = context;
 	}
 

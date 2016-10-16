@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_ladder"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="de.tum.kickercoding.tournamentviewer.modes.ladder.LadderActivity">
+
+    <LinearLayout
+        android:id="@+id/player_ladder_header_root"
+        style="@style/TvRow">
+
+        <TextView
+            style="@style/TvTextview.listheader"
+            android:layout_width="0dp"
+            android:layout_weight="15"
+            android:maxLines="1"
+            android:text="@string/header_ladder_rank"/>
+
+        <TextView
+            style="@style/TvTextview.listheader"
+            android:layout_width="0dp"
+            android:layout_weight="65"
+            android:maxLines="1"
+            android:text="@string/header_ladder_name"/>
+
+        <TextView
+            style="@style/TvTextview.listheader"
+            android:layout_width="0dp"
+            android:layout_weight="20"
+            android:maxLines="1"
+            android:text="@string/header_ladder_elo"/>
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/list_view_ladder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/player_ladder_header_root"
+        android:divider="@color/text_default"
+        android:dividerHeight="0.1dp">
+    </ListView>
+
+</RelativeLayout>

@@ -52,6 +52,10 @@ public class Utils {
 	}
 
 	public static void sortPlayersForMatching(List<Player> list) {
+		sortPlayersByElo(list);
+	}
+
+	public static void sortPlayersByElo(final List<Player> list) {
 		Collections.sort(list, new Comparator<Player>() {
 			public int compare(Player p1, Player p2) {
 				return Double.compare(p2.getElo(), p1.getElo());
@@ -109,9 +113,6 @@ public class Utils {
 	private static List<Player> updateElo(List<Player> team, double expectedScore, double actualScore) {
 		for (Player player : team) {
 			int kFactor = calculateKFactor(player);
-			System.out.println("---------START--------");
-			System.out.println(player.toJson());
-			System.out.println(player.getName());
 			double updatedElo = calculateElo(player.getElo(), kFactor, actualScore, expectedScore);
 			player.setEloChangeFromLastGame(updatedElo - player.getElo());
 			player.setElo(updatedElo);
@@ -130,11 +131,6 @@ public class Utils {
 	// using formula from wikipedia
 	private static double calculateElo(double oldRating, int kFactor, double actualScore, double
 			expectedScore) {
-		System.out.println("oldrating:" + oldRating);
-		System.out.println("kfactor:" + kFactor);
-		System.out.println("actual:" + actualScore);
-		System.out.println("expectedScore:" + expectedScore);
-		System.out.println("result:" + (oldRating + kFactor * (actualScore - expectedScore)));
 		return oldRating + kFactor * (actualScore - expectedScore);
 	}
 
@@ -169,5 +165,4 @@ public class Utils {
 			}
 		});
 	}
-
 }

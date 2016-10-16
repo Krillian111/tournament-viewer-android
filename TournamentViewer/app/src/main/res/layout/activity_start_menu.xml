@@ -33,7 +33,23 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_large_bottom"
         android:onClick="loadLastTournament"
         android:text="@string/button_load_tournament"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/header_load_tournament"
+        android:textSize="@dimen/header_default_big"/>
+
+    <View style="@style/TvDivider"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="loadLadder"
+        android:text="@string/button_load_ladder"/>
 
 </LinearLayout>
