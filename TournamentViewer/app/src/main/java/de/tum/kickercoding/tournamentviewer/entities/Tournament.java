@@ -21,6 +21,8 @@ public class Tournament {
 
 	private boolean finished = false;
 
+	private boolean semiFinalsPlayed = false;
+
 	private TournamentMode mode;
 
 	public Tournament() {
@@ -106,6 +108,14 @@ public class Tournament {
 
 	public void setFinished(boolean finished) {
 		this.finished = finished;
+	}
+
+	public boolean isSemiFinalsPlayed() {
+		return semiFinalsPlayed;
+	}
+
+	public void setSemiFinalsPlayed(final boolean semiFinalsPlayed) {
+		this.semiFinalsPlayed = semiFinalsPlayed;
 	}
 
 	public TournamentMode getMode() {

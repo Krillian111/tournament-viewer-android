@@ -1,5 +1,8 @@
 TODOs:
 
+- playoffs partly implemented:
+-- see comments in TournamentManager for details
+
 - add entity Match to allow modelling multiple games
 
 - unit tests (entities)

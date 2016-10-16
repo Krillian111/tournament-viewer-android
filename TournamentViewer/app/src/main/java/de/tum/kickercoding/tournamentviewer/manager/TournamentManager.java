@@ -3,6 +3,7 @@ package de.tum.kickercoding.tournamentviewer.manager;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import de.tum.kickercoding.tournamentviewer.entities.Game;
@@ -141,6 +142,66 @@ class TournamentManager {
 		}
 		Game game = matchmaking.generateGame(getPlayers(), isOneOnOne(), getGames());
 		addGame(game);
+	}
+
+	// TODO: implement toggling boolean semifinalsplayed
+	// TODO: prevent other games from being generated
+	// TODO: prevent draw for semi finals
+	// TODO: implement multiple game generation for semi finals (additional activity?)
+	void generatePlayoffs() throws TournamentManagerException {
+		List<Player> players = getPlayers();
+		if (currentTournament.isSemiFinalsPlayed() ||
+				(isOneOnOne() && players.size() < 4) ||
+				(!isOneOnOne() && players.size() < 8)) {
+			generateFinal(players);
+		} else {
+			generateSemiFinals(players);
+		}
+	}
+
+	void generateSemiFinals(List<Player> players) {
+		List<Player> game1team1;
+		List<Player> game1team2;
+		List<Player> game2team1;
+		List<Player> game2team2;
+		if (isOneOnOne()) {
+			game1team1 = Arrays.asList(players.get(0));
+			game1team2 = Arrays.asList(players.get(3));
+			game2team1 = Arrays.asList(players.get(1));
+			game2team2 = Arrays.asList(players.get(2));
+		} else {
+			game1team1 = Arrays.asList(players.get(0), players.get(4));
+			game1team2 = Arrays.asList(players.get(3), players.get(7));
+			game2team1 = Arrays.asList(players.get(1), players.get(5));
+			game2team2 = Arrays.asList(players.get(2), players.get(6));
+		}
+		List<Player> participantsGame1 = new ArrayList<>(game1team1);
+		participantsGame1.addAll(game1team2);
+		List<Player> participantsGame2 = new ArrayList<>(game2team1);
+		participantsGame2.addAll(game2team2);
+		addGame(new Game(participantsGame1));
+		addGame(new Game(participantsGame2));
+	}
+
+	void generateFinal(List<Player> players) throws TournamentManagerException {
+		List<Game> games = getGames();
+		Game semifinal1 = games.get(games.size() - 1);
+		Game semifinal2 = games.get(games.size() - 2);
+		List<Player> winnerTeam1 = getWinnerTeam(semifinal1);
+		List<Player> winnerTeam2 = getWinnerTeam(semifinal2);
+		List<Player> participantsFinal = new ArrayList<>(winnerTeam1);
+		participantsFinal.addAll(winnerTeam2);
+		addGame(new Game(participantsFinal));
+	}
+
+	private List<Player> getWinnerTeam(final Game game) throws TournamentManagerException {
+		if (game.getScoreTeam1() > game.getScoreTeam2()) {
+			return game.getTeam1();
+		} else if (game.getScoreTeam1() < game.getScoreTeam2()) {
+			return game.getTeam2();
+		} else {
+			throw new TournamentManagerException("Draw in a semi final not possible!");
+		}
 	}
 
 	/**
