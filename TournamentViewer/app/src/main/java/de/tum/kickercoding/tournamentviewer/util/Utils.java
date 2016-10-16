@@ -147,7 +147,6 @@ public class Utils {
 		dialog.setTitle(R.string.title_player_details);
 
 		prepareTextView(dialog, R.id.player_details_name, player.getName());
-		prepareTextView(dialog, R.id.player_details_rank_global, "?");
 		prepareTextView(dialog, R.id.player_details_played_games, "" + player.getPlayedGames());
 		prepareTextView(dialog, R.id.player_details_won_games, "" + player.getWonGames());
 		prepareTextView(dialog, R.id.player_details_lost_games, "" + player.getLostGames());

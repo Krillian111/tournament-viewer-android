@@ -69,7 +69,6 @@
     <!-- Player details dialog -->
     <string name="title_player_details">Player details</string>
     <string name="header_player_rank_short">#</string>
-    <string name="header_player_rank">Rank</string>
     <string name="header_player_name">Name</string>
     <string name="header_player_games_total_short">G</string>
     <string name="header_player_games_total">Games</string>
