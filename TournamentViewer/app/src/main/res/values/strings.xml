@@ -20,7 +20,7 @@
     <string name="label_monsterdyp_basic_setup">Basic Settings</string>
     <string name="header_maxscore">Max Score</string>
     <string name="message_defaultmaxscore">7</string>
-    <string name="header_numberofgames">Number of games (not yet implemented)</string>
+    <string name="header_numberofgames">Best of (playoffs only)</string>
     <string name="message_defaultnumberofgames">1</string>
     <string name="button_plus">+</string>
     <string name="button_minus">-</string>

@@ -187,32 +187,53 @@ class TournamentManager {
 		participantsGame1.addAll(game1team2);
 		List<Player> participantsGame2 = new ArrayList<>(game2team1);
 		participantsGame2.addAll(game2team2);
-		addGame(new Game(participantsGame1));
-		addGame(new Game(participantsGame2));
+		// double loop to ensure that the games are listed in direct succession
+		for (int i = 0;i < currentTournament.getNumberOfGames();i++) {
+			addGame(new Game(participantsGame1));
+		}
+		for (int i = 0;i < currentTournament.getNumberOfGames();i++) {
+			addGame(new Game(participantsGame2));
+		}
 	}
 
 	private void generateFinal(List<Player> players) throws TournamentManagerException {
 		List<Game> games = getGames();
-		Game semifinal1 = games.get(games.size() - 1);
-		Game semifinal2 = games.get(games.size() - 2);
-		if (!semifinal1.isResultCommitted() || !semifinal2.isResultCommitted()) {
-			throw new TournamentManagerException("Can't create final, semi finals are not done!");
-		}
-		List<Player> winnerTeam1 = getWinnerTeam(semifinal1);
-		List<Player> winnerTeam2 = getWinnerTeam(semifinal2);
+		int nrGames = currentTournament.getNumberOfGames();
+		List<Game> semifinals1 = games.subList(games.size() - (2 * nrGames), games.size() - nrGames);
+		List<Game> semifinals2 = games.subList(games.size() - nrGames, games.size());
+
+		List<Player> winnerTeam1 = getWinnerTeam(semifinals1);
+		List<Player> winnerTeam2 = getWinnerTeam(semifinals2);
+
 		List<Player> participantsFinal = new ArrayList<>(winnerTeam1);
 		participantsFinal.addAll(winnerTeam2);
-		addGame(new Game(participantsFinal));
+		for (int i = 0;i < currentTournament.getNumberOfGames();i++) {
+			addGame(new Game(participantsFinal));
+		}
 	}
 
-	private List<Player> getWinnerTeam(final Game game) throws TournamentManagerException {
-		if (game.getScoreTeam1() > game.getScoreTeam2()) {
-			return game.getTeam1();
-		} else if (game.getScoreTeam1() < game.getScoreTeam2()) {
-			return game.getTeam2();
-		} else {
-			throw new TournamentManagerException("Draw in a semi final not possible!");
+	private List<Player> getWinnerTeam(final List<Game> games) throws TournamentManagerException {
+		int winsTeam1 = 0;
+		int goalsTeam1 = 0;
+		int winsTeam2 = 0;
+		int goalsTeam2 = 0;
+		for (Game game : games) {
+			goalsTeam1 += game.getScoreTeam1();
+			goalsTeam2 += game.getScoreTeam2();
+			if (game.getScoreTeam1() > game.getScoreTeam2()) {
+				winsTeam1++;
+			} else if (game.getScoreTeam1() < game.getScoreTeam2()) {
+				winsTeam2++;
+			}
 		}
+		// check wins first, goals only if draw occurred
+		if (winsTeam1 > winsTeam2 || (winsTeam1 == winsTeam2 && goalsTeam1 > goalsTeam2)) {
+			return games.get(0).getTeam1();
+		} else if (winsTeam2 > winsTeam1 || (winsTeam1 == winsTeam2 && goalsTeam2 > goalsTeam1)) {
+			return games.get(0).getTeam2();
+		}
+		throw new TournamentManagerException("Can't create final, outcome of semi finals do not yield a distinct" +
+				" winner!");
 	}
 
 	/**

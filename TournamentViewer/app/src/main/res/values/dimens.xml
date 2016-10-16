@@ -11,8 +11,8 @@
     <dimen name="text_default_large">18sp</dimen>
     <dimen name="button_text_default">14sp</dimen>
     <dimen name="text_default">16sp</dimen>
-    <dimen name="text_list_header">16sp</dimen>
-    <dimen name="text_list_item">14sp</dimen>
+    <dimen name="text_list_header">20sp</dimen>
+    <dimen name="text_list_item">18sp</dimen>
 
     <!-- padding / margins -->
     <dimen name="padding_left_right_global">2dp</dimen>

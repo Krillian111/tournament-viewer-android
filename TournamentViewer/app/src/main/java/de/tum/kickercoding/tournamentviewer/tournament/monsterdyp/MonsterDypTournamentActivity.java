@@ -54,12 +54,26 @@ public class MonsterDypTournamentActivity extends AppCompatActivity implements O
 	}
 
 	public void generatePlayoffs(View view) {
-		try {
-			AppManager.getInstance().generatePlayoffs();
-			onPlayoffGenerated();
-		} catch (AppManagerException e) {
-			AppManager.getInstance().displayMessage(this, e.getMessage());
-		}
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Generate next round of Playoffs?");
+		builder.setMessage("If you already generated semi finals, make sure to complete these games before " +
+				"generating the next round. Otherwise the results might not be consistent.");
+		builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				try {
+					AppManager.getInstance().generatePlayoffs();
+					onPlayoffGenerated();
+				} catch (AppManagerException e) {
+					AppManager.getInstance().displayMessage(MonsterDypTournamentActivity.this, e.getMessage());
+				}
+			}
+		});
+		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.cancel();
+			}
+		});
+		builder.show();
 	}
 
 	public void finishTournament(View view) {
