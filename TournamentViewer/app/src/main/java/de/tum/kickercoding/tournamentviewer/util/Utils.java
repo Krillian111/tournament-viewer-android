@@ -67,6 +67,17 @@ public class Utils {
 		});
 	}
 
+	public static void sortPlayersByGamesPlayedInTournament(List<Player> list) {
+		Collections.sort(list, new Comparator<Player>() {
+			public int compare(Player p1, Player p2) {
+				if (p1.getPlayedGamesInTournament() == p2.getPlayedGamesInTournament()) {
+					return 0;
+				}
+				return p1.getPlayedGamesInTournament() < p2.getPlayedGamesInTournament() ? -1 : 1;
+			}
+		});
+	}
+
 	public static void sortPlayersForMatching(List<Player> list) {
 		sortPlayersByElo(list);
 	}

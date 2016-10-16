@@ -1,7 +1,5 @@
 TODOs:
 
-- playoffs partly implemented:
--- see comments in TournamentManager for details
 
 - add entity Match to allow modelling multiple games
 
@@ -13,7 +11,7 @@ TODOs:
 
 - add custom launcher icon
 
-- toast for succesfully adding a player (and succesful actions in general)
+- toast for successfully adding a player (and succesful actions in general)
 
 - add number of selected players at bottom (player selection)
 
@@ -24,7 +22,6 @@ TODOs:
 - write help for tournament view
 
 major features:
-- add more sophisticated rating (e.g. elo)
 - add mode dyp
 - add mode fixed teams
 

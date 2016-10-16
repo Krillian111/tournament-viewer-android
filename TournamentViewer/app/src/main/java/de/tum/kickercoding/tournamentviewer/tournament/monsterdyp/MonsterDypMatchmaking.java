@@ -2,8 +2,6 @@ package de.tum.kickercoding.tournamentviewer.tournament.monsterdyp;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
@@ -43,6 +41,7 @@ public class MonsterDypMatchmaking implements Matchmaking {
 	private List<Game> generateGames(List<Player> players, boolean oneOnOne, List<Game> pastGames, boolean
 			singleGame) {
 		List<Player> playersToMatch = selectPlayers(players, oneOnOne, singleGame);
+		Utils.sortPlayersForMatching(playersToMatch);
 		int gamesToGenerate = 1;
 		if (!singleGame) {
 			gamesToGenerate = oneOnOne ? players.size() / 2 : players.size() / 4;
@@ -56,37 +55,42 @@ public class MonsterDypMatchmaking implements Matchmaking {
 	}
 
 	private List<Player> selectPlayers(List<Player> players, boolean oneOnOne, boolean singleGame) {
-		List<Player> selectedPlayers = new ArrayList<>();
-		int playersToDelete;
-		if (singleGame) {
-			playersToDelete = (oneOnOne) ? players.size() - 2 : players.size() - 4;
-		} else {
-			playersToDelete = (oneOnOne) ? players.size() % 2 : players.size() % 4;
-		}
 		// copy list to not change original list
-		for (Player player : players) {
-			selectedPlayers.add(player.copy());
+		List<Player> playersUpForSelection = new ArrayList<>(players);
+		List<Player> playersSelected = new ArrayList<>();
+		int playersToSelect;
+		if (singleGame) {
+			playersToSelect = (oneOnOne) ? 2 : 4;
+		} else {
+			playersToSelect = (oneOnOne) ?
+					players.size() - (players.size() % 2) : players.size() - (players.size() % 4);
 		}
-		if (playersToDelete != 0) {
-			// sort by played games
-			Collections.sort(selectedPlayers, new Comparator<Player>() {
-				public int compare(Player p1, Player p2) {
-					if (p1.getPlayedGames() == p2.getPlayedGames()) {
-						return 0;
-					}
-					return p1.getPlayedGames() < p2.getPlayedGames() ? -1 : 1;
+
+		Utils.sortPlayersByGamesPlayedInTournament(playersUpForSelection);
+		while (playersToSelect > 0) {
+			// get players with least games
+			int playedGamesMin = playersUpForSelection.get(0).getPlayedGamesInTournament();
+			List<Player> playersWithMinGames = new ArrayList<>();
+			for (Player player : playersUpForSelection) {
+				if (player.getPlayedGamesInTournament() == playedGamesMin) {
+					playersWithMinGames.add(player);
 				}
-			});
-			// TODO: incorporate randomization regarding which players do get deleted (players
-			// TODO: with equal amount of games are treated differently depending on where they are
-			// TODO: in the list once sorting is done)
-			// temporarily: simply remove excessive players
-			for (int i = 0;i < playersToDelete;i++) {
-				selectedPlayers.remove(selectedPlayers.size() - 1);
+			}
+			//
+			if (playersWithMinGames.size() <= playersToSelect) {
+				playersSelected.addAll(playersWithMinGames);
+				playersUpForSelection.removeAll(playersWithMinGames);
+				playersToSelect -= playersWithMinGames.size();
+			} else {
+				Random random = new Random();
+				for (int i = 0;i < playersToSelect;i++) {
+					int playerPosition = random.nextInt(playersWithMinGames.size());
+					playersSelected.add(playersWithMinGames.remove(playerPosition));
+				}
+				break;
 			}
 		}
-		Utils.sortPlayersForMatching(selectedPlayers);
-		return selectedPlayers;
+		return playersSelected;
 	}
 
 	private Game generateRandomGame(List<Player> players, boolean oneOnOne, List<Game> pastGames) {
