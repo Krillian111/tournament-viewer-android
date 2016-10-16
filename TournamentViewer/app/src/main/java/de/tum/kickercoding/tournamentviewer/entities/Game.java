@@ -5,10 +5,8 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO: add comments to methods/class
 public class Game {
 
-	// TODO: "make sure" that only the PlayerManager can make changes to the player objects
 	// 1on1: 1st vs 2nd participant, 2on2: 1st/2nd vs 3rd/4th participant
 	private List<Player> participants;
 	private int scoreTeam1;

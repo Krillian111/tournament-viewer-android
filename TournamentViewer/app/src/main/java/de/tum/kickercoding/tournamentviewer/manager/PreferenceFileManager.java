@@ -23,7 +23,8 @@ class PreferenceFileManager {
 
 	private final String NOT_INIT = "FATAL ERROR: PreferenceFileManager not initialized";
 
-	// applicationContext necessary for retrieving sharedPreferences
+	// it seems okay to have a reference to the application context even though Android Studio throws a warning:
+	// https://developer.android.com/training/volley/requestqueue.html#singleton
 	private Context applicationContext;
 
 	static PreferenceFileManager getInstance() {
