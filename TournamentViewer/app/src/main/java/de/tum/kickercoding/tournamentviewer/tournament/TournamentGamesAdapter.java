@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,7 @@ import de.tum.kickercoding.tournamentviewer.R;
 import de.tum.kickercoding.tournamentviewer.entities.Game;
 import de.tum.kickercoding.tournamentviewer.exceptions.AppManagerException;
 import de.tum.kickercoding.tournamentviewer.manager.AppManager;
-import de.tum.kickercoding.tournamentviewer.tournament.TournamentGamesFragment.OnGameChangeListener;
+import de.tum.kickercoding.tournamentviewer.util.Listeners.OnGameChangeListener;
 
 public class TournamentGamesAdapter extends BaseAdapter implements ListAdapter {
 
@@ -175,11 +174,7 @@ public class TournamentGamesAdapter extends BaseAdapter implements ListAdapter {
 								"score!");
 					}
 				} catch (AppManagerException e) {
-					String errorMsg = String.format("couldnt finalize game, " +
-							"invalid input: position:%d, score1:%d, score2:%d", position, np1.getValue(), np2.getValue
-							());
-					Log.e(TournamentGamesAdapter.class.toString(), errorMsg);
-					AppManager.getInstance().displayMessage(context, errorMsg);
+					AppManager.getInstance().displayMessage(context, e.getMessage());
 				}
 			}
 		});

@@ -14,13 +14,14 @@ import de.tum.kickercoding.tournamentviewer.R;
 import de.tum.kickercoding.tournamentviewer.exceptions.AppManagerException;
 import de.tum.kickercoding.tournamentviewer.manager.AppManager;
 
-public class TournamentGamesFragment extends Fragment {
+import static de.tum.kickercoding.tournamentviewer.util.Listeners.OnGameChangeListener;
+import static de.tum.kickercoding.tournamentviewer.util.Listeners.OnPlayoffGeneratedListener;
+
+public class TournamentGamesFragment extends Fragment implements OnPlayoffGeneratedListener {
 
 	OnGameChangeListener onGameChangeListener;
 
-	public interface OnGameChangeListener {
-		void onGameChanged();
-	}
+	private TournamentGamesAdapter adapter;
 
 	public TournamentGamesFragment() {
 	}
@@ -46,7 +47,8 @@ public class TournamentGamesFragment extends Fragment {
 	public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		ListView tournamentGames = (ListView) view.findViewById(R.id.list_view_tournament_games);
-		tournamentGames.setAdapter(new TournamentGamesAdapter(getActivity(), onGameChangeListener));
+		adapter = new TournamentGamesAdapter(getActivity(), onGameChangeListener);
+		tournamentGames.setAdapter(adapter);
 
 		Button addGameButton = (Button) view.findViewById(R.id.button_add_game_to_tournament);
 		addGameButton.setOnClickListener(new View.OnClickListener() {
@@ -54,7 +56,7 @@ public class TournamentGamesFragment extends Fragment {
 			public void onClick(View buttonView) {
 				try {
 					AppManager.getInstance().generateGame();
-					notifyAdapter(view);
+					notifyAdapter();
 				} catch (AppManagerException e) {
 					AppManager.getInstance().displayMessage(getActivity(), e.getMessage());
 				}
@@ -67,7 +69,7 @@ public class TournamentGamesFragment extends Fragment {
 			public void onClick(View buttonView) {
 				try {
 					AppManager.getInstance().generateRound();
-					notifyAdapter(view);
+					notifyAdapter();
 				} catch (AppManagerException e) {
 					AppManager.getInstance().displayMessage(getActivity(), e.getMessage());
 				}
@@ -75,8 +77,14 @@ public class TournamentGamesFragment extends Fragment {
 		});
 	}
 
-	private void notifyAdapter(View view) {
-		ListView tournamentGamesListView = (ListView) view.findViewById(R.id.list_view_tournament_games);
-		((TournamentGamesAdapter) tournamentGamesListView.getAdapter()).notifyDataSetChanged();
+	private void notifyAdapter() {
+		if (adapter != null) {
+			adapter.notifyDataSetChanged();
+		}
+	}
+
+	@Override
+	public void onPlayoffGenerated() {
+		notifyAdapter();
 	}
 }

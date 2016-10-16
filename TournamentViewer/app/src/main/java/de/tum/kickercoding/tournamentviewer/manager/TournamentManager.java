@@ -124,6 +124,9 @@ class TournamentManager {
 		if (currentTournament.isFinished()) {
 			throw new TournamentManagerException("Can't create new round: Tournament finished");
 		}
+		if (currentTournament.isSemiFinalsGenerated() || currentTournament.isFinalGenerated()) {
+			throw new TournamentManagerException("Can't create round once playoffs started!");
+		}
 		if (matchmaking == null) {
 			initMatchmaking();
 		}
@@ -137,6 +140,9 @@ class TournamentManager {
 		if (currentTournament.isFinished()) {
 			throw new TournamentManagerException("Can't create new game: Tournament finished");
 		}
+		if (currentTournament.isSemiFinalsGenerated() || currentTournament.isFinalGenerated()) {
+			throw new TournamentManagerException("Can't create game once playoffs started!");
+		}
 		if (matchmaking == null) {
 			initMatchmaking();
 		}
@@ -144,22 +150,24 @@ class TournamentManager {
 		addGame(game);
 	}
 
-	// TODO: implement toggling boolean semifinalsplayed
-	// TODO: prevent other games from being generated
-	// TODO: prevent draw for semi finals
 	// TODO: implement multiple game generation for semi finals (additional activity?)
 	void generatePlayoffs() throws TournamentManagerException {
 		List<Player> players = getPlayers();
-		if (currentTournament.isSemiFinalsPlayed() ||
+		if (currentTournament.isFinalGenerated()) {
+			throw new TournamentManagerException("Final was already generated!");
+		}
+		if (currentTournament.isSemiFinalsGenerated() ||
 				(isOneOnOne() && players.size() < 4) ||
 				(!isOneOnOne() && players.size() < 8)) {
 			generateFinal(players);
+			currentTournament.setFinalGenerated(true);
 		} else {
 			generateSemiFinals(players);
+			currentTournament.setSemiFinalsGenerated(true);
 		}
 	}
 
-	void generateSemiFinals(List<Player> players) {
+	private void generateSemiFinals(List<Player> players) {
 		List<Player> game1team1;
 		List<Player> game1team2;
 		List<Player> game2team1;
@@ -183,10 +191,13 @@ class TournamentManager {
 		addGame(new Game(participantsGame2));
 	}
 
-	void generateFinal(List<Player> players) throws TournamentManagerException {
+	private void generateFinal(List<Player> players) throws TournamentManagerException {
 		List<Game> games = getGames();
 		Game semifinal1 = games.get(games.size() - 1);
 		Game semifinal2 = games.get(games.size() - 2);
+		if (!semifinal1.isResultCommitted() || !semifinal2.isResultCommitted()) {
+			throw new TournamentManagerException("Can't create final, semi finals are not done!");
+		}
 		List<Player> winnerTeam1 = getWinnerTeam(semifinal1);
 		List<Player> winnerTeam2 = getWinnerTeam(semifinal2);
 		List<Player> participantsFinal = new ArrayList<>(winnerTeam1);
@@ -448,13 +459,6 @@ class TournamentManager {
 		currentTournament.addGame(game);
 	}
 
-	boolean removeLastGame() throws TournamentManagerException {
-		if (currentTournament.isFinished()) {
-			throw new TournamentManagerException("Can't remove game: Tournament finished");
-		}
-		return currentTournament.removeLastGame();
-	}
-
 	void removeGame(int position) throws TournamentManagerException {
 		if (currentTournament.isFinished()) {
 			throw new TournamentManagerException("Can't delete game: Tournament finished");
@@ -503,13 +507,13 @@ class TournamentManager {
 		currentTournament.addPlayer(player);
 		// sort list after adding player
 		List<Player> players = currentTournament.getPlayers();
-		Utils.sortPlayersByWinRate(players);
+		Utils.sortPlayersForTournamentStats(players);
 	}
 
 	List<Player> getPlayers() {
 		List<Player> players = currentTournament.getPlayers();
 		// sort list as win rates change
-		Utils.sortPlayersByWinRate(players);
+		Utils.sortPlayersForTournamentStats(players);
 		return players;
 	}
 

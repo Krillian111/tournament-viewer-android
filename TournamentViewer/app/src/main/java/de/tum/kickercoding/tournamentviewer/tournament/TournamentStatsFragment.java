@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import de.tum.kickercoding.tournamentviewer.R;
-import de.tum.kickercoding.tournamentviewer.tournament.TournamentGamesFragment.OnGameChangeListener;
+import de.tum.kickercoding.tournamentviewer.util.Listeners.OnGameChangeListener;
 
 
 public class TournamentStatsFragment extends Fragment implements OnGameChangeListener {

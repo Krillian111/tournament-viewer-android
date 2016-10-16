@@ -17,7 +17,9 @@ import de.tum.kickercoding.tournamentviewer.exceptions.AppManagerException;
 import de.tum.kickercoding.tournamentviewer.manager.AppManager;
 import de.tum.kickercoding.tournamentviewer.setup.monsterdyp.MonsterDypPlayerSetupActivity;
 import de.tum.kickercoding.tournamentviewer.setup.monsterdyp.TournamentPagerAdapter;
-import de.tum.kickercoding.tournamentviewer.tournament.TournamentGamesFragment.OnGameChangeListener;
+
+import static de.tum.kickercoding.tournamentviewer.util.Listeners.OnGameChangeListener;
+import static de.tum.kickercoding.tournamentviewer.util.Listeners.OnPlayoffGeneratedListener;
 
 public class MonsterDypTournamentActivity extends AppCompatActivity implements OnGameChangeListener {
 
@@ -52,7 +54,12 @@ public class MonsterDypTournamentActivity extends AppCompatActivity implements O
 	}
 
 	public void generatePlayoffs(View view) {
-		AppManager.getInstance().displayMessage(this, "Sorry, this feature has not been implemented yet");
+		try {
+			AppManager.getInstance().generatePlayoffs();
+			onPlayoffGenerated();
+		} catch (AppManagerException e) {
+			AppManager.getInstance().displayMessage(this, e.getMessage());
+		}
 	}
 
 	public void finishTournament(View view) {
@@ -113,6 +120,13 @@ public class MonsterDypTournamentActivity extends AppCompatActivity implements O
 		Fragment statsFragment = pagerAdapter.getFragmentForPosition(TournamentPagerAdapter.PAGE_STATS);
 		if (statsFragment != null) {
 			((OnGameChangeListener) statsFragment).onGameChanged();
+		}
+	}
+
+	public void onPlayoffGenerated() {
+		Fragment gameFragment = pagerAdapter.getFragmentForPosition(TournamentPagerAdapter.PAGE_GAMES);
+		if (gameFragment != null) {
+			((OnPlayoffGeneratedListener) gameFragment).onPlayoffGenerated();
 		}
 	}
 }

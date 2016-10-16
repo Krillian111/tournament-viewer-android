@@ -19,6 +19,7 @@ import de.tum.kickercoding.tournamentviewer.util.TournamentMode;
 /**
  * AppManager solely provides methods callable by Activities.
  * All interactions with the backend happen using this class.
+ * Proper exception handling is also taken care of in this class, exceptions should only be thrown to transfer messages
  */
 public class AppManager {
 
@@ -76,7 +77,7 @@ public class AppManager {
 		try {
 			playerManager.addPlayer(name);
 		} catch (PlayerManagerException e) {
-			throw new AppManagerException("Player was not saved, wrapped Exception:" + e.toString());
+			throw new AppManagerException(String.format("Try again: name '%s' is already taken", name));
 		}
 	}
 
@@ -372,14 +373,9 @@ public class AppManager {
 		}
 	}
 
-	/**
-	 * remove the game which was created last
-	 *
-	 * @throws AppManagerException
-	 */
-	public void removeLastGame() throws AppManagerException {
+	public void generatePlayoffs() throws AppManagerException {
 		try {
-			tournamentManager.removeLastGame();
+			tournamentManager.generatePlayoffs();
 		} catch (TournamentManagerException e) {
 			throw new AppManagerException(e.getMessage());
 		}

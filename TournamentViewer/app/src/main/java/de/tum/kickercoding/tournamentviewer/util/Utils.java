@@ -43,10 +43,26 @@ public class Utils {
 		textView.setText(text);
 	}
 
-	public static void sortPlayersByWinRate(List<Player> list) {
+	/**
+	 * Sorts the player list by multiple criteria. Additional criteria are only taken into account if previous
+	 * criteria yields equality. <br>
+	 * 1. by win rate (in tournament) <br>
+	 * 2. by goal difference (in tournament) <br>
+	 * 3. by elo (reversed, lower elo is higher)
+	 */
+	public static void sortPlayersForTournamentStats(List<Player> list) {
 		Collections.sort(list, new Comparator<Player>() {
 			public int compare(Player p1, Player p2) {
-				return Double.compare(p2.getWinRateInTournament(), p1.getWinRateInTournament());
+				int compared = Double.compare(p2.getWinRateInTournament(), p1.getWinRateInTournament());
+				if (compared == 0) {
+					// Integer.compare is only  API 19+
+					compared = p2.getGoalDifferenceInTournament() - p1.getGoalDifferenceInTournament();
+				}
+				// lower elo is higher in rating when stats are equal
+				if (compared == 0) {
+					compared = Double.compare(p1.getElo(), p2.getElo());
+				}
+				return compared;
 			}
 		});
 	}

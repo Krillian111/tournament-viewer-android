@@ -21,7 +21,9 @@ public class Tournament {
 
 	private boolean finished = false;
 
-	private boolean semiFinalsPlayed = false;
+	private boolean semiFinalsGenerated = false;
+
+	private boolean finalGenerated = false;
 
 	private TournamentMode mode;
 
@@ -110,12 +112,20 @@ public class Tournament {
 		this.finished = finished;
 	}
 
-	public boolean isSemiFinalsPlayed() {
-		return semiFinalsPlayed;
+	public boolean isSemiFinalsGenerated() {
+		return semiFinalsGenerated;
 	}
 
-	public void setSemiFinalsPlayed(final boolean semiFinalsPlayed) {
-		this.semiFinalsPlayed = semiFinalsPlayed;
+	public void setSemiFinalsGenerated(final boolean semiFinalsGenerated) {
+		this.semiFinalsGenerated = semiFinalsGenerated;
+	}
+
+	public boolean isFinalGenerated() {
+		return finalGenerated;
+	}
+
+	public void setFinalGenerated(final boolean finalGenerated) {
+		this.finalGenerated = finalGenerated;
 	}
 
 	public TournamentMode getMode() {
