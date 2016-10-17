@@ -40,7 +40,7 @@ public class MonsterDypMatchmaking implements Matchmaking {
 
 	private List<Game> generateGames(List<Player> players, boolean oneOnOne, List<Game> pastGames, boolean
 			singleGame) {
-		List<Player> playersToMatch = selectPlayers(players, oneOnOne, singleGame);
+		List<Player> playersToMatch = selectPlayers(players, oneOnOne, pastGames, singleGame);
 		Utils.sortPlayersForMatching(playersToMatch);
 		int gamesToGenerate = 1;
 		if (!singleGame) {
@@ -54,29 +54,33 @@ public class MonsterDypMatchmaking implements Matchmaking {
 		return generatedGames;
 	}
 
-	private List<Player> selectPlayers(List<Player> players, boolean oneOnOne, boolean singleGame) {
+	private List<Player> selectPlayers(List<Player> players, boolean oneOnOne, List<Game> pastGames, boolean
+			singleGame) {
 		// copy list to not change original list
 		List<Player> playersUpForSelection = new ArrayList<>(players);
 		List<Player> playersSelected = new ArrayList<>();
 		int playersToSelect;
+		int size = playersUpForSelection.size();
 		if (singleGame) {
 			playersToSelect = (oneOnOne) ? 2 : 4;
 		} else {
 			playersToSelect = (oneOnOne) ?
-					players.size() - (players.size() % 2) : players.size() - (players.size() % 4);
+					size - (size % 2) : size - (size % 4);
 		}
 
-		Utils.sortPlayersByGamesPlayedInTournament(playersUpForSelection);
+		setGeneratedGames(playersUpForSelection, pastGames);
+
+		Utils.sortPlayersByGamesGeneratedTournament(playersUpForSelection);
 		while (playersToSelect > 0) {
 			// get players with least games
-			int playedGamesMin = playersUpForSelection.get(0).getPlayedGamesInTournament();
+			int playedGamesMin = playersUpForSelection.get(0).getGeneratedGamesInTournament();
 			List<Player> playersWithMinGames = new ArrayList<>();
 			for (Player player : playersUpForSelection) {
-				if (player.getPlayedGamesInTournament() == playedGamesMin) {
+				if (player.getGeneratedGamesInTournament() == playedGamesMin) {
 					playersWithMinGames.add(player);
 				}
 			}
-			//
+			// add players (randomize if more available than needed)
 			if (playersWithMinGames.size() <= playersToSelect) {
 				playersSelected.addAll(playersWithMinGames);
 				playersUpForSelection.removeAll(playersWithMinGames);
@@ -91,6 +95,18 @@ public class MonsterDypMatchmaking implements Matchmaking {
 			}
 		}
 		return playersSelected;
+	}
+
+	private void setGeneratedGames(final List<Player> players, List<Game> pastGames) {
+		// efficiency of loop was sacrificed for readability (list sizes low -> shouldn't cause performance issues)
+		for (Player player : players) {
+			player.setGeneratedGamesInTournament(0);
+			for (Game game : pastGames) {
+				if (game.getTeam1().contains(player) || game.getTeam2().contains(player)) {
+					player.setGeneratedGamesInTournament(player.getGeneratedGamesInTournament() + 1);
+				}
+			}
+		}
 	}
 
 	private Game generateRandomGame(List<Player> players, boolean oneOnOne, List<Game> pastGames) {

@@ -28,6 +28,12 @@ public class Player implements Comparable<Player> {
 	// allows to adjust elo when reverting a game (only one game reset in a row)
 	private double eloChangeFromLastGame;
 
+	/**
+	 * this field is solely for the purpose of temporarily saving the amount of games a player participates in. Its
+	 * value is generated directly before its use and has no meaning outside of that context
+	 */
+	private transient int generatedGamesInTournament;
+
 	public Player(String name) {
 		this.name = name;
 		wonGames = 0;
@@ -179,6 +185,20 @@ public class Player implements Comparable<Player> {
 
 	public void setEloChangeFromLastGame(double eloChangeFromLastGame) {
 		this.eloChangeFromLastGame = eloChangeFromLastGame;
+	}
+
+	/**
+	 * @see #generatedGamesInTournament
+	 */
+	public int getGeneratedGamesInTournament() {
+		return generatedGamesInTournament;
+	}
+
+	/**
+	 * @see #generatedGamesInTournament
+	 */
+	public void setGeneratedGamesInTournament(final int generatedGamesInTournament) {
+		this.generatedGamesInTournament = generatedGamesInTournament;
 	}
 
 	public int getPlayedGames() {

@@ -67,13 +67,13 @@ public class Utils {
 		});
 	}
 
-	public static void sortPlayersByGamesPlayedInTournament(List<Player> list) {
+	public static void sortPlayersByGamesGeneratedTournament(List<Player> list) {
 		Collections.sort(list, new Comparator<Player>() {
 			public int compare(Player p1, Player p2) {
-				if (p1.getPlayedGamesInTournament() == p2.getPlayedGamesInTournament()) {
+				if (p1.getGeneratedGamesInTournament() == p2.getGeneratedGamesInTournament()) {
 					return 0;
 				}
-				return p1.getPlayedGamesInTournament() < p2.getPlayedGamesInTournament() ? -1 : 1;
+				return p1.getGeneratedGamesInTournament() < p2.getGeneratedGamesInTournament() ? -1 : 1;
 			}
 		});
 	}
