@@ -2,6 +2,8 @@ package de.tum.kickercoding.tournamentviewer.manager;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -561,5 +563,23 @@ class TournamentManager {
 
 	int getMaxScore() {
 		return currentTournament.getMaxScore();
+	}
+
+	public String toJson() {
+		Gson gson = new Gson();
+		String tournamenAsJson = gson.toJson(currentTournament);
+		Log.d(LOG_TAG, "Converting TournamentManager to Json: " + tournamenAsJson);
+		return tournamenAsJson;
+	}
+
+	public static TournamentManager initFromJson(String onlyTournamentAsJson) throws TournamentManagerException {
+		Log.d(TournamentManager.class.toString(), "Reinitializing TournamentManager from Json: " +
+				onlyTournamentAsJson);
+		Gson gson = new Gson();
+		Tournament t = gson.fromJson(onlyTournamentAsJson, Tournament.class);
+		TournamentManager tm = getInstance();
+		tm.currentTournament = t;
+		tm.initMatchmaking();
+		return tm;
 	}
 }

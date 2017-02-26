@@ -1,6 +1,7 @@
 package de.tum.kickercoding.tournamentviewer.manager;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -419,5 +420,19 @@ public class AppManager {
 	 */
 	public void displayFatalError(Context context) {
 		Toast.makeText(context, Constants.ERROR_DETECTED_SAVE_YOUR_RESULTS, Toast.LENGTH_LONG).show();
+	}
+
+	public void saveTournamentManagerInBundle(Bundle savedInstanceState) {
+		savedInstanceState.putString(Constants.KEY_TOURNAMENT_MANAGER, tournamentManager.toJson());
+	}
+
+	public void reinitializeTournamentManager(Context context, Bundle savedInstanceState) {
+		String tmAsString = savedInstanceState.getString(Constants.KEY_TOURNAMENT_MANAGER);
+		try {
+			TournamentManager.initFromJson(tmAsString);
+		} catch (TournamentManagerException e) {
+			displayMessage(context, "Fatal error; error during reinitialization of TournamentManager: " + e.getMessage
+					());
+		}
 	}
 }

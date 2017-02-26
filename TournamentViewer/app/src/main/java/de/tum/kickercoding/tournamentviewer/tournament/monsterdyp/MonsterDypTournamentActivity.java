@@ -44,6 +44,18 @@ public class MonsterDypTournamentActivity extends AppCompatActivity implements O
 	}
 
 	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+		AppManager.getInstance().saveTournamentManagerInBundle(savedInstanceState);
+		super.onSaveInstanceState(savedInstanceState);
+	}
+
+	@Override
+	public void onRestoreInstanceState(Bundle savedInstanceState) {
+		AppManager.getInstance().reinitializeTournamentManager(this, savedInstanceState);
+	}
+
+
+	@Override
 	public void onDestroy() {
 		try {
 			AppManager.getInstance().saveTournament();

@@ -76,4 +76,9 @@ public class Constants {
 	 * Default value for elo rating
 	 */
 	public static final double ELO_DEFAULT = 1500;
+
+	/*
+	 * Constants for savedInstanceState
+	 */
+	public static final String KEY_TOURNAMENT_MANAGER = "KEY_TOURNAMENT_MANAGER";
 }
