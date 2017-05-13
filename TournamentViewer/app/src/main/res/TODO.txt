@@ -21,6 +21,8 @@ TODOs:
 
 - write help for tournament view
 
+- rewrite exceptions with super(message,cause) instead of simply adding getMessage to exception message
+
 major features:
 - add mode dyp
 - add mode fixed teams

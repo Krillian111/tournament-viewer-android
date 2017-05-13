@@ -15,7 +15,6 @@ import java.util.List;
 
 import de.tum.kickercoding.tournamentviewer.R;
 import de.tum.kickercoding.tournamentviewer.entities.Player;
-import de.tum.kickercoding.tournamentviewer.exceptions.AppManagerException;
 import de.tum.kickercoding.tournamentviewer.manager.AppManager;
 import de.tum.kickercoding.tournamentviewer.util.Utils;
 
@@ -105,12 +104,9 @@ class PlayerLadderAdapter extends BaseAdapter implements ListAdapter {
 				try {
 					double adjustedElo = Double.parseDouble(eloAsString);
 					AppManager.getInstance().manuallyAdjustElo(playerName, adjustedElo);
-					AppManager.getInstance().commitPlayerList();
 					updateInternalList();
 				} catch (NumberFormatException e) {
 					AppManager.getInstance().displayMessage(context, "Error: Enter valid elo rating!");
-				} catch (AppManagerException e) {
-					AppManager.getInstance().displayMessage(context, e.getMessage());
 				}
 			}
 		});

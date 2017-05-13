@@ -144,11 +144,8 @@ class PreferenceFileManager {
 			String tournamentAsJson = sharedPreferences.getString(Constants.VAR_CURRENT_TOURNAMENT, null);
 			if (tournamentAsJson != null) {
 				return Tournament.fromJson(tournamentAsJson);
-			} else {
-				return null;
 			}
-		} else {
-			throw new PreferenceFileManagerException(NOT_INIT);
 		}
+		throw new PreferenceFileManagerException(NOT_INIT);
 	}
 }

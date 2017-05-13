@@ -1,8 +1,6 @@
 package de.tum.kickercoding.tournamentviewer.manager;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -28,7 +26,7 @@ public class AppManager {
 
 	private static AppManager instance = new AppManager();
 
-	//References to managers to keep them form being garbage collected
+	//References to managers to keep them from being garbage collected
 	private PlayerManager playerManager;
 	private PreferenceFileManager preferenceFileManager;
 	private TournamentManager tournamentManager;
@@ -50,14 +48,8 @@ public class AppManager {
 	public void initialize(Context applicationContext) throws AppManagerException {
 		preferenceFileManager = PreferenceFileManager.getInstance();
 		preferenceFileManager.initialize(applicationContext);
-		try {
-			playerManager = PlayerManager.getInstance();
-			playerManager.initialize();
-		} catch (PreferenceFileManagerException e) {
-			throw new AppManagerException("Initialization failed");
-		}
+		playerManager = PlayerManager.getInstance();
 		tournamentManager = TournamentManager.getInstance();
-		tournamentManager.initialize();
 	}
 
 	/**
@@ -65,18 +57,20 @@ public class AppManager {
 	 */
 	public void startNewTournament(TournamentMode mode) {
 		tournamentManager.startNewTournament(mode);
+		tournamentManager.saveTournament();
 	}
 
 	/**
 	 * add new Player;
-	 * to permanently save this action call {@link #commitPlayerList()}
 	 *
 	 * @param name: name of the player
 	 * @throws AppManagerException
 	 */
 	public void addNewPlayer(String name) throws AppManagerException {
 		try {
+			playerManager.loadPlayerList();
 			playerManager.addPlayer(name);
+			playerManager.savePlayerList();
 		} catch (PlayerManagerException e) {
 			throw new AppManagerException(String.format("Try again: name '%s' is already taken", name));
 		}
@@ -84,23 +78,28 @@ public class AppManager {
 
 	/**
 	 * delete player with specified name;
-	 * to permanently save this action call {@link #commitPlayerList()}
 	 *
 	 * @param name
 	 * @throws AppManagerException
 	 */
 	public void removePlayer(String name) throws AppManagerException {
+		playerManager.loadPlayerList();
+		// propagating to DB is done in method (TODO: extract this)
 		playerManager.removePlayer(name);
 		// removes player from tournament as well (to prevent inconsistency)
+		tournamentManager.loadTournament();
 		try {
 			tournamentManager.removePlayer(name);
 		} catch (TournamentManagerException e) {
 			throw new AppManagerException(e.getMessage());
 		}
+		tournamentManager.saveTournament();
 	}
 
 	public void manuallyAdjustElo(String name, double elo) {
+		playerManager.loadPlayerList();
 		playerManager.manuallyAdjustElo(name, elo);
+		playerManager.savePlayerList();
 	}
 
 	/**
@@ -109,6 +108,7 @@ public class AppManager {
 	 * @return copied list of all players (no reference to the internal list of {@link PlayerManager}
 	 */
 	public List<Player> getAllPlayers() {
+		playerManager.loadPlayerList();
 		List<Player> players = playerManager.getPlayers();
 		// clone the list and all player objects to avoid changing the original list
 		List<Player> playersCopied = new ArrayList<>();
@@ -119,40 +119,29 @@ public class AppManager {
 		return playersCopied;
 	}
 
-	/**
-	 * get player from specific position of player list
-	 *
-	 * @param position
-	 * @return
-	 * @throws AppManagerException
-	 */
-	public Player getPlayer(int position) throws AppManagerException {
-		try {
-			return playerManager.getPlayer(position).copy();
-		} catch (PlayerManagerException e) {
-			throw new AppManagerException(e.getMessage());
-		}
-	}
-
-	/**
-	 * commit all changes to the list of players to permanent storage
-	 *
-	 * @throws AppManagerException
-	 */
-	public void commitPlayerList() throws AppManagerException {
-		try {
-			playerManager.commitPlayerList();
-		} catch (PlayerManagerException e) {
-			throw new AppManagerException(e.getMessage());
-		}
-	}
-
+//	/**
+//	 * get player from specific position of player list
+//	 *
+//	 * @param position
+//	 * @return
+//	 * @throws AppManagerException
+//	 */
+//	public Player getPlayer(int position) throws AppManagerException {
+//		try {
+//			return playerManager.getPlayer(position).copy();
+//		} catch (PlayerManagerException e) {
+//			throw new AppManagerException(e.getMessage());
+//		}
+//	}
 
 	public void setOneOnOne(boolean oneOnOne) {
+		tournamentManager.loadTournament();
 		tournamentManager.setOneOnOne(oneOnOne);
+		tournamentManager.saveTournament();
 	}
 
 	public boolean isOneOnOne() {
+		tournamentManager.loadTournament();
 		return tournamentManager.isOneOnOne();
 	}
 
@@ -177,6 +166,7 @@ public class AppManager {
 	 * @throws AppManagerException
 	 */
 	public int getMaxScoreFromTournament() {
+		tournamentManager.loadTournament();
 		return tournamentManager.getMaxScore();
 	}
 
@@ -228,36 +218,13 @@ public class AppManager {
 	 * @throws AppManagerException
 	 */
 	public void setTournamentParameters() throws AppManagerException {
+		tournamentManager.loadTournament();
 		try {
 			tournamentManager.setTournamentParameters();
 		} catch (TournamentManagerException e) {
 			throw new AppManagerException(e.getMessage());
 		}
-	}
-
-	/**
-	 * saves tournament to permanent storage
-	 */
-	public void saveTournament() throws AppManagerException {
-		try {
-			tournamentManager.saveTournament();
-		} catch (PreferenceFileManagerException e) {
-			Log.e(LOG_TAG, "saveTournament: FATAL ERROR: " + e.getMessage());
-			throw new AppManagerException("Saving tournament failed!");
-		}
-	}
-
-	/**
-	 * loads tournament from permanent storage
-	 *
-	 * @throws AppManagerException: indicates uninitialized PreferenceManager, fatal error
-	 */
-	public void loadTournament() throws AppManagerException {
-		try {
-			tournamentManager.loadTournament();
-		} catch (PreferenceFileManagerException | TournamentManagerException e) {
-			throw new AppManagerException(e.getMessage());
-		}
+		tournamentManager.saveTournament();
 	}
 
 	/**
@@ -266,16 +233,19 @@ public class AppManager {
 	 * @throws AppManagerException
 	 */
 	public void finishTournament() throws AppManagerException {
+		tournamentManager.loadTournament();
+		playerManager.loadPlayerList();
 		try {
 			tournamentManager.finishTournament();
 			for (Player player : tournamentManager.getPlayers()) {
 				playerManager.updatePlayer(player);
 			}
-			playerManager.commitPlayerList();
-			saveTournament();
+			playerManager.savePlayerList();
 		} catch (TournamentManagerException | PlayerManagerException e) {
 			throw new AppManagerException(e.getMessage());
 		}
+		playerManager.savePlayerList();
+		tournamentManager.saveTournament();
 	}
 
 	/**
@@ -283,6 +253,7 @@ public class AppManager {
 	 * tournament is greater than zero.
 	 */
 	public boolean isTournamentInProgress() {
+		tournamentManager.loadTournament();
 		return tournamentManager.isTournamentInProgress();
 	}
 
@@ -294,11 +265,15 @@ public class AppManager {
 	 * @throws AppManagerException
 	 */
 	public boolean toggleParticipation(Player player) throws AppManagerException {
+		tournamentManager.loadTournament();
+		boolean playerInTournament;
 		try {
-			return tournamentManager.toggleParticipation(player);
+			playerInTournament = tournamentManager.toggleParticipation(player);
 		} catch (TournamentManagerException e) {
 			throw new AppManagerException(e.getMessage());
 		}
+		tournamentManager.saveTournament();
+		return playerInTournament;
 	}
 
 	/**
@@ -307,27 +282,33 @@ public class AppManager {
 	 * @throws AppManagerException
 	 */
 	public void commitGameResults() throws AppManagerException {
+		tournamentManager.loadTournament();
 		try {
 			tournamentManager.commitGames();
 		} catch (TournamentManagerException e) {
 			throw new AppManagerException(e.getMessage());
 		}
+		tournamentManager.saveTournament();
 	}
 
 	public void revertGame(int position) throws AppManagerException {
+		tournamentManager.loadTournament();
 		try {
 			tournamentManager.revertGame(position);
 		} catch (TournamentManagerException e) {
 			throw new AppManagerException(e.getMessage());
 		}
+		tournamentManager.saveTournament();
 	}
 
 	public void removeGame(int position) throws AppManagerException {
+		tournamentManager.loadTournament();
 		try {
 			tournamentManager.removeGame(position);
 		} catch (TournamentManagerException e) {
 			throw new AppManagerException("Failed to remove game:" + e.getMessage());
 		}
+		tournamentManager.saveTournament();
 	}
 
 	/**
@@ -337,14 +318,17 @@ public class AppManager {
 	 * @return true if player is signed up, false else
 	 */
 	public boolean isSignedUp(String player) {
-		return TournamentManager.getInstance().isSignedUp(player);
+		tournamentManager.loadTournament();
+		return tournamentManager.isSignedUp(player);
 	}
 
 	public List<Player> getPlayersForTournament() {
+		tournamentManager.loadTournament();
 		return tournamentManager.getPlayers();
 	}
 
 	public List<Game> getGamesForTournament() {
+		tournamentManager.loadTournament();
 		return tournamentManager.getGames();
 	}
 
@@ -354,11 +338,13 @@ public class AppManager {
 	 * @throws AppManagerException
 	 */
 	public void generateGame() throws AppManagerException {
+		tournamentManager.loadTournament();
 		try {
 			tournamentManager.generateGame();
 		} catch (TournamentManagerException e) {
 			throw new AppManagerException(e.getMessage());
 		}
+		tournamentManager.saveTournament();
 	}
 
 	/**
@@ -367,19 +353,23 @@ public class AppManager {
 	 * @throws AppManagerException
 	 */
 	public void generateRound() throws AppManagerException {
+		tournamentManager.loadTournament();
 		try {
 			tournamentManager.generateRound();
 		} catch (TournamentManagerException e) {
 			throw new AppManagerException(e.getMessage());
 		}
+		tournamentManager.saveTournament();
 	}
 
 	public void generatePlayoffs() throws AppManagerException {
+		tournamentManager.loadTournament();
 		try {
 			tournamentManager.generatePlayoffs();
 		} catch (TournamentManagerException e) {
 			throw new AppManagerException(e.getMessage());
 		}
+		tournamentManager.saveTournament();
 	}
 
 	/**
@@ -391,11 +381,13 @@ public class AppManager {
 	 * @throws AppManagerException
 	 */
 	public void finalizeGame(int position, int scoreTeam1, int scoreTeam2) throws AppManagerException {
+		tournamentManager.loadTournament();
 		try {
 			tournamentManager.finalizeGame(position, scoreTeam1, scoreTeam2);
 		} catch (TournamentManagerException e) {
 			throw new AppManagerException(e.getMessage());
 		}
+		tournamentManager.saveTournament();
 	}
 
 	/**
@@ -422,17 +414,17 @@ public class AppManager {
 		Toast.makeText(context, Constants.ERROR_DETECTED_SAVE_YOUR_RESULTS, Toast.LENGTH_LONG).show();
 	}
 
-	public void saveTournamentManagerInBundle(Bundle savedInstanceState) {
-		savedInstanceState.putString(Constants.KEY_TOURNAMENT_MANAGER, tournamentManager.toJson());
-	}
+//	public void saveTournamentManagerInBundle(Bundle savedInstanceState) {
+//		savedInstanceState.putString(Constants.KEY_TOURNAMENT_MANAGER, tournamentManager.toJson());
+//	}
 
-	public void reinitializeTournamentManager(Context context, Bundle savedInstanceState) {
-		String tmAsString = savedInstanceState.getString(Constants.KEY_TOURNAMENT_MANAGER);
-		try {
-			TournamentManager.initFromJson(tmAsString);
-		} catch (TournamentManagerException e) {
-			displayMessage(context, "Fatal error; error during reinitialization of TournamentManager: " + e.getMessage
-					());
-		}
-	}
+//	public void reinitializeTournamentManager(Context context, Bundle savedInstanceState) {
+//		String tmAsString = savedInstanceState.getString(Constants.KEY_TOURNAMENT_MANAGER);
+//		try {
+//			TournamentManager.initFromJson(tmAsString);
+//		} catch (TournamentManagerException e) {
+//			displayMessage(context, "Fatal error; error during reinitialization of TournamentManager: " + e.getMessage
+//					());
+//		}
+//	}
 }

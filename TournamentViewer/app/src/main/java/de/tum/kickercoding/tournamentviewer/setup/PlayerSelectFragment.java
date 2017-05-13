@@ -15,8 +15,6 @@ import de.tum.kickercoding.tournamentviewer.manager.AppManager;
 
 /**
  * Fragment contains a ListView with a global list of players and a button to add additional players
- * <br>
- * Changes to list are only permanent if they are commited using {@link AppManager#commitPlayerList()} ()}
  */
 public class PlayerSelectFragment extends Fragment {
 

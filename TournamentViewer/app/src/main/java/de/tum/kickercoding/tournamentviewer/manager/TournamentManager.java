@@ -2,8 +2,6 @@ package de.tum.kickercoding.tournamentviewer.manager;
 
 import android.util.Log;
 
-import com.google.gson.Gson;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -25,6 +23,9 @@ class TournamentManager {
 	private static TournamentManager instance = new TournamentManager();
 
 	static TournamentManager getInstance() {
+		if (!instance.isInitialized) {
+			instance.initialize();
+		}
 		return instance;
 	}
 
@@ -35,8 +36,30 @@ class TournamentManager {
 
 	private Tournament currentTournament;
 
+	private boolean isInitialized = false;
+
 	void initialize() {
-		currentTournament = new Tournament();
+		loadTournament();
+		isInitialized = true;
+		saveTournament();
+	}
+
+	void saveTournament() {
+		try {
+			PreferenceFileManager.getInstance().saveTournament(currentTournament);
+		} catch (PreferenceFileManagerException e) {
+			Log.e(LOG_TAG, "Couldn't save tournament; unstable state; cause:" + e.getMessage());
+		}
+	}
+
+	void loadTournament() {
+		try {
+			currentTournament = PreferenceFileManager.getInstance().loadTournament();
+		} catch (PreferenceFileManagerException e) {
+			Log.e(LOG_TAG, "Couldn't load tournament; unstable state; cause:" + e.getMessage());
+			//start MonsterDYP as backup
+			startNewTournament(TournamentMode.MONSTERDYP);
+		}
 	}
 
 	void initMatchmaking() throws TournamentManagerException {
@@ -66,22 +89,8 @@ class TournamentManager {
 			int numberOfGames = PreferenceFileManager.getInstance().loadNumberOfGames();
 			currentTournament.setMaxScore(maxScore);
 			currentTournament.setNumberOfGames(numberOfGames);
-
 		} catch (PreferenceFileManagerException e) {
-			throw new TournamentManagerException("Failed to start new tournament, wrapped Exception:" + e.toString());
-		}
-	}
-
-	void saveTournament() throws PreferenceFileManagerException {
-		PreferenceFileManager.getInstance().saveTournament(currentTournament);
-	}
-
-	void loadTournament() throws PreferenceFileManagerException, TournamentManagerException {
-		Tournament loadedTournament = PreferenceFileManager.getInstance().loadTournament();
-		if (loadedTournament != null) {
-			currentTournament = loadedTournament;
-		} else {
-			throw new TournamentManagerException("Loading tournament failed; Tournament must be created from scratch");
+			throw new TournamentManagerException("Couldn't load tournament parameters", e);
 		}
 	}
 
@@ -100,6 +109,7 @@ class TournamentManager {
 		if (currentTournament.isFinished()) {
 			throw new TournamentManagerException("Can't toggle player participation: Tournament finished");
 		}
+		boolean playerInTournament;
 		if (currentTournament.getPlayers().contains(player)) {
 			// delete unfinished games of player
 			List<Game> games = getGames();
@@ -111,11 +121,12 @@ class TournamentManager {
 			}
 			games.removeAll(gamesToDelete);
 			removePlayer(player);
-			return false;
+			playerInTournament = false;
 		} else {
 			addPlayer(player);
-			return true;
+			playerInTournament = true;
 		}
+		return playerInTournament;
 	}
 
 	boolean isSignedUp(String playerName) {
@@ -471,11 +482,11 @@ class TournamentManager {
 	 */
 	Player getPlayerByName(String name) throws TournamentManagerException {
 		for (Player player : getPlayers()) {
-			if (player.getName() == name) {
+			if (player.getName().equals(name)) {
 				return player;
 			}
 		}
-		throw new TournamentManagerException("No player found for the requested name");
+		throw new TournamentManagerException(String.format("No player found for the requested name %s", name));
 	}
 
 	private void addGame(Game game) {
@@ -549,7 +560,8 @@ class TournamentManager {
 			throw new TournamentManagerException("Can't remove player: Tournament finished");
 		}
 		// use fake player to force removal; players with identical name are considered equal
-		return removePlayer(new Player(name));
+		boolean playerRemoved = removePlayer(new Player(name));
+		return playerRemoved;
 	}
 
 	boolean isOneOnOne() {
@@ -565,21 +577,22 @@ class TournamentManager {
 		return currentTournament.getMaxScore();
 	}
 
-	public String toJson() {
-		Gson gson = new Gson();
-		String tournamenAsJson = gson.toJson(currentTournament);
-		Log.d(LOG_TAG, "Converting TournamentManager to Json: " + tournamenAsJson);
-		return tournamenAsJson;
-	}
-
-	public static TournamentManager initFromJson(String onlyTournamentAsJson) throws TournamentManagerException {
-		Log.d(TournamentManager.class.toString(), "Reinitializing TournamentManager from Json: " +
-				onlyTournamentAsJson);
-		Gson gson = new Gson();
-		Tournament t = gson.fromJson(onlyTournamentAsJson, Tournament.class);
-		TournamentManager tm = getInstance();
-		tm.currentTournament = t;
-		tm.initMatchmaking();
-		return tm;
-	}
+//	public String toJson() {
+//		loadTournament();
+//		Gson gson = new Gson();
+//		String tournamenAsJson = gson.toJson(currentTournament);
+//		Log.d(LOG_TAG, "Converting TournamentManager to Json: " + tournamenAsJson);
+//		return tournamenAsJson;
+//	}
+//
+//	public static TournamentManager initFromJson(String onlyTournamentAsJson) throws TournamentManagerException {
+//		Log.d(TournamentManager.class.toString(), "Reinitializing TournamentManager from Json: " +
+//				onlyTournamentAsJson);
+//		Gson gson = new Gson();
+//		Tournament t = gson.fromJson(onlyTournamentAsJson, Tournament.class);
+//		TournamentManager tm = getInstance();
+//		tm.currentTournament = t;
+//		tm.initMatchmaking();
+//		return tm;
+//	}
 }

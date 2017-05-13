@@ -1,5 +1,7 @@
 package de.tum.kickercoding.tournamentviewer.manager;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -10,8 +12,10 @@ import de.tum.kickercoding.tournamentviewer.exceptions.PreferenceFileManagerExce
 
 class PlayerManager {
 
+	private static final String LOG_TAG = PlayerManager.class.toString();
 	private static PlayerManager instance = new PlayerManager();
-	private List<Player> players = new ArrayList<>();
+	private List<Player> players;
+	private boolean isInitialized = false;
 
 	private PlayerManager() {
 	}
@@ -22,6 +26,9 @@ class PlayerManager {
 	 * @return The instance of the singleton.
 	 */
 	static PlayerManager getInstance() {
+		if (!instance.isInitialized) {
+			instance.initialize();
+		}
 		return instance;
 	}
 
@@ -30,8 +37,32 @@ class PlayerManager {
 	 *
 	 * @throws PreferenceFileManagerException
 	 */
-	void initialize() throws PreferenceFileManagerException {
-		players = PreferenceFileManager.getInstance().getPlayerList();
+	void initialize() {
+		loadPlayerList();
+		isInitialized = true;
+		savePlayerList();
+	}
+
+	/**
+	 * commits the current player list with all its changes to the preference file
+	 */
+	void savePlayerList() {
+		for (Player p : players) {
+			try {
+				PreferenceFileManager.getInstance().savePlayer(p);
+			} catch (PreferenceFileManagerException e) {
+				Log.e(LOG_TAG, "couldn't save players; unstable state; " + e.getMessage());
+			}
+		}
+	}
+
+	void loadPlayerList() {
+		try {
+			players = PreferenceFileManager.getInstance().getPlayerList();
+		} catch (PreferenceFileManagerException e) {
+			Log.e(LOG_TAG, "couldn't load players; unstable state; " + e.getMessage());
+			players = new ArrayList<>();
+		}
 	}
 
 	/**
@@ -41,19 +72,23 @@ class PlayerManager {
 	 * @throws PlayerManagerException If there are symbols that are not allowed in the name of the {@link Player}.
 	 */
 	void addPlayer(String name) throws PlayerManagerException {
+		loadPlayerList();
 		Player newPlayer = new Player(name);
 		if (players.contains(newPlayer)) {
 			throw new PlayerManagerException(String.format("Player %s already exists", name));
 		}
 		players.add(newPlayer);
 		Collections.sort(players);
+		savePlayerList();
 	}
 
 
 	void updatePlayer(Player playerToUpdate) throws PlayerManagerException {
+		loadPlayerList();
 		for (int i = 0;i < players.size();i++) {
 			if (players.get(i).equals(playerToUpdate)) {
 				players.set(i, playerToUpdate);
+				savePlayerList();
 				return;
 			}
 		}
@@ -70,7 +105,13 @@ class PlayerManager {
 	boolean removePlayer(String name) {
 		// players with same name are considered equal, see player.equals()
 		Player dummyPlayer = new Player(name);
-		return players.remove(dummyPlayer);
+		boolean playerRemoved = players.remove(dummyPlayer);
+		try {
+			PreferenceFileManager.getInstance().removePlayer(name);
+		} catch (PreferenceFileManagerException e) {
+			Log.e(LOG_TAG, String.format("Player removal of %s failed", name));
+		}
+		return playerRemoved;
 	}
 
 	/**
@@ -79,6 +120,7 @@ class PlayerManager {
 	 * @return Number of currently registered players.
 	 */
 	int getNumberOfPlayers() {
+		loadPlayerList();
 		return players.size();
 	}
 
@@ -89,23 +131,12 @@ class PlayerManager {
 	 * @return The currently registered players.
 	 */
 	List<Player> getPlayers() {
+		loadPlayerList();
 		return players;
 	}
 
-	/**
-	 * commits the current player list with all its changes to the preference file
-	 */
-	void commitPlayerList() throws PlayerManagerException {
-		for (Player p : players) {
-			try {
-				PreferenceFileManager.getInstance().savePlayer(p);
-			} catch (PreferenceFileManagerException e) {
-				throw new PlayerManagerException(e.getMessage());
-			}
-		}
-	}
-
 	Player getPlayer(int position) throws PlayerManagerException {
+		loadPlayerList();
 		try {
 			return players.get(position);
 		} catch (IndexOutOfBoundsException e) {
@@ -114,6 +145,7 @@ class PlayerManager {
 	}
 
 	void manuallyAdjustElo(String name, double elo) {
+		loadPlayerList();
 		Player playerToFind = new Player(name);
 		for (Player playerToUpdate : players) {
 			if (playerToFind.equals(playerToUpdate)) {
@@ -121,5 +153,6 @@ class PlayerManager {
 				playerToUpdate.setEloChangeFromLastGame(0);
 			}
 		}
+		savePlayerList();
 	}
 }

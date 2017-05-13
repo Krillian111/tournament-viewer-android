@@ -1,11 +1,12 @@
 package de.tum.kickercoding.tournamentviewer;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import de.tum.kickercoding.tournamentviewer.exceptions.AppManagerException;
 import de.tum.kickercoding.tournamentviewer.manager.AppManager;
 import de.tum.kickercoding.tournamentviewer.modes.ladder.LadderActivity;
 import de.tum.kickercoding.tournamentviewer.setup.monsterdyp.MonsterDypBasicSetupActivity;
@@ -28,22 +29,33 @@ public class StartMenuActivity extends AppCompatActivity {
 	 * Called when the user clicks the MonsterDYP button
 	 */
 	public void monsterDypSetup(View view) {
-		AppManager.getInstance().startNewTournament(TournamentMode.MONSTERDYP);
-		Intent intent = new Intent(this, MonsterDypBasicSetupActivity.class);
-		startActivity(intent);
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Start a new tournament?");
+		builder.setMessage("This action will delete all data of an unfinished tournament!");
+		builder.setPositiveButton("CONFIRM", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+				AppManager.getInstance().startNewTournament(TournamentMode.MONSTERDYP);
+				Intent intent = new Intent(StartMenuActivity.this, MonsterDypBasicSetupActivity.class);
+				startActivity(intent);
+			}
+		});
+		builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		});
+		builder.show();
 	}
 
 	/**
 	 * Called when the user clicks the load tournament button
 	 */
 	public void loadLastTournament(View view) {
-		try {
-			AppManager.getInstance().loadTournament();
-			Intent intent = new Intent(this, MonsterDypTournamentActivity.class);
-			startActivity(intent);
-		} catch (AppManagerException e) {
-			AppManager.getInstance().displayMessage(this, e.getMessage());
-		}
+		Intent intent = new Intent(this, MonsterDypTournamentActivity.class);
+		startActivity(intent);
 	}
 
 	/**

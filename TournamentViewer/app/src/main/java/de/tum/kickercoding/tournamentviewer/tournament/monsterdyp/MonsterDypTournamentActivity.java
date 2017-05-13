@@ -8,7 +8,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 
 import de.tum.kickercoding.tournamentviewer.R;
@@ -41,28 +40,6 @@ public class MonsterDypTournamentActivity extends AppCompatActivity implements O
 		viewPager.setAdapter(pagerAdapter);
 		tabs.setupWithViewPager(viewPager);
 
-	}
-
-	@Override
-	public void onSaveInstanceState(Bundle savedInstanceState) {
-		AppManager.getInstance().saveTournamentManagerInBundle(savedInstanceState);
-		super.onSaveInstanceState(savedInstanceState);
-	}
-
-	@Override
-	public void onRestoreInstanceState(Bundle savedInstanceState) {
-		AppManager.getInstance().reinitializeTournamentManager(this, savedInstanceState);
-	}
-
-
-	@Override
-	public void onDestroy() {
-		try {
-			AppManager.getInstance().saveTournament();
-		} catch (AppManagerException e) {
-			Log.e(LOG_TAG, "onDestroy: saving tournament failed: " + e.getMessage());
-		}
-		super.onDestroy();
 	}
 
 	public void generatePlayoffs(View view) {

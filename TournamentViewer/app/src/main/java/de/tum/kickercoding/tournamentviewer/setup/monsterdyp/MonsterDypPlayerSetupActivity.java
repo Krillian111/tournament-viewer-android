@@ -3,7 +3,6 @@ package de.tum.kickercoding.tournamentviewer.setup.monsterdyp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 
 import de.tum.kickercoding.tournamentviewer.R;
@@ -19,16 +18,6 @@ public class MonsterDypPlayerSetupActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_monster_dyp_player_setup);
-	}
-
-	@Override
-	public void onDestroy() {
-		try {
-			AppManager.getInstance().saveTournament();
-		} catch (AppManagerException e) {
-			Log.e(LOG_TAG, "onDestroy: saving tournament failed: " + e.getMessage());
-		}
-		super.onDestroy();
 	}
 
 	public void goToTournament(View view) {
@@ -55,7 +44,6 @@ public class MonsterDypPlayerSetupActivity extends AppCompatActivity {
 				return false;
 			}
 		}
-		AppManager.getInstance().commitPlayerList();
 		return true;
 	}
 }
